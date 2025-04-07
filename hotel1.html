@@ -36,6 +36,10 @@
       font-size: 32px;
     }
 
+    .header-text p {
+      margin: 10px 0 0;
+    }
+
     nav {
       background-color: #2980b9;
       text-align: center;
@@ -84,6 +88,10 @@
       color: #2980b9;
     }
 
+    .description {
+      margin-top: 20px;
+    }
+
     .features {
       margin-top: 20px;
       display: flex;
@@ -99,11 +107,8 @@
       box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
-    .description {
-      margin-top: 30px;
-    }
-
-    .btn-whatsapp {
+    .btn-whatsapp,
+    .btn-retour {
       display: inline-block;
       margin-top: 25px;
       background-color: #25D366;
@@ -114,8 +119,17 @@
       font-size: 16px;
     }
 
+    .btn-retour {
+      background-color: #2980b9;
+      margin-left: 10px;
+    }
+
     .btn-whatsapp:hover {
       background-color: #1ebe5d;
+    }
+
+    .btn-retour:hover {
+      background-color: #1c6cae;
     }
 
     footer {
@@ -145,7 +159,7 @@
 </head>
 <body>
 
-  <!-- Header identique -->
+  <!-- HEADER ORIGINAL NON MODIFIÉ -->
   <header>
     <div class="header-container">
       <img src="logo.png" alt="Logo Hôtel Brazzaville" class="logo">
@@ -156,7 +170,7 @@
     </div>
   </header>
 
-  <!-- Menu de navigation -->
+  <!-- NAVIGATION -->
   <nav>
     <ul>
       <li><a href="index.html">Accueil</a></li>
@@ -165,10 +179,10 @@
     </ul>
   </nav>
 
-  <!-- Image principale -->
+  <!-- IMAGE PRINCIPALE -->
   <img src="marina.png" alt="Hôtel Résidence Marina" class="main-img" />
 
-  <!-- Détails Hôtel -->
+  <!-- DÉTAILS DE L'HÔTEL -->
   <section class="hotel-details">
     <div class="hotel-title">
       <img src="marina.png" alt="Mini photo">
@@ -178,28 +192,29 @@
     <div class="description">
       <p>
         Situé au cœur de Brazzaville, l’Hôtel Résidence Marina offre un cadre élégant et confortable pour vos séjours professionnels ou touristiques.
-        Chambres climatisées, Wi-Fi haut débit, piscine, restaurant, salle de sport et bien plus.
+        Chambres climatisées, Wi-Fi haut débit, piscine, restaurant, salle de sport et bien plus encore.
       </p>
     </div>
 
+    <!-- SERVICES -->
     <div class="features">
-      <img src="wifi.png" alt="Wi-Fi" />
-      <img src="piscine.png" alt="Piscine" />
-      <img src="chambre.png" alt="Chambre" />
-      <img src="clim.png" alt="Climatisation" />
+      <img src="wifi.png" alt="Wi-Fi">
+      <img src="piscine.png" alt="Piscine">
+      <img src="chambre.png" alt="Chambre">
+      <img src="clim.png" alt="Climatisation">
     </div>
 
-    <!-- Bouton WhatsApp -->
+    <!-- BOUTONS -->
     <a
       href="https://wa.me/242061234567?text=Bonjour%2C%20je%20souhaite%20réserver%20une%20chambre%20à%20l'Hôtel%20Résidence%20Marina."
       target="_blank"
       class="btn-whatsapp"
-    >
-      📲 Réserver par WhatsApp
-    </a>
+    >📲 Réserver par WhatsApp</a>
+
+    <a href="hotels.html" class="btn-retour">⬅️ Retour à la liste des hôtels</a>
   </section>
 
-  <!-- Footer -->
+  <!-- PIED DE PAGE -->
   <footer>
     <p>© 2025 Brazzaville Hotels. Tous droits réservés.</p>
     <div class="social-icons">
