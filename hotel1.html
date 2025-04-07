@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Hôtel Marina - Détails</title>
   <style>
     body {
@@ -93,11 +93,6 @@
       border-radius: 10px;
     }
 
-    #avis {
-      padding: 40px 20px;
-      background-color: #f0f8ff;
-    }
-
     footer {
       background-color: #2c3e50;
       color: white;
@@ -120,6 +115,42 @@
 
     .social-icons a:hover {
       color: #3498db;
+    }
+
+    .avis-section {
+      background-color: #f0f8ff;
+      padding: 40px 20px;
+      margin-top: 40px;
+    }
+
+    .avis-section h2 {
+      margin-top: 0;
+    }
+
+    .avis-section form {
+      margin-top: 20px;
+    }
+
+    .avis-section input, .avis-section textarea, .avis-section select {
+      width: 100%;
+      padding: 10px;
+      margin-top: 8px;
+      margin-bottom: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .avis-section button {
+      padding: 10px 20px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .avis-section button:hover {
+      background-color: #2980b9;
     }
   </style>
 </head>
@@ -169,32 +200,27 @@
     <iframe src="https://www.google.com/maps?q=brazzaville&output=embed" allowfullscreen></iframe>
   </div>
 
-  <section id="avis">
-    <h2>Avis des clients</h2>
-    <div style="margin-bottom: 20px;">
-      <p><strong>Jean K.</strong> ⭐⭐⭐⭐⭐<br> Excellent service et chambres très propres !</p>
-      <p><strong>Fatou B.</strong> ⭐⭐⭐⭐<br> J’ai adoré la piscine et l’accueil chaleureux.</p>
-    </div>
-
+  <div class="avis-section">
+    <h2>Laissez votre avis</h2>
     <form>
-      <label for="nom">Nom :</label><br>
-      <input type="text" id="nom" name="nom" required><br><br>
+      <label for="nom">Nom :</label>
+      <input type="text" id="nom" name="nom" required>
 
-      <label for="note">Note :</label><br>
+      <label for="note">Note :</label>
       <select id="note" name="note">
         <option value="5">⭐⭐⭐⭐⭐</option>
         <option value="4">⭐⭐⭐⭐</option>
         <option value="3">⭐⭐⭐</option>
         <option value="2">⭐⭐</option>
         <option value="1">⭐</option>
-      </select><br><br>
+      </select>
 
-      <label for="commentaire">Commentaire :</label><br>
-      <textarea id="commentaire" name="commentaire" rows="4" required></textarea><br><br>
+      <label for="commentaire">Commentaire :</label>
+      <textarea id="commentaire" name="commentaire" rows="4" required></textarea>
 
-      <button type="submit">Envoyer l'avis</button>
+      <button type="submit">Envoyer</button>
     </form>
-  </section>
+  </div>
 
   <footer>
     <p>© 2025 Brazzaville Hotels. Tous droits réservés.</p>
