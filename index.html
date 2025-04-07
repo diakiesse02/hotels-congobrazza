@@ -13,7 +13,8 @@
 
     header {
       background-color: #3498db;
-      padding: 30px 20px;
+      color: white;
+      padding: 40px 20px;
     }
 
     .header-container {
@@ -22,22 +23,21 @@
       justify-content: center;
       flex-wrap: wrap;
       gap: 40px;
-      color: white;
     }
 
     .logo {
       width: 120px;
       height: auto;
+      margin-right: 30px;
     }
 
     .header-text h1 {
       margin: 0;
-      font-size: 28px;
+      font-size: 32px;
     }
 
     .header-text p {
-      margin: 5px 0 0;
-      font-size: 16px;
+      margin: 10px 0 0;
     }
 
     nav {
@@ -51,8 +51,8 @@
       padding: 10px;
       display: flex;
       justify-content: center;
-      flex-wrap: wrap;
       gap: 15px;
+      flex-wrap: wrap;
     }
 
     nav ul li a {
@@ -111,13 +111,28 @@
       color: white;
       text-align: center;
       padding: 30px 10px;
-      margin-top: 40px;
+    }
+
+    .social-icons {
+      margin-top: 15px;
+    }
+
+    .social-icons a {
+      display: inline-block;
+      margin: 0 8px;
+      color: white;
+      font-size: 20px;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .social-icons a:hover {
+      color: #3498db;
     }
   </style>
 </head>
 <body>
 
-  <!-- HEADER -->
   <header>
     <div class="header-container">
       <img src="logo.png" alt="Logo Hôtel Brazzaville" class="logo">
@@ -128,7 +143,6 @@
     </div>
   </header>
 
-  <!-- NAVIGATION -->
   <nav>
     <ul>
       <li><a href="index.html">Accueil</a></li>
@@ -144,109 +158,27 @@
     </ul>
   </nav>
 
-  <!-- HÔTELS -->
   <div class="container">
+    <!-- 12 cartes hôtels -->
+    <!-- Tu peux ajouter plus ou modifier les noms/hôtels/images -->
+    ${[...Array(12)].map((_, i) => `
     <div class="hotel-card">
-      <img src="https://source.unsplash.com/400x300/?hotel,1" alt="Hotel 1">
+      <img src="https://source.unsplash.com/400x300/?hotel,${i + 1}" alt="Hotel ${i + 1}">
       <div class="hotel-card-content">
-        <h3>Hôtel Résidence Marina</h3>
-        <p>Centre-ville, Wi-Fi, piscine</p>
+        <h3>Hôtel ${i + 1}</h3>
+        <p>Exemple description ${i + 1}</p>
         <a href="#" class="btn">Voir plus</a>
       </div>
-    </div>
-    <div class="hotel-card">
-      <img src="https://source.unsplash.com/400x300/?hotel,2" alt="Hotel 2">
-      <div class="hotel-card-content">
-        <h3>Grand Hôtel de Kintele</h3>
-        <p>5 étoiles, parking sécurisé</p>
-        <a href="#" class="btn">Voir plus</a>
-      </div>
-    </div>
-    <div class="hotel-card">
-      <img src="https://source.unsplash.com/400x300/?hotel,3" alt="Hotel 3">
-      <div class="hotel-card-content">
-        <h3>Olympic Palace</h3>
-        <p>Restaurant, salle de sport</p>
-        <a href="#" class="btn">Voir plus</a>
-      </div>
-    </div>
-    <div class="hotel-card">
-      <img src="https://source.unsplash.com/400x300/?hotel,4" alt="Hotel 4">
-      <div class="hotel-card-content">
-        <h3>Ledger Plaza</h3>
-        <p>Proche aéroport, luxueux</p>
-        <a href="#" class="btn">Voir plus</a>
-      </div>
-    </div>
-    <div class="hotel-card">
-      <img src="https://source.unsplash.com/400x300/?hotel,5" alt="Hotel 5">
-      <div class="hotel-card-content">
-        <h3>Hotel Léon</h3>
-        <p>Ambiance familiale</p>
-        <a href="#" class="btn">Voir plus</a>
-      </div>
-    </div>
-    <div class="hotel-card">
-      <img src="https://source.unsplash.com/400x300/?hotel,6" alt="Hotel 6">
-      <div class="hotel-card-content">
-        <h3>Hotel Amaritsah</h3>
-        <p>Moderne, Wi-Fi rapide</p>
-        <a href="#" class="btn">Voir plus</a>
-      </div>
-    </div>
-    <div class="hotel-card">
-      <img src="https://source.unsplash.com/400x300/?hotel,7" alt="Hotel 7">
-      <div class="hotel-card-content">
-        <h3>Hotel Royal</h3>
-        <p>Vue panoramique</p>
-        <a href="#" class="btn">Voir plus</a>
-      </div>
-    </div>
-    <div class="hotel-card">
-      <img src="https://source.unsplash.com/400x300/?hotel,8" alt="Hotel 8">
-      <div class="hotel-card-content">
-        <h3>Résidence St-Jacques</h3>
-        <p>Idéal pour les affaires</p>
-        <a href="#" class="btn">Voir plus</a>
-      </div>
-    </div>
-    <div class="hotel-card">
-      <img src="https://source.unsplash.com/400x300/?hotel,9" alt="Hotel 9">
-      <div class="hotel-card-content">
-        <h3>Hotel du Plateau</h3>
-        <p>Quartier résidentiel</p>
-        <a href="#" class="btn">Voir plus</a>
-      </div>
-    </div>
-    <div class="hotel-card">
-      <img src="https://source.unsplash.com/400x300/?hotel,10" alt="Hotel 10">
-      <div class="hotel-card-content">
-        <h3>Hotel Murex</h3>
-        <p>Style local, chaleureux</p>
-        <a href="#" class="btn">Voir plus</a>
-      </div>
-    </div>
-    <div class="hotel-card">
-      <img src="https://source.unsplash.com/400x300/?hotel,11" alt="Hotel 11">
-      <div class="hotel-card-content">
-        <h3>Africa Palace</h3>
-        <p>Conférences, climatisé</p>
-        <a href="#" class="btn">Voir plus</a>
-      </div>
-    </div>
-    <div class="hotel-card">
-      <img src="https://source.unsplash.com/400x300/?hotel,12" alt="Hotel 12">
-      <div class="hotel-card-content">
-        <h3>Hotel La Concorde</h3>
-        <p>Qualité / prix</p>
-        <a href="#" class="btn">Voir plus</a>
-      </div>
-    </div>
+    </div>`).join('')}
   </div>
 
-  <!-- FOOTER -->
   <footer>
     <p>© 2025 Brazzaville Hotels. Tous droits réservés.</p>
+    <div class="social-icons">
+      <a href="https://facebook.com" target="_blank" title="Facebook">🌐</a>
+      <a href="https://instagram.com" target="_blank" title="Instagram">📸</a>
+      <a href="https://twitter.com" target="_blank" title="Twitter">🐦</a>
+    </div>
   </footer>
 
 </body>
