@@ -14,81 +14,139 @@
     header {
       background-color: #3498db;
       color: white;
-      padding: 30px 20px;
-      display: flex;
-      align-items: center;
-      gap: 20px;
+      padding: 40px 20px;
     }
 
-    header img {
-      width: 100px;
+    .header-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 40px;
+    }
+
+    .logo {
+      width: 120px;
+      height: auto;
+      margin-right: 30px;
+    }
+
+    .header-text h1 {
+      margin: 0;
+      font-size: 32px;
+    }
+
+    .header-text p {
+      margin: 10px 0 0;
     }
 
     .content {
-      padding: 20px;
-      max-width: 900px;
-      margin: auto;
-      background: white;
+      max-width: 1000px;
+      margin: 30px auto;
+      background-color: white;
+      padding: 30px;
       border-radius: 10px;
-      margin-top: 30px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 
     .content img {
       width: 100%;
       border-radius: 10px;
+      margin-bottom: 20px;
     }
 
-    h2 {
+    .content h2 {
       color: #2980b9;
     }
 
-    ul {
+    .content ul {
       padding-left: 20px;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 20px;
+      background-color: #3498db;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
     }
 
     footer {
       background-color: #2c3e50;
       color: white;
       text-align: center;
-      padding: 20px;
+      padding: 30px 10px;
       margin-top: 40px;
+    }
+
+    .social-icons {
+      margin-top: 15px;
+    }
+
+    .social-icons a {
+      display: inline-block;
+      margin: 0 8px;
+      color: white;
+      font-size: 20px;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .social-icons a:hover {
+      color: #3498db;
     }
   </style>
 </head>
 <body>
 
   <header>
-    <img src="logo.png" alt="Logo">
-    <h1>Hôtel Résidence Marina</h1>
+    <div class="header-container">
+      <img src="logo.png" alt="Logo Hôtel Brazzaville" class="logo">
+      <div class="header-text">
+        <h1>Bienvenue sur Brazzaville Hôtels</h1>
+        <p>Découvrez les meilleurs hôtels à Brazzaville, Pointe-Noire et Dolisie</p>
+      </div>
+    </div>
   </header>
 
   <div class="content">
-    <img src="https://source.unsplash.com/800x400/?hotel,luxury" alt="Image Hôtel Résidence Marina">
-    <h2>Description</h2>
-    <p>L’Hôtel Résidence Marina est situé au cœur de Brazzaville avec des chambres modernes, une piscine, une salle de sport et un restaurant gastronomique.</p>
+    <img src="https://source.unsplash.com/1000x400/?hotel,resort" alt="Image Hôtel Résidence Marina">
+
+    <h2>Hôtel Résidence Marina</h2>
+    <p>L’Hôtel Résidence Marina vous accueille au cœur de Brazzaville. Profitez de chambres modernes, d'une belle piscine, d'un restaurant raffiné et d'un excellent service client.</p>
 
     <h2>Services</h2>
     <ul>
       <li>Wi-Fi gratuit</li>
       <li>Piscine extérieure</li>
+      <li>Salle de sport</li>
       <li>Restaurant et bar</li>
+      <li>Climatisation et TV écran plat</li>
       <li>Parking sécurisé</li>
-      <li>Climatisation</li>
     </ul>
 
     <h2>Types de chambres et tarifs</h2>
     <ul>
       <li>Chambre Standard : 40 000 FCFA / nuit</li>
-      <li>Chambre Deluxe : 60 000 FCFA / nuit</li>
-      <li>Suite : 90 000 FCFA / nuit</li>
+      <li>Chambre Supérieure : 55 000 FCFA / nuit</li>
+      <li>Suite Luxe : 80 000 FCFA / nuit</li>
     </ul>
 
-    <a href="reservation.html" style="display:inline-block;margin-top:20px;background:#3498db;color:white;padding:10px 20px;border-radius:5px;text-decoration:none;">Réserver maintenant</a>
+    <a href="reservation.html" class="btn">Réserver maintenant</a>
   </div>
 
   <footer>
-    <p>© 2025 Brazzaville Hotels - Tous droits réservés</p>
+    <p>© 2025 Brazzaville Hotels. Tous droits réservés.</p>
+    <div class="social-icons">
+      <a href="https://facebook.com" target="_blank" title="Facebook">🌐</a>
+      <a href="https://instagram.com" target="_blank" title="Instagram">📸</a>
+      <a href="https://twitter.com" target="_blank" title="Twitter">🐦</a>
+      <a href="https://youtube.com" target="_blank" title="YouTube">📺</a>
+      <a href="https://tiktok.com" target="_blank" title="TikTok">🎵</a>
+    </div>
   </footer>
 
 </body>
