@@ -11,7 +11,6 @@
       background-color: #e6f0fa;
     }
 
-    /* HEADER */
     header {
       background-color: #3498db;
       padding: 30px 20px;
@@ -21,8 +20,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 30px;
       flex-wrap: wrap;
+      gap: 40px;
       color: white;
     }
 
@@ -41,7 +40,6 @@
       font-size: 16px;
     }
 
-    /* NAV */
     nav {
       background-color: #2980b9;
       text-align: center;
@@ -63,7 +61,6 @@
       font-weight: bold;
     }
 
-    /* GRID HÔTELS */
     .container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -118,7 +115,6 @@
     }
   </style>
 </head>
-
 <body>
 
   <!-- HEADER -->
@@ -132,7 +128,7 @@
     </div>
   </header>
 
-  <!-- NAV -->
+  <!-- NAVIGATION -->
   <nav>
     <ul>
       <li><a href="index.html">Accueil</a></li>
@@ -148,20 +144,104 @@
     </ul>
   </nav>
 
-  <!-- HOTELS GRID -->
+  <!-- HÔTELS -->
   <div class="container">
-    <!-- 12 cartes hôtels -->
-    <!-- Tu peux remplacer les infos par tes vrais hôtels plus tard -->
-    ${[...Array(12)].map((_, i) => `
-      <div class="hotel-card">
-        <img src="https://source.unsplash.com/400x300/?hotel,${i+1}" alt="Hotel ${i+1}">
-        <div class="hotel-card-content">
-          <h3>Hôtel ${i+1}</h3>
-          <p>Description rapide...</p>
-          <a href="#" class="btn">Voir plus</a>
-        </div>
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,1" alt="Hotel 1">
+      <div class="hotel-card-content">
+        <h3>Hôtel Résidence Marina</h3>
+        <p>Centre-ville, Wi-Fi, piscine</p>
+        <a href="#" class="btn">Voir plus</a>
       </div>
-    `).join('')}
+    </div>
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,2" alt="Hotel 2">
+      <div class="hotel-card-content">
+        <h3>Grand Hôtel de Kintele</h3>
+        <p>5 étoiles, parking sécurisé</p>
+        <a href="#" class="btn">Voir plus</a>
+      </div>
+    </div>
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,3" alt="Hotel 3">
+      <div class="hotel-card-content">
+        <h3>Olympic Palace</h3>
+        <p>Restaurant, salle de sport</p>
+        <a href="#" class="btn">Voir plus</a>
+      </div>
+    </div>
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,4" alt="Hotel 4">
+      <div class="hotel-card-content">
+        <h3>Ledger Plaza</h3>
+        <p>Proche aéroport, luxueux</p>
+        <a href="#" class="btn">Voir plus</a>
+      </div>
+    </div>
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,5" alt="Hotel 5">
+      <div class="hotel-card-content">
+        <h3>Hotel Léon</h3>
+        <p>Ambiance familiale</p>
+        <a href="#" class="btn">Voir plus</a>
+      </div>
+    </div>
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,6" alt="Hotel 6">
+      <div class="hotel-card-content">
+        <h3>Hotel Amaritsah</h3>
+        <p>Moderne, Wi-Fi rapide</p>
+        <a href="#" class="btn">Voir plus</a>
+      </div>
+    </div>
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,7" alt="Hotel 7">
+      <div class="hotel-card-content">
+        <h3>Hotel Royal</h3>
+        <p>Vue panoramique</p>
+        <a href="#" class="btn">Voir plus</a>
+      </div>
+    </div>
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,8" alt="Hotel 8">
+      <div class="hotel-card-content">
+        <h3>Résidence St-Jacques</h3>
+        <p>Idéal pour les affaires</p>
+        <a href="#" class="btn">Voir plus</a>
+      </div>
+    </div>
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,9" alt="Hotel 9">
+      <div class="hotel-card-content">
+        <h3>Hotel du Plateau</h3>
+        <p>Quartier résidentiel</p>
+        <a href="#" class="btn">Voir plus</a>
+      </div>
+    </div>
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,10" alt="Hotel 10">
+      <div class="hotel-card-content">
+        <h3>Hotel Murex</h3>
+        <p>Style local, chaleureux</p>
+        <a href="#" class="btn">Voir plus</a>
+      </div>
+    </div>
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,11" alt="Hotel 11">
+      <div class="hotel-card-content">
+        <h3>Africa Palace</h3>
+        <p>Conférences, climatisé</p>
+        <a href="#" class="btn">Voir plus</a>
+      </div>
+    </div>
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,12" alt="Hotel 12">
+      <div class="hotel-card-content">
+        <h3>Hotel La Concorde</h3>
+        <p>Qualité / prix</p>
+        <a href="#" class="btn">Voir plus</a>
+      </div>
+    </div>
   </div>
 
   <!-- FOOTER -->
