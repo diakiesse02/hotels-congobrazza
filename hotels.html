@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Liste des Hôtels - Congo</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f0f4f8;
+    }
+
+    header {
+      background-color: #005792;
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+    }
+
+    nav {
+      margin-top: 10px;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 15px;
+      font-weight: bold;
+    }
+
+    nav a:hover {
+      text-decoration: underline;
+    }
+
+    .section-title {
+      color: #007acc;
+      margin-left: 20px;
+      margin-top: 40px;
+      font-size: 22px;
+    }
+
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 20px;
+    }
+
+    .hotel-card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      padding: 15px;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .hotel-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .hotel-card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    .hotel-card h3 {
+      color: #005792;
+      margin: 10px 0 5px;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 8px 16px;
+      background-color: #005792;
+      color: white;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .btn:hover {
+      background-color: #003f66;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Liste des Hôtels</h1>
+    <nav>
+      <a href="index.html">Accueil</a>
+      <a href="hotels.html">Liste des Hôtels</a>
+      <a href="about.html">À propos</a>
+      <a href="contact.html">Contact</a>
+    </nav>
+  </header>
+
+  <h2 class="section-title">Brazzaville</h2>
+  <div class="container">
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,lobby" alt="Hôtel Marina" />
+      <h3>Hôtel Résidence Marina</h3>
+      <a href="#" class="btn">Voir plus</a>
+    </div>
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,building" alt="Olympic Palace" />
+      <h3>Olympic Palace</h3>
+      <a href="#" class="btn">Voir plus</a>
+    </div>
+  </div>
+
+  <h2 class="section-title">Pointe-Noire</h2>
+  <div class="container">
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?beach,hotel" alt="Hotel Saphir" />
+      <h3>Hôtel Saphir</h3>
+      <a href="#" class="btn">Voir plus</a>
+    </div>
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?resort,africa" alt="Hotel Atlantic Palace" />
+      <h3>Atlantic Palace</h3>
+      <a href="#" class="btn">Voir plus</a>
+    </div>
+  </div>
+
+  <h2 class="section-title">Dolisie</h2>
+  <div class="container">
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?nature,lodge" alt="Hotel Dolisie Palace" />
+      <h3>Dolisie Palace</h3>
+      <a href="#" class="btn">Voir plus</a>
+    </div>
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?city,hotel" alt="Hotel Ngongo" />
+      <h3>Hôtel Ngongo</h3>
+      <a href="#" class="btn">Voir plus</a>
+    </div>
+  </div>
+
+</body>
+</html>
