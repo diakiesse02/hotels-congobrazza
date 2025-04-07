@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Accueil - Hôtels Brazzaville</title>
   <style>
     body {
@@ -22,13 +22,13 @@
       align-items: center;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 40px;
+      gap: 30px;
     }
 
     .logo {
-      width: 120px;
+      width: 100px;
       height: auto;
-      margin-right: 30px;
+      margin-right: 20px;
     }
 
     .header-text h1 {
@@ -160,16 +160,113 @@
 
   <div class="container">
     <!-- 12 cartes hôtels -->
-    <!-- Tu peux ajouter plus ou modifier les noms/hôtels/images -->
-    ${[...Array(12)].map((_, i) => `
     <div class="hotel-card">
-      <img src="https://source.unsplash.com/400x300/?hotel,${i + 1}" alt="Hotel ${i + 1}">
+      <img src="https://source.unsplash.com/400x300/?hotel,1" alt="Hotel 1">
       <div class="hotel-card-content">
-        <h3>Hôtel ${i + 1}</h3>
-        <p>Exemple description ${i + 1}</p>
+        <h3>Hôtel 1</h3>
+        <p>Bel hôtel au cœur de Brazzaville.</p>
         <a href="#" class="btn">Voir plus</a>
       </div>
-    </div>`).join('')}
+    </div>
+
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,2" alt="Hotel 2">
+      <div class="hotel-card-content">
+        <h3>Hôtel 2</h3>
+        <p>Ambiance chaleureuse et calme.</p>
+        <a href="#" class="btn">Voir plus</a>
+      </div>
+    </div>
+
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,3" alt="Hotel 3">
+      <div class="hotel-card-content">
+        <h3>Hôtel 3</h3>
+        <p>Vue panoramique sur le fleuve Congo.</p>
+        <a href="#" class="btn">Voir plus</a>
+      </div>
+    </div>
+
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,4" alt="Hotel 4">
+      <div class="hotel-card-content">
+        <h3>Hôtel 4</h3>
+        <p>Chambres modernes et bien équipées.</p>
+        <a href="#" class="btn">Voir plus</a>
+      </div>
+    </div>
+
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,5" alt="Hotel 5">
+      <div class="hotel-card-content">
+        <h3>Hôtel 5</h3>
+        <p>Restaurant gastronomique inclus.</p>
+        <a href="#" class="btn">Voir plus</a>
+      </div>
+    </div>
+
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,6" alt="Hotel 6">
+      <div class="hotel-card-content">
+        <h3>Hôtel 6</h3>
+        <p>Idéal pour les séjours d'affaires.</p>
+        <a href="#" class="btn">Voir plus</a>
+      </div>
+    </div>
+
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,7" alt="Hotel 7">
+      <div class="hotel-card-content">
+        <h3>Hôtel 7</h3>
+        <p>Proche de l'aéroport Maya-Maya.</p>
+        <a href="#" class="btn">Voir plus</a>
+      </div>
+    </div>
+
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,8" alt="Hotel 8">
+      <div class="hotel-card-content">
+        <h3>Hôtel 8</h3>
+        <p>Jardin tropical et piscine.</p>
+        <a href="#" class="btn">Voir plus</a>
+      </div>
+    </div>
+
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,9" alt="Hotel 9">
+      <div class="hotel-card-content">
+        <h3>Hôtel 9</h3>
+        <p>Salle de sport et spa inclus.</p>
+        <a href="#" class="btn">Voir plus</a>
+      </div>
+    </div>
+
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,10" alt="Hotel 10">
+      <div class="hotel-card-content">
+        <h3>Hôtel 10</h3>
+        <p>Suites luxueuses et climatisées.</p>
+        <a href="#" class="btn">Voir plus</a>
+      </div>
+    </div>
+
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,11" alt="Hotel 11">
+      <div class="hotel-card-content">
+        <h3>Hôtel 11</h3>
+        <p>Connexion Wi-Fi rapide gratuite.</p>
+        <a href="#" class="btn">Voir plus</a>
+      </div>
+    </div>
+
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,12" alt="Hotel 12">
+      <div class="hotel-card-content">
+        <h3>Hôtel 12</h3>
+        <p>Service de navette disponible.</p>
+        <a href="#" class="btn">Voir plus</a>
+      </div>
+    </div>
   </div>
 
   <footer>
