@@ -77,7 +77,7 @@
 
     .hotel-title img {
       width: 40px;
-      height: auto;
+      height: 40px;
     }
 
     .hotel-title h2 {
@@ -107,11 +107,20 @@
       gap: 15px;
     }
 
-    .gallery img {
+    .gallery-item {
+      text-align: center;
+    }
+
+    .gallery-item img {
       width: 100%;
       border-radius: 8px;
       height: 130px;
       object-fit: cover;
+    }
+
+    .gallery-item p {
+      margin: 8px 0 0;
+      font-weight: bold;
     }
 
     table {
@@ -206,7 +215,7 @@
 
   <div class="hotel-info">
     <div class="hotel-title">
-      <img src="marina-icon.png" alt="Icon Hôtel Marina">
+      <img src="marina-icon.png" alt="Icon Marina">
       <h2>Hôtel Résidence Marina</h2>
     </div>
 
@@ -215,11 +224,24 @@
     <a class="btn" href="https://wa.me/242066000000?text=Bonjour%20je%20souhaite%20réserver%20à%20l'Hôtel%20Résidence%20Marina" target="_blank">Réserver sur WhatsApp</a>
     <a class="btn btn-return" href="hotels.html">← Retour à la liste des hôtels</a>
 
+    <h3>Galerie de l'hôtel</h3>
     <div class="gallery">
-      <img src="marina-room1.jpg" alt="Chambre 1">
-      <img src="marina-room2.jpg" alt="Chambre 2">
-      <img src="marina-pool.jpg" alt="Piscine">
-      <img src="marina-restaurant.jpg" alt="Restaurant">
+      <div class="gallery-item">
+        <img src="chambre1.png" alt="Chambre 1">
+        <p>Chambre Simple</p>
+      </div>
+      <div class="gallery-item">
+        <img src="chambre2.png" alt="Chambre 2">
+        <p>Chambre Double</p>
+      </div>
+      <div class="gallery-item">
+        <img src="piscine.png" alt="Piscine">
+        <p>Piscine</p>
+      </div>
+      <div class="gallery-item">
+        <img src="restaurant.png" alt="Restaurant">
+        <p>Restaurant</p>
+      </div>
     </div>
 
     <h3>Tarifs par nuit</h3>
@@ -231,7 +253,7 @@
     </table>
 
     <h3>Où nous trouver</h3>
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18!..." loading="lazy"></iframe>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3978.619772238664!2d15.282221515434217!3d-4.263359047117175!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1a6a30f871c2d6a1%3A0x1234567890abcdef!2sBrazzaville!5e0!3m2!1sfr!2scg!4v1645638856776" loading="lazy"></iframe>
 
     <div class="reviews">
       <h3>Avis clients</h3>
