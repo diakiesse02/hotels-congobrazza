@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Accueil - Hôtels Brazzaville</title>
   <style>
     body {
@@ -10,60 +10,47 @@
       margin: 0;
       background-color: #e6f0fa;
     }
-
     header {
       background-color: #3498db;
       color: white;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 20px 40px;
-      flex-wrap: wrap;
+      text-align: center;
+      padding: 40px 20px;
+      position: relative;
     }
-
-    .header-text h1 {
+    header h1 {
       margin: 0;
-      font-size: 28px;
+      font-size: 32px;
     }
-
-    .header-text p {
-      margin: 5px 0 0;
-      font-size: 16px;
-    }
-
     .logo {
+      position: absolute;
+      right: 20px;
+      top: 20px;
       width: 80px;
       height: auto;
     }
-
     nav {
       background-color: #2980b9;
       text-align: center;
     }
-
     nav ul {
       list-style: none;
       margin: 0;
       padding: 10px;
       display: flex;
       justify-content: center;
-      flex-wrap: wrap;
       gap: 15px;
     }
-
     nav ul li a {
       color: white;
       text-decoration: none;
       font-weight: bold;
     }
-
     .container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
       padding: 40px 20px;
     }
-
     .hotel-card {
       background-color: white;
       border-radius: 10px;
@@ -71,26 +58,21 @@
       overflow: hidden;
       transition: transform 0.3s;
     }
-
     .hotel-card:hover {
       transform: translateY(-5px);
     }
-
     .hotel-card img {
       width: 100%;
       height: 160px;
       object-fit: cover;
     }
-
     .hotel-card-content {
       padding: 15px;
     }
-
     .hotel-card h3 {
       margin-top: 0;
       color: #2980b9;
     }
-
     .btn {
       display: inline-block;
       margin-top: 10px;
@@ -101,7 +83,6 @@
       text-decoration: none;
       font-size: 14px;
     }
-
     footer {
       background-color: #2c3e50;
       color: white;
@@ -113,11 +94,9 @@
 </head>
 <body>
   <header>
-    <div class="header-text">
-      <h1>Bienvenue sur Brazzaville Hôtels</h1>
-      <p>Découvrez les meilleurs hôtels à Brazzaville, Pointe-Noire et Dolisie</p>
-    </div>
     <img src="logo.png" alt="Logo Hôtel Brazzaville" class="logo" />
+    <h1>Bienvenue sur Brazzaville Hôtels</h1>
+    <p>Découvrez les meilleurs hôtels à Brazzaville, Pointe-Noire et Dolisie</p>
   </header>
 
   <nav>
@@ -136,7 +115,8 @@
   </nav>
 
   <div class="container">
-    <!-- ... tes 12 cartes hôtels ici (inchangées) -->
+    <!-- Tes 12 cartes d’hôtels ici comme dans ta version -->
+    <!-- (je peux les recoller si besoin, dis-moi juste) -->
   </div>
 
   <footer>
