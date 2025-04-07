@@ -1,240 +1,174 @@
+<!-- index.html (Page d'accueil) -->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hotels Congo Brazzaville</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      padding: 0;
-      background: #f0f4f8;
-    }
-
-    .navbar {
-      background-color: #005792;
-      padding: 10px 0;
-      text-align: center;
-    }
-
-    .navbar ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    .navbar li {
-      display: inline-block;
-      margin: 0 15px;
-    }
-
-    .navbar a {
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-      font-size: 16px;
-    }
-
-    .navbar a:hover {
-      text-decoration: underline;
-    }
-
-    header {
-      background-color: #005792;
-      color: white;
-      padding: 30px 20px;
-      text-align: center;
-    }
-
-    h1 {
-      margin: 0;
-      font-size: 28px;
-    }
-
-    .logo {
-      width: 120px;
-      margin: 10px auto;
-    }
-
-    .search-bar {
-      padding: 20px;
-      text-align: center;
-      background: white;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
-    }
-
-    .search-bar input {
-      padding: 12px;
-      width: 80%;
-      max-width: 500px;
-      border: 1px solid #ccc;
-      border-radius: 25px;
-      font-size: 16px;
-      box-shadow: 0 0 5px rgba(0, 0, 0, 0.05);
-    }
-
-    .container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 20px;
-      padding: 30px 20px;
-    }
-
-    .hotel-card {
-      background: white;
-      border-radius: 12px;
-      padding: 20px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .hotel-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 16px rgba(0,0,0,0.15);
-    }
-
-    .hotel-card h3 {
-      margin-top: 0;
-      color: #005792;
-    }
-
-    .hotel-card img {
-      width: 100%;
-      border-radius: 10px;
-      margin-bottom: 10px;
-      object-fit: cover;
-      height: 180px;
-    }
-
-    section {
-      padding: 40px 20px;
-      background: white;
-      margin: 20px 0;
-    }
-
-    section h2 {
-      color: #005792;
-    }
-
-    .btn {
-      display: inline-block;
-      background-color: #005792;
-      color: white;
-      padding: 10px 20px;
-      text-decoration: none;
-      border-radius: 5px;
-      margin-top: 10px;
-      font-weight: bold;
-      transition: background 0.3s;
-    }
-
-    .btn:hover {
-      background-color: #003f66;
-    }
-
-    footer {
-      background-color: #003f66;
-      color: white;
-      text-align: center;
-      padding: 25px 10px;
-      margin-top: 40px;
-    }
-
-    .socials a {
-      color: white;
-      margin: 0 10px;
-      text-decoration: none;
-    }
-
-    .socials a:hover {
-      text-decoration: underline;
-    }
-  </style>
+  <title>Accueil - Hotels Brazzaville</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
-  <!-- Barre de navigation -->
-  <nav class="navbar">
-    <ul>
-      <li><a href="#accueil">Accueil</a></li>
-      <li><a href="#hotels">Hôtels</a></li>
-      <li><a href="#apropos">À propos</a></li>
-      <li><a href="#services">Services</a></li>
-      <li><a href="#contact">Contact</a></li>
-    </ul>
-  </nav>
-
-  <!-- Header / Accueil -->
-  <header id="accueil">
+  <header>
     <img src="logo_brazzaville.png" alt="Logo Hôtel Brazzaville" class="logo" />
-    <h1>🏨 Hotels à Brazzaville - Congo</h1>
-    <p>Explorez les meilleures adresses hôtelières</p>
+    <h1>🏨 Hotels à Brazzaville</h1>
+    <nav>
+      <ul class="menu">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="hotels.html">Hôtels</a></li>
+        <li><a href="about.html">À propos</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
   </header>
 
-  <!-- Barre de recherche -->
-  <div class="search-bar">
-    <input type="text" id="searchInput" placeholder="🔍 Rechercher un hôtel..." onkeyup="filterHotels()" />
-  </div>
-
-  <!-- Liste des hôtels -->
-  <div class="container" id="hotels">
+  <div class="container">
     <div class="hotel-card">
-      <img src="https://source.unsplash.com/400x300/?hotel,lobby" alt="Hôtel Marina" />
+      <img src="https://source.unsplash.com/400x300/?hotel,room" alt="Hôtel Marina" />
       <h3>Hôtel Résidence Marina</h3>
       <p>Centre-ville, Wi-Fi gratuit, piscine</p>
       <a href="#" class="btn">Voir plus</a>
     </div>
-    <!-- Tu continues avec les 11 autres ici comme avant... -->
-  </div>
-
-  <!-- À propos -->
-  <section id="apropos">
-    <h2>À propos</h2>
-    <p>Ce site a été créé pour aider les voyageurs à trouver facilement les meilleurs hôtels à Brazzaville. Il regroupe une sélection d’établissements recommandés, triés par qualité et localisation.</p>
-  </section>
-
-  <!-- Services -->
-  <section id="services">
-    <h2>Nos Services</h2>
-    <ul>
-      <li>Wi-Fi haut débit</li>
-      <li>Service client WhatsApp</li>
-      <li>Réservation rapide et facile</li>
-      <li>Sélection des meilleurs hôtels</li>
-    </ul>
-  </section>
-
-  <!-- Contact -->
-  <section id="contact">
-    <h2>Contactez-nous</h2>
-    <p>Par WhatsApp : <a href="https://wa.me/242XXXXXXXX">+242XXXXXXXX</a></p>
-    <p>Email : contact@hotel-brazzaville.com</p>
-  </section>
-
-  <!-- Footer -->
-  <footer>
-    <p>© 2025 Hotels Congo Brazza | Tous droits réservés</p>
-    <div class="socials">
-      <a href="#">Facebook</a> |
-      <a href="#">Instagram</a> |
-      <a href="https://wa.me/242XXXXXXXX">WhatsApp</a>
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?luxury-hotel" alt="Grand Hôtel Kintele" />
+      <h3>Grand Hôtel de Kintele</h3>
+      <p>5 étoiles, parking sécurisé</p>
+      <a href="#" class="btn">Voir plus</a>
     </div>
-  </footer>
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,lobby" alt="Olympic Palace" />
+      <h3>Olympic Palace</h3>
+      <p>Restaurant, salle de sport</p>
+      <a href="#" class="btn">Voir plus</a>
+    </div>
+  </div>
+</body>
+</html>
 
-  <!-- Script -->
-  <script>
-    function filterHotels() {
-      const input = document.getElementById('searchInput');
-      const filter = input.value.toLowerCase();
-      const hotels = document.getElementById('hotelList')?.getElementsByClassName('hotel-card') || document.getElementsByClassName('hotel-card');
+<!-- hotels.html (Liste des hôtels) -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Liste des Hôtels</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <img src="logo_brazzaville.png" alt="Logo Hôtel Brazzaville" class="logo" />
+    <h1>🏨 Nos Hôtels au Congo</h1>
+    <nav>
+      <ul class="menu">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="hotels.html">Hôtels</a></li>
+        <li><a href="about.html">À propos</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
 
-      for (let i = 0; i < hotels.length; i++) {
-        const title = hotels[i].getElementsByTagName('h3')[0].innerText.toLowerCase();
-        const desc = hotels[i].getElementsByTagName('p')[0].innerText.toLowerCase();
-        hotels[i].style.display = title.includes(filter) || desc.includes(filter) ? '' : 'none';
-      }
-    }
-  </script>
+  <div class="container">
+    <h2>Brazzaville</h2>
+    <p>Découvrez nos hôtels au cœur de la capitale</p>
+
+    <h2>Pointe-Noire</h2>
+    <p>Hôtels en bord de mer et ambiance tropicale</p>
+
+    <h2>Dolisie</h2>
+    <p>Hébergement calme et confortable au sud</p>
+  </div>
+</body>
+</html>
+
+<!-- about.html (À propos) -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>À propos</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <img src="logo_brazzaville.png" alt="Logo Hôtel Brazzaville" class="logo" />
+    <h1>À propos de nous</h1>
+    <nav>
+      <ul class="menu">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="hotels.html">Hôtels</a></li>
+        <li><a href="about.html">À propos</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+  <div class="container">
+    <p>Nous mettons à votre disposition une sélection des meilleurs hôtels du Congo, avec des informations pratiques pour faciliter votre séjour.</p>
+  </div>
+</body>
+</html>
+
+<!-- services.html (Services) -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Services</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <img src="logo_brazzaville.png" alt="Logo Hôtel Brazzaville" class="logo" />
+    <h1>Nos Services</h1>
+    <nav>
+      <ul class="menu">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="hotels.html">Hôtels</a></li>
+        <li><a href="about.html">À propos</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+  <div class="container">
+    <ul>
+      <li>Réservation en ligne simple</li>
+      <li>Support client 24/7</li>
+      <li>Conseils touristiques</li>
+    </ul>
+  </div>
+</body>
+</html>
+
+<!-- contact.html (Contact) -->
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Contact</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <img src="logo_brazzaville.png" alt="Logo Hôtel Brazzaville" class="logo" />
+    <h1>Contactez-nous</h1>
+    <nav>
+      <ul class="menu">
+        <li><a href="index.html">Accueil</a></li>
+        <li><a href="hotels.html">Hôtels</a></li>
+        <li><a href="about.html">À propos</a></li>
+        <li><a href="services.html">Services</a></li>
+        <li><a href="contact.html">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+  <div class="container">
+    <p>Vous pouvez nous écrire via <a href="mailto:contact@hotel-brazzaville.cg">contact@hotel-brazzaville.cg</a> ou nous joindre sur WhatsApp : +242 XX XX XX XX</p>
+  </div>
 </body>
 </html>
