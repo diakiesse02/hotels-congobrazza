@@ -82,16 +82,20 @@
       padding: 30px 20px;
     }
 
-    .hero-images img {
-      width: 100%;
-      max-width: 600px;
-      height: auto;
+    .hero-images .image-container {
+      overflow: hidden;
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .hero-images img {
+      display: block;
+      width: 600px;
+      height: auto;
       transition: transform 0.4s ease;
     }
 
-    .hero-images img:hover {
+    .hero-images .image-container:hover img {
       transform: scale(1.05);
     }
 
@@ -177,10 +181,14 @@
     <button>Rechercher</button>
   </section>
 
-  <!-- Images des hôtels avec zoom -->
+  <!-- Images fixes avec effet zoom au survol -->
   <section class="hero-images">
-    <img src="im1.png" alt="Hôtel Résidence Brazza">
-    <img src="im2.png" alt="Hôtel Émeraude Palace">
+    <div class="image-container">
+      <img src="im1.png" alt="Hôtel Résidence Brazza">
+    </div>
+    <div class="image-container">
+      <img src="im2.png" alt="Hôtel Émeraude Palace">
+    </div>
   </section>
 
   <!-- Bouton voir plus -->
