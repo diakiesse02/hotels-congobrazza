@@ -2,7 +2,6 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Accueil - Congo Brazza Hôtels</title>
   <style>
     body {
@@ -61,10 +60,24 @@
       font-weight: bold;
     }
 
+    .search-section {
+      padding: 30px 20px;
+      text-align: center;
+    }
+
+    .search-section input,
+    .search-section select,
+    .search-section button {
+      padding: 10px;
+      margin: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
     .hero-images {
       display: flex;
-      flex-wrap: wrap;
       justify-content: center;
+      flex-wrap: wrap;
       gap: 20px;
       padding: 30px 20px;
     }
@@ -77,61 +90,17 @@
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 
-    .container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 20px;
-      padding: 40px 20px;
-    }
-
-    .hotel-card {
-      background-color: white;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-      transition: transform 0.3s;
-    }
-
-    .hotel-card:hover {
-      transform: translateY(-5px);
-    }
-
-    .hotel-card img {
-      width: 100%;
-      height: 160px;
-      object-fit: cover;
-    }
-
-    .hotel-card-content {
-      padding: 15px;
-    }
-
-    .hotel-card h3 {
-      margin-top: 0;
-      color: #2980b9;
-    }
-
-    .btn {
-      display: inline-block;
-      margin-top: 10px;
+    .voir-plus-btn {
+      display: block;
+      margin: 20px auto;
       background-color: #3498db;
       color: white;
-      padding: 8px 16px;
-      border-radius: 5px;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
       text-decoration: none;
-      font-size: 14px;
-    }
-
-    .small-image {
-      margin-top: 10px;
-    }
-
-    .small-image img {
-      width: 100px;
-      height: 80px;
-      object-fit: cover;
-      border-radius: 5px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+      text-align: center;
     }
 
     footer {
@@ -186,27 +155,31 @@
     </ul>
   </nav>
 
-  <!-- Nouvelle section avec deux grandes images -->
-  <div class="hero-images">
+  <!-- Barre de recherche conservée -->
+  <section class="search-section">
+    <input type="text" placeholder="Ville">
+    <select>
+      <option>Catégorie</option>
+      <option>Luxe</option>
+      <option>Moins cher</option>
+    </select>
+    <select>
+      <option>Prix</option>
+      <option>0 - 50€</option>
+      <option>50€ - 100€</option>
+      <option>100€+</option>
+    </select>
+    <button>Rechercher</button>
+  </section>
+
+  <!-- Ajout des deux grandes images -->
+  <section class="hero-images">
     <img src="im1.png" alt="Image Hôtel 1">
     <img src="im2.png" alt="Image Hôtel 2">
-  </div>
+  </section>
 
-  <!-- Section hôtels (existant si tu veux garder une sélection) -->
-  <div class="container">
-    <div class="hotel-card">
-      <img src="https://source.unsplash.com/400x300/?hotel,marina" alt="Hotel 1">
-      <div class="hotel-card-content">
-        <h3>Hôtel Résidence Marina</h3>
-        <p>Centre-ville, Wi-Fi, piscine</p>
-        <div class="small-image">
-          <img src="https://source.unsplash.com/100x80/?room,marina" alt="Mini Marina">
-        </div>
-        <a href="hotel1.html" class="btn">Voir plus</a>
-      </div>
-    </div>
-    <!-- Tu peux ajouter d'autres hotels ici -->
-  </div>
+  <!-- Bouton vers la liste des hôtels -->
+  <a href="hotels.html" class="voir-plus-btn">Voir plus d'hôtels</a>
 
   <footer>
     <p>© 2025 Congo Brazza Hôtels. Tous droits réservés.</p>
