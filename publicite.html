@@ -3,6 +3,77 @@
 <head>
   <meta charset="UTF-8">
   <title>Publicité - Congo Brazza Hôtels</title>
+  <script type="module">
+    // Import Firebase modules
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-storage.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyArRdBWuZANHdThzHVLdVh1XXqliInuGmA",
+      authDomain: "congo-hotels.firebaseapp.com",
+      projectId: "congo-hotels",
+      storageBucket: "congo-hotels.appspot.com",
+      messagingSenderId: "427899226169",
+      appId: "1:427899226169:web:d450701e4e5c4ca21565e8",
+      measurementId: "G-ZMTLRBW0Z9"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+
+    window.addEventListener("DOMContentLoaded", () => {
+      const form = document.getElementById("pub-form");
+
+      form.addEventListener("submit", async (e) => {
+        e.preventDefault();
+
+        const nom = form.nom_etablissement.value;
+        const email = form.email.value;
+        const telephone = form.telephone.value;
+        const ville = form.ville.value;
+        const description = form.description.value;
+        const duree = form.duree.value;
+        const imageFile = form.images.files[0];
+
+        let imageUrl = "";
+
+        if (imageFile) {
+          const storageRef = ref(storage, "publicites/" + imageFile.name);
+          await uploadBytes(storageRef, imageFile);
+          imageUrl = await getDownloadURL(storageRef);
+        }
+
+        try {
+          await addDoc(collection(db, "hotels"), {
+            nom,
+            email,
+            telephone,
+            ville,
+            description,
+            duree,
+            image: imageUrl
+          });
+
+          // Afficher le message de succès
+          const msg = document.getElementById("success-message");
+          msg.style.display = "block";
+
+          // Réinitialiser le formulaire
+          form.reset();
+
+          // Masquer le message après 5 secondes
+          setTimeout(() => {
+            msg.style.display = "none";
+          }, 5000);
+        } catch (error) {
+          alert("Erreur lors de l'envoi : " + error.message);
+        }
+      });
+    });
+  </script>
+
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -58,6 +129,16 @@
     button:hover {
       background-color: #2980b9;
     }
+
+    #success-message {
+      display: none;
+      padding: 12px;
+      background-color: #d4edda;
+      color: #155724;
+      border-radius: 5px;
+      text-align: center;
+      margin-bottom: 20px;
+    }
   </style>
 </head>
 <body>
@@ -69,13 +150,17 @@
 
   <section>
     <h2>Formulaire de publicité</h2>
-    <form id="pubForm">
+
+    <!-- Message de confirmation -->
+    <div id="success-message">✅ Votre publicité a été envoyée avec succès !</div>
+
+    <form id="pub-form">
       <input type="text" name="nom_etablissement" placeholder="Nom de l'établissement" required>
       <input type="email" name="email" placeholder="Adresse Email" required>
       <input type="tel" name="telephone" placeholder="Téléphone">
       <input type="text" name="ville" placeholder="Ville">
       <textarea name="description" placeholder="Description de l’offre publicitaire" rows="5"></textarea>
-      <label>Image :</label>
+      <label>Image principale :</label>
       <input type="file" name="images" accept="image/*" required>
       <select name="duree">
         <option value="">Durée souhaitée</option>
@@ -87,70 +172,5 @@
     </form>
   </section>
 
-  <!-- Firebase SDKs -->
-  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js" type="module"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js" type="module"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-storage.js" type="module"></script>
-
-  <!-- Script de gestion -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
-    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
-    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-storage.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyArRdBWuZANHdThzHVLdVh1XXqliInuGmA",
-      authDomain: "congo-hotels.firebaseapp.com",
-      projectId: "congo-hotels",
-      storageBucket: "congo-hotels.appspot.com",
-      messagingSenderId: "427899226169",
-      appId: "1:427899226169:web:d450701e4e5c4ca21565e8",
-      measurementId: "G-ZMTLRBW0Z9"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const storage = getStorage(app);
-
-    const form = document.getElementById("pubForm");
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const nom = form.nom_etablissement.value;
-      const email = form.email.value;
-      const telephone = form.telephone.value;
-      const ville = form.ville.value;
-      const description = form.description.value;
-      const duree = form.duree.value;
-      const file = form.images.files[0];
-
-      if (!file) {
-        alert("Veuillez sélectionner une image.");
-        return;
-      }
-
-      try {
-        const imageRef = ref(storage, "images/" + Date.now() + "_" + file.name);
-        await uploadBytes(imageRef, file);
-        const imageUrl = await getDownloadURL(imageRef);
-
-        await addDoc(collection(db, "hotels"), {
-          nom,
-          email,
-          telephone,
-          ville,
-          description,
-          duree,
-          image: imageUrl
-        });
-
-        alert("Publicité envoyée avec succès !");
-        form.reset();
-      } catch (error) {
-        console.error("Erreur:", error);
-        alert("Erreur lors de l'envoi.");
-      }
-    });
-  </script>
 </body>
 </html>
