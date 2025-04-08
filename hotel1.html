@@ -5,10 +5,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Hôtel Marina - Détails</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: 'Segoe UI', sans-serif;
       margin: 0;
-      background-color: #e6f0fa;
+      background-color: #f4f8fc;
+      color: #333;
     }
 
     header {
@@ -22,45 +27,46 @@
       align-items: center;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 40px;
+      gap: 20px;
     }
 
     .logo {
-      width: 120px;
+      width: 80px;
       height: auto;
-      margin-right: 30px;
     }
 
     .header-text h1 {
       margin: 0;
-      font-size: 32px;
+      font-size: 28px;
     }
 
     .header-text p {
-      margin: 10px 0 0;
+      margin: 8px 0 0;
+      font-size: 16px;
     }
 
     .container {
-      padding: 40px 20px;
+      padding: 30px 20px;
+      max-width: 1000px;
+      margin: auto;
     }
 
     .hotel-title {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 15px;
     }
 
     .hotel-title img {
-      width: 30px;
-      height: 30px;
+      width: 40px;
     }
 
     .btn {
       display: inline-block;
       background-color: #25D366;
       color: white;
-      padding: 10px 20px;
-      border-radius: 5px;
+      padding: 12px 22px;
+      border-radius: 6px;
       text-decoration: none;
       margin-top: 20px;
     }
@@ -70,19 +76,24 @@
       margin-bottom: 30px;
     }
 
+    .info {
+      margin-top: 10px;
+      line-height: 1.6;
+    }
+
     .gallery {
-      display: flex;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
-      margin-top: 20px;
-      flex-wrap: wrap;
+      margin-top: 30px;
     }
 
     .gallery img {
-      width: 250px;
-      height: 160px;
+      width: 100%;
+      height: 180px;
       object-fit: cover;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
     }
 
     iframe {
@@ -93,41 +104,20 @@
       border-radius: 10px;
     }
 
-    footer {
-      background-color: #2c3e50;
-      color: white;
-      text-align: center;
-      padding: 30px 10px;
-    }
-
-    .social-icons {
-      margin-top: 15px;
-    }
-
-    .social-icons a {
-      display: inline-block;
-      margin: 0 8px;
-      color: white;
-      font-size: 20px;
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-
-    .social-icons a:hover {
-      color: #3498db;
-    }
-
     .avis-section {
-      background-color: #f0f8ff;
+      background-color: #eaf4ff;
       padding: 40px 20px;
-      margin-top: 40px;
+      margin-top: 50px;
+      border-top: 1px solid #ddd;
     }
 
     .avis-section h2 {
-      margin-top: 0;
+      text-align: center;
     }
 
     .avis-section form {
+      max-width: 600px;
+      margin: auto;
       margin-top: 20px;
     }
 
@@ -137,28 +127,54 @@
       margin-top: 8px;
       margin-bottom: 16px;
       border: 1px solid #ccc;
-      border-radius: 5px;
+      border-radius: 6px;
+      font-size: 15px;
     }
 
     .avis-section button {
-      padding: 10px 20px;
+      padding: 12px 20px;
       background-color: #3498db;
       color: white;
       border: none;
-      border-radius: 5px;
+      border-radius: 6px;
       cursor: pointer;
     }
 
     .avis-section button:hover {
       background-color: #2980b9;
     }
+
+    footer {
+      background-color: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 30px 10px;
+      margin-top: 50px;
+    }
+
+    .social-icons {
+      margin-top: 15px;
+    }
+
+    .social-icons a {
+      margin: 0 10px;
+      color: white;
+      font-size: 20px;
+      text-decoration: none;
+      transition: 0.3s;
+    }
+
+    .social-icons a:hover {
+      color: #3498db;
+    }
   </style>
 </head>
 <body>
 
+  <!-- HEADER -->
   <header>
     <div class="header-container">
-      <img src="logo.png" alt="Logo Hôtel Brazzaville" class="logo">
+      <img src="logo.png" alt="Logo Hôtel" class="logo">
       <div class="header-text">
         <h1>Bienvenue sur Brazzaville Hôtels</h1>
         <p>Découvrez les meilleurs hôtels à Brazzaville, Pointe-Noire et Dolisie</p>
@@ -166,17 +182,20 @@
     </div>
   </header>
 
+  <!-- CONTENU -->
   <div class="container">
     <a href="hotels.html" class="btn btn-retour">← Retour à la liste des hôtels</a>
 
     <div class="hotel-title">
-      <img src="marina.png" alt="Hôtel Marina Icon">
+      <img src="marina.png" alt="Icon Marina">
       <h2>Hôtel Marina</h2>
     </div>
 
-    <p><strong>Adresse :</strong> Avenue de la Paix, Brazzaville</p>
-    <p><strong>Services :</strong> Chambres climatisées, piscine, Wi-Fi gratuit, restaurant sur place.</p>
-    <p><strong>Prix :</strong> À partir de 35 000 FCFA / nuit</p>
+    <div class="info">
+      <p><strong>Adresse :</strong> Avenue de la Paix, Brazzaville</p>
+      <p><strong>Prix :</strong> À partir de <strong>35 000 FCFA</strong> / nuit</p>
+      <p><strong>Services :</strong> Piscine extérieure 🏊‍♂️, Chambres luxueuses 🛏️, Wi-Fi gratuit 📶, Restaurant 🍽️</p>
+    </div>
 
     <a class="btn" href="https://wa.me/242061234567" target="_blank">📱 Réserver sur WhatsApp</a>
 
@@ -184,15 +203,12 @@
     <div class="gallery">
       <div>
         <img src="chambre1.png" alt="Chambre 1">
-        <p>Chambre Simple</p>
       </div>
       <div>
         <img src="chambre2.png" alt="Chambre 2">
-        <p>Chambre Double</p>
       </div>
       <div>
         <img src="piscine.png" alt="Piscine">
-        <p>Piscine extérieure</p>
       </div>
     </div>
 
@@ -200,28 +216,30 @@
     <iframe src="https://www.google.com/maps?q=brazzaville&output=embed" allowfullscreen></iframe>
   </div>
 
+  <!-- AVIS -->
   <div class="avis-section">
     <h2>Laissez votre avis</h2>
     <form>
       <label for="nom">Nom :</label>
-      <input type="text" id="nom" name="nom" required>
+      <input type="text" id="nom" name="nom" placeholder="Votre nom" required>
 
       <label for="note">Note :</label>
       <select id="note" name="note">
-        <option value="5">⭐⭐⭐⭐⭐</option>
-        <option value="4">⭐⭐⭐⭐</option>
-        <option value="3">⭐⭐⭐</option>
-        <option value="2">⭐⭐</option>
-        <option value="1">⭐</option>
+        <option value="5">⭐⭐⭐⭐⭐ Excellent</option>
+        <option value="4">⭐⭐⭐⭐ Très bon</option>
+        <option value="3">⭐⭐⭐ Moyen</option>
+        <option value="2">⭐⭐ Médiocre</option>
+        <option value="1">⭐ Mauvais</option>
       </select>
 
       <label for="commentaire">Commentaire :</label>
-      <textarea id="commentaire" name="commentaire" rows="4" required></textarea>
+      <textarea id="commentaire" name="commentaire" rows="4" placeholder="Votre avis..." required></textarea>
 
-      <button type="submit">Envoyer</button>
+      <button type="submit">Envoyer mon avis</button>
     </form>
   </div>
 
+  <!-- FOOTER -->
   <footer>
     <p>© 2025 Brazzaville Hotels. Tous droits réservés.</p>
     <div class="social-icons">
