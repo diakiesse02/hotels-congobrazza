@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Accueil - Congo Brazza Hôtels</title>
   <style>
     body {
@@ -27,7 +28,6 @@
     .logo {
       width: 120px;
       height: auto;
-      margin-right: 30px;
     }
 
     .header-text h1 {
@@ -74,29 +74,26 @@
       border: 1px solid #ccc;
     }
 
-    .hero-images {
+    .slider {
       display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
       gap: 20px;
       padding: 30px 20px;
     }
 
-    .hero-images .image-container {
-      overflow: hidden;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .hero-images img {
-      display: block;
+    .slider img {
       width: 600px;
-      height: auto;
-      transition: transform 0.4s ease;
+      height: 350px;
+      object-fit: cover;
+      scroll-snap-align: center;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s;
     }
 
-    .hero-images .image-container:hover img {
-      transform: scale(1.05);
+    .slider img:hover {
+      transform: scale(1.03);
     }
 
     .voir-plus-btn {
@@ -150,31 +147,30 @@
   </header>
 
   <nav>
-  <ul>
-    <li><a href="index.html">Accueil</a></li>
-    <li><a href="hotels.html">Liste des hôtels</a></li>
-    <li><a href="meubles.html">Maisons meublées</a></li> <!-- NOUVEAU -->
-    <li><a href="services.html">Services</a></li>
-    <li><a href="reservation.html">Réservation</a></li>
-    <li><a href="ajout-hotel.html">Ajouter votre hôtel</a></li> <!-- NOUVEAU -->
-    <li><a href="galerie.html">Galerie</a></li>
-    <li><a href="temoignages.html">Témoignages</a></li>
-    <li><a href="publicite.html">Publicité</a></li>
-<li><a href="about.html">À propos</a></li>
-    <li><a href="contact.html">Contact</a></li>
-    <li><a href="blog.html">Blog</a></li>
-    <li><a href="faq.html">FAQ</a></li>
-  </ul>
-</nav>
+    <ul>
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="hotels.html">Liste des hôtels</a></li>
+      <li><a href="meubles.html">Maisons meublées</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="reservation.html">Réservation</a></li>
+      <li><a href="ajout-hotel.html">Ajouter votre hôtel</a></li>
+      <li><a href="galerie.html">Galerie</a></li>
+      <li><a href="temoignages.html">Témoignages</a></li>
+      <li><a href="publicite.html">Publicité</a></li>
+      <li><a href="about.html">À propos</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+    </ul>
+  </nav>
 
-
-  <!-- Barre de recherche avec prix en FCFA -->
+  <!-- Barre de recherche -->
   <section class="search-section">
     <input type="text" placeholder="Ville">
     <select>
       <option>Catégorie</option>
       <option>Luxe</option>
-      <option>Moins cher</option>
+      <option>Économique</option>
     </select>
     <select>
       <option>Prix</option>
@@ -185,19 +181,20 @@
     <button>Rechercher</button>
   </section>
 
-  <!-- Images fixes avec effet zoom au survol -->
-  <section class="hero-images">
-    <div class="image-container">
-      <img src="im1.png" alt="Hôtel Résidence Brazza">
-    </div>
-    <div class="image-container">
-      <img src="im2.png" alt="Hôtel Émeraude Palace">
-    </div>
+  <!-- Slider -->
+  <section class="slider">
+    <img src="chambre1.png" alt="Hôtel 1">
+    <img src="chambre2.png" alt="Hôtel 2">
+    <img src="chambre3.png" alt="Hôtel 3">
+    <img src="chambre4.png" alt="Hôtel 4">
+    <img src="chambre5.png" alt="Hôtel 5">
+    <img src="chambre6.png" alt="Hôtel 6">
   </section>
 
-  <!-- Bouton voir plus -->
+  <!-- Voir plus -->
   <a href="hotels.html" class="voir-plus-btn">Voir plus d'hôtels</a>
 
+  <!-- Footer -->
   <footer>
     <p>© 2025 Congo Brazza Hôtels. Tous droits réservés.</p>
     <div class="social-icons">
@@ -210,4 +207,4 @@
   </footer>
 
 </body>
-</html> 
+</html>
