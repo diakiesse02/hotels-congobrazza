@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <title>Admin - Publicités</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f4f4;
+      padding: 20px;
+    }
+
+    h1 {
+      text-align: center;
+      color: #3498db;
+    }
+
+    .card {
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .card h2 {
+      margin: 0;
+      color: #2c3e50;
+    }
+
+    .card p {
+      margin: 5px 0;
+    }
+
+    .images {
+      margin-top: 10px;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    .images img {
+      width: 150px;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Liste des Publicités Soumises</h1>
+  <div id="publicites-container"></div>
+
+  <!-- Firebase SDK -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "TON_API_KEY",
+      authDomain: "TON_DOMAINE.firebaseapp.com",
+      projectId: "TON_PROJECT_ID",
+      storageBucket: "TON_BUCKET.appspot.com",
+      messagingSenderId: "TON_SENDER_ID",
+      appId: "TON_APP_ID"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    const container = document.getElementById('publicites-container');
+
+    async function chargerPublicites() {
+      const querySnapshot = await getDocs(collection(db, "publicites"));
+
+      querySnapshot.forEach((doc) => {
+        const data = doc.data();
+
+        const div = document.createElement('div');
+        div.className = 'card';
+
+        div.innerHTML = `
+          <h2>${data.nom}</h2>
+          <p><strong>Email:</strong> ${data.email}</p>
+          <p><strong>Téléphone:</strong> ${data.telephone}</p>
+          <p><strong>Ville:</strong> ${data.ville}</p>
+          <p><strong>Description:</strong> ${data.description}</p>
+          <p><strong>Durée:</strong> ${data.duree}</p>
+          <div class="images">
+            ${data.images?.map(url => `<img src="${url}" alt="Image de l'établissement">`).join('')}
+          </div>
+        `;
+
+        container.appendChild(div);
+      });
+    }
+
+    chargerPublicites();
+  </script>
+
+</body>
+</html>
