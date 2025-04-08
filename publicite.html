@@ -69,14 +69,14 @@
 
   <section>
     <h2>Formulaire de publicité</h2>
-    <form id="pub-form">
+    <form id="pubForm">
       <input type="text" name="nom_etablissement" placeholder="Nom de l'établissement" required>
       <input type="email" name="email" placeholder="Adresse Email" required>
       <input type="tel" name="telephone" placeholder="Téléphone">
       <input type="text" name="ville" placeholder="Ville">
       <textarea name="description" placeholder="Description de l’offre publicitaire" rows="5"></textarea>
-      <label>Images (max 3):</label>
-      <input type="file" name="images" multiple accept="image/*">
+      <label>Image :</label>
+      <input type="file" name="images" accept="image/*" required>
       <select name="duree">
         <option value="">Durée souhaitée</option>
         <option value="7j">1 semaine</option>
@@ -87,56 +87,70 @@
     </form>
   </section>
 
-  <!-- Firebase SDK -->
-  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js"></script>
-  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js"></script>
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js" type="module"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js" type="module"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.9.0/firebase-storage.js" type="module"></script>
 
-  <script>
-    // Configuration Firebase
+  <!-- Script de gestion -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-storage.js";
+
     const firebaseConfig = {
       apiKey: "AIzaSyArRdBWuZANHdThzHVLdVh1XXqliInuGmA",
       authDomain: "congo-hotels.firebaseapp.com",
       projectId: "congo-hotels",
-      storageBucket: "congo-hotels.firebasestorage.app",
+      storageBucket: "congo-hotels.appspot.com",
       messagingSenderId: "427899226169",
       appId: "1:427899226169:web:d450701e4e5c4ca21565e8",
       measurementId: "G-ZMTLRBW0Z9"
     };
 
-    // Initialiser Firebase
-    firebase.initializeApp(firebaseConfig);
-    const db = firebase.firestore();
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
 
-    // Gérer la soumission du formulaire
-    document.getElementById("pub-form").addEventListener("submit", async function(e) {
+    const form = document.getElementById("pubForm");
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const nom = this.nom_etablissement.value;
-      const email = this.email.value;
-      const telephone = this.telephone.value;
-      const ville = this.ville.value;
-      const description = this.description.value;
-      const duree = this.duree.value;
+      const nom = form.nom_etablissement.value;
+      const email = form.email.value;
+      const telephone = form.telephone.value;
+      const ville = form.ville.value;
+      const description = form.description.value;
+      const duree = form.duree.value;
+      const file = form.images.files[0];
+
+      if (!file) {
+        alert("Veuillez sélectionner une image.");
+        return;
+      }
 
       try {
-        await db.collection("hotels").add({
+        const imageRef = ref(storage, "images/" + Date.now() + "_" + file.name);
+        await uploadBytes(imageRef, file);
+        const imageUrl = await getDownloadURL(imageRef);
+
+        await addDoc(collection(db, "hotels"), {
           nom,
           email,
           telephone,
           ville,
           description,
           duree,
-          createdAt: new Date()
+          image: imageUrl
         });
 
         alert("Publicité envoyée avec succès !");
-        this.reset();
+        form.reset();
       } catch (error) {
-        console.error("Erreur d'envoi :", error);
-        alert("Une erreur est survenue. Veuillez réessayer.");
+        console.error("Erreur:", error);
+        alert("Erreur lors de l'envoi.");
       }
     });
   </script>
-
 </body>
 </html>
