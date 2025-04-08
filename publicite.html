@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Publicité - Congo Brazza Hôtels</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f9f9f9;
+    }
+
+    header {
+      background-color: #3498db;
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+    }
+
+    section {
+      padding: 30px 20px;
+      max-width: 800px;
+      margin: auto;
+      background-color: white;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+      border-radius: 10px;
+    }
+
+    h2 {
+      text-align: center;
+      color: #3498db;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    input, textarea, select {
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 12px;
+      background-color: #3498db;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    button:hover {
+      background-color: #2980b9;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Faites la promotion de votre hôtel ou maison meublée</h1>
+    <p>Ajoutez votre annonce publicitaire et gagnez en visibilité !</p>
+  </header>
+
+  <section>
+    <h2>Formulaire de publicité</h2>
+    <form action="mailto:ton-email@exemple.com" method="POST" enctype="multipart/form-data">
+      <input type="text" name="nom_etablissement" placeholder="Nom de l'établissement" required>
+      <input type="email" name="email" placeholder="Adresse Email" required>
+      <input type="tel" name="telephone" placeholder="Téléphone">
+      <input type="text" name="ville" placeholder="Ville">
+      <textarea name="description" placeholder="Description de l’offre publicitaire" rows="5"></textarea>
+      <label>Images (max 3):</label>
+      <input type="file" name="images" multiple accept="image/*">
+      <select name="duree">
+        <option value="">Durée souhaitée</option>
+        <option value="7j">1 semaine</option>
+        <option value="30j">1 mois</option>
+        <option value="custom">Autre</option>
+      </select>
+      <button type="submit">Envoyer ma publicité</button>
+    </form>
+  </section>
+
+</body>
+</html>
