@@ -46,19 +46,18 @@
       border-radius: 6px;
     }
 
-    /* SLIDER STYLE */
+    /* SLIDER AUTO STYLE */
     .slider {
-      display: flex;
-      overflow: hidden;
-      width: 100%;
+      position: relative;
       max-width: 1000px;
       margin: auto;
+      overflow: hidden;
       border-radius: 10px;
     }
 
     .slider-track {
       display: flex;
-      transition: transform 0.5s ease;
+      transition: transform 1s ease-in-out;
     }
 
     .slide {
@@ -70,21 +69,6 @@
       width: 100%;
       height: 300px;
       object-fit: cover;
-    }
-
-    .slider-controls {
-      text-align: center;
-      margin-top: 10px;
-    }
-
-    .slider-controls button {
-      padding: 10px 15px;
-      margin: 0 5px;
-      background-color: #3498db;
-      border: none;
-      color: white;
-      border-radius: 5px;
-      cursor: pointer;
     }
 
     .container {
@@ -155,6 +139,31 @@
       margin-top: 20px;
     }
 
+    form {
+      margin-top: 20px;
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+    }
+
+    form input, form textarea, form select {
+      width: 100%;
+      margin-bottom: 15px;
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    form button {
+      background-color: #3498db;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
     footer {
       background-color: #2c3e50;
       color: white;
@@ -186,7 +195,7 @@
 
 <a href="hotels.html" class="btn-retour">← Retour à la liste des hôtels</a>
 
-<!-- SLIDER 2 IMAGES PAR SLIDE -->
+<!-- SLIDER AUTO -->
 <div class="slider">
   <div class="slider-track" id="slider-track">
     <div class="slide"><img src="im1.png" alt=""></div>
@@ -194,31 +203,18 @@
     <div class="slide"><img src="im3.png" alt=""></div>
     <div class="slide"><img src="im4.png" alt=""></div>
     <div class="slide"><img src="im5.png" alt=""></div>
+    <div class="slide"><img src="im6.png" alt=""></div>
   </div>
-</div>
-<div class="slider-controls">
-  <button onclick="prevSlide()">⟨</button>
-  <button onclick="nextSlide()">⟩</button>
 </div>
 
 <script>
-  let sliderIndex = 0;
-  function updateSlider() {
-    const track = document.getElementById("slider-track");
-    const slideWidth = track.children[0].offsetWidth;
-    track.style.transform = `translateX(-${sliderIndex * slideWidth}px)`;
-  }
-
-  function nextSlide() {
-    const track = document.getElementById("slider-track");
-    if (sliderIndex < track.children.length - 2) sliderIndex++;
-    updateSlider();
-  }
-
-  function prevSlide() {
-    if (sliderIndex > 0) sliderIndex--;
-    updateSlider();
-  }
+  let slider = document.getElementById("slider-track");
+  let index = 0;
+  let total = slider.children.length;
+  setInterval(() => {
+    index = (index + 1) % (total - 1);
+    slider.style.transform = `translateX(-${index * 50}%)`;
+  }, 3000);
 </script>
 
 <!-- SERVICES -->
@@ -246,15 +242,30 @@
     📱 Réserver via WhatsApp
   </a>
 
-  <!-- AVIS CLIENTS -->
+  <!-- AVIS EXISTANTS -->
   <h2>Avis des clients</h2>
   <div class="avis-item"><strong>Jean M.</strong> : “Super séjour. Très propre, excellent accueil. ⭐⭐⭐⭐⭐”</div>
   <div class="avis-item"><strong>Sylvie K.</strong> : “Bon rapport qualité/prix. À recommander ! ⭐⭐⭐⭐”</div>
-  <div class="avis-item"><strong>Gédéon T.</strong> : “Le petit-déjeuner était top ! ⭐⭐⭐⭐”</div>
+
+  <!-- FORMULAIRE AVIS -->
+  <form>
+    <h3>Laisser un avis</h3>
+    <input type="text" placeholder="Votre nom" required>
+    <select required>
+      <option value="">Note</option>
+      <option>⭐</option>
+      <option>⭐⭐</option>
+      <option>⭐⭐⭐</option>
+      <option>⭐⭐⭐⭐</option>
+      <option>⭐⭐⭐⭐⭐</option>
+    </select>
+    <textarea placeholder="Votre message" rows="4" required></textarea>
+    <button type="submit">Envoyer</button>
+  </form>
 
   <!-- MAP -->
   <h2>Localisation</h2>
-  <iframe src="https://www.google.com/maps/embed?pb=!1m18!..." allowfullscreen></iframe>
+  <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3979.753859812985!2d15.2844!3d-4.2699!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1a6a35b54c299e11%3A0x111!2sBrazzaville!5e0!3m2!1sfr!2scg!4v1614104700000" allowfullscreen></iframe>
 </div>
 
 <!-- FOOTER -->
