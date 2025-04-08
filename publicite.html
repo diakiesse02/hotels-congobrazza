@@ -1,91 +1,139 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Publicité - Congo Brazza Hôtels</title>
+  <meta charset="UTF-8" />
+  <title>Formulaire Publicitaire</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      padding: 0;
-      background-color: #f9f9f9;
+      background-color: #f4f4f4;
+      padding: 20px;
     }
 
-    header {
-      background-color: #3498db;
-      color: white;
-      padding: 30px 20px;
-      text-align: center;
-    }
-
-    section {
-      padding: 30px 20px;
-      max-width: 800px;
-      margin: auto;
-      background-color: white;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      border-radius: 10px;
-    }
-
-    h2 {
+    h1 {
       text-align: center;
       color: #3498db;
     }
 
     form {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
+      max-width: 600px;
+      margin: auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
     }
 
-    input, textarea, select {
-      padding: 10px;
-      border: 1px solid #ccc;
+    input, textarea, select, button {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
       border-radius: 6px;
+      border: 1px solid #ccc;
       font-size: 16px;
     }
 
     button {
-      padding: 12px;
       background-color: #3498db;
       color: white;
       border: none;
-      border-radius: 6px;
       cursor: pointer;
-      font-size: 16px;
     }
 
     button:hover {
       background-color: #2980b9;
     }
+
+    #message {
+      text-align: center;
+      font-weight: bold;
+      margin-top: 20px;
+    }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>Faites la promotion de votre hôtel ou maison meublée</h1>
-    <p>Ajoutez votre annonce publicitaire et gagnez en visibilité !</p>
-  </header>
+  <h1>Publicité pour votre hôtel</h1>
 
-  <section>
-    <h2>Formulaire de publicité</h2>
-    <form action="mailto:ton-email@exemple.com" method="POST" enctype="multipart/form-data">
-      <input type="text" name="nom_etablissement" placeholder="Nom de l'établissement" required>
-      <input type="email" name="email" placeholder="Adresse Email" required>
-      <input type="tel" name="telephone" placeholder="Téléphone">
-      <input type="text" name="ville" placeholder="Ville">
-      <textarea name="description" placeholder="Description de l’offre publicitaire" rows="5"></textarea>
-      <label>Images (max 3):</label>
-      <input type="file" name="images" multiple accept="image/*">
-      <select name="duree">
-        <option value="">Durée souhaitée</option>
-        <option value="7j">1 semaine</option>
-        <option value="30j">1 mois</option>
-        <option value="custom">Autre</option>
-      </select>
-      <button type="submit">Envoyer ma publicité</button>
-    </form>
-  </section>
+  <form id="pubForm">
+    <input type="text" name="nom" placeholder="Nom de l'établissement" required />
+    <input type="email" name="email" placeholder="Adresse Email" required />
+    <input type="tel" name="telephone" placeholder="Téléphone" required />
+    <input type="text" name="ville" placeholder="Ville" />
+    <textarea name="description" placeholder="Description de l’offre publicitaire" rows="4"></textarea>
+    <label>Image :</label>
+    <input type="file" name="image" accept="image/*" required />
+    <select name="duree">
+      <option value="">Durée souhaitée</option>
+      <option value="7j">1 semaine</option>
+      <option value="30j">1 mois</option>
+      <option value="custom">Autre</option>
+    </select>
+    <button type="submit">Envoyer</button>
+    <div id="message"></div>
+  </form>
 
+  <!-- Firebase SDKs -->
+  <script type="module">
+    // Import Firebase
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
+
+    // Config Firebase (⚠️ à personnaliser avec TON projet Firebase)
+    const firebaseConfig = {
+      apiKey: "TON_API_KEY",
+      authDomain: "TON_DOMAINE.firebaseapp.com",
+      projectId: "TON_PROJECT_ID",
+      storageBucket: "TON_PROJECT_ID.appspot.com",
+      messagingSenderId: "TON_MESSAGING_ID",
+      appId: "TON_APP_ID"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+
+    const form = document.getElementById("pubForm");
+    const message = document.getElementById("message");
+
+    form.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      message.textContent = "Envoi en cours...";
+
+      const nom = form.nom.value;
+      const email = form.email.value;
+      const telephone = form.telephone.value;
+      const ville = form.ville.value;
+      const description = form.description.value;
+      const duree = form.duree.value;
+      const imageFile = form.image.files[0];
+
+      try {
+        // Upload image to Firebase Storage
+        const imageRef = ref(storage, `publicites/${Date.now()}_${imageFile.name}`);
+        await uploadBytes(imageRef, imageFile);
+        const imageURL = await getDownloadURL(imageRef);
+
+        // Add doc to Firestore
+        await addDoc(collection(db, "publicites"), {
+          nom,
+          email,
+          telephone,
+          ville,
+          description,
+          duree,
+          images: [imageURL], // Tableau pour potentiellement plusieurs images
+          createdAt: new Date()
+        });
+
+        message.textContent = "Publicité envoyée avec succès 🎉";
+        form.reset();
+      } catch (error) {
+        console.error("Erreur d'envoi :", error);
+        message.textContent = "Erreur lors de l'envoi. Veuillez réessayer.";
+      }
+    });
+  </script>
 </body>
 </html>
