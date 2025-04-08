@@ -3,6 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <title>Hôtel Marina - Congo Brazza Hôtels</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -11,7 +12,6 @@
       color: #333;
     }
 
-    /* ===== HEADER ===== */
     header {
       background-color: #3498db;
       color: white;
@@ -23,33 +23,41 @@
       align-items: center;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 40px;
+      gap: 30px;
     }
 
     .logo {
-      width: 120px;
+      width: 100px;
       height: auto;
-      margin-right: 30px;
     }
 
     .header-text h1 {
       margin: 0;
-      font-size: 32px;
+      font-size: 28px;
     }
 
     .header-text p {
-      margin: 10px 0 0;
+      margin: 5px 0 0;
     }
 
-    /* ===== SLIDER ===== */
+    .btn-retour {
+      display: inline-block;
+      margin: 20px;
+      background-color: #2980b9;
+      color: white;
+      padding: 10px 20px;
+      text-decoration: none;
+      border-radius: 6px;
+    }
+
+    /* SLIDER */
     .slider {
-      position: relative;
-      width: 100%;
       max-width: 1000px;
-      margin: 30px auto;
+      margin: 0 auto;
       overflow: hidden;
-      border-radius: 15px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+      position: relative;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     }
 
     .slides {
@@ -65,155 +73,120 @@
     }
 
     @keyframes slide {
-      0% { transform: translateX(0%); }
-      20% { transform: translateX(0%); }
-      25% { transform: translateX(-100%); }
-      45% { transform: translateX(-100%); }
-      50% { transform: translateX(-200%); }
-      70% { transform: translateX(-200%); }
-      75% { transform: translateX(-300%); }
-      95% { transform: translateX(-300%); }
-      100% { transform: translateX(-400%); }
+      0% {transform: translateX(0);}
+      20% {transform: translateX(0);}
+      25% {transform: translateX(-100%);}
+      45% {transform: translateX(-100%);}
+      50% {transform: translateX(-200%);}
+      70% {transform: translateX(-200%);}
+      75% {transform: translateX(-300%);}
+      95% {transform: translateX(-300%);}
+      100% {transform: translateX(-400%);}
     }
 
     .container {
-      max-width: 1100px;
-      margin: auto;
-      padding: 30px 20px;
+      max-width: 1000px;
+      margin: 30px auto;
+      padding: 0 20px;
     }
 
-    .btn-retour {
-      display: inline-block;
-      margin-bottom: 20px;
-      background-color: #2980b9;
-      color: white;
-      padding: 10px 20px;
-      text-decoration: none;
-      border-radius: 6px;
-      font-weight: bold;
-      transition: background 0.3s;
-    }
-
-    .btn-retour:hover {
-      background-color: #216a94;
-    }
-
-    .section-title {
+    h2 {
+      margin-top: 40px;
+      text-align: center;
       font-size: 24px;
-      margin-top: 30px;
-      color: #2c3e50;
     }
 
-    /* ===== SERVICES ===== */
     .services {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 15px;
       margin-top: 20px;
     }
 
     .service-item {
       background: white;
-      border-radius: 10px;
       padding: 15px;
       display: flex;
       align-items: center;
-      gap: 15px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      gap: 10px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
 
     .service-item i {
-      font-size: 24px;
+      font-size: 22px;
       color: #3498db;
+      min-width: 30px;
     }
 
-    .service-item span {
-      font-size: 16px;
-    }
-
-    /* ===== FOOTER ===== */
     footer {
       background-color: #2c3e50;
       color: white;
       text-align: center;
       padding: 30px 10px;
-      margin-top: 50px;
-    }
-
-    .social-icons {
-      margin-top: 15px;
+      margin-top: 40px;
     }
 
     .social-icons a {
-      display: inline-block;
       margin: 0 8px;
       color: white;
       font-size: 20px;
       text-decoration: none;
-      transition: color 0.3s;
-    }
-
-    .social-icons a:hover {
-      color: #3498db;
     }
   </style>
 
-  <!-- FONT AWESOME POUR LES ICÔNES -->
+  <!-- Font Awesome pour les icônes -->
   <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
-  <!-- HEADER -->
-  <header>
-    <div class="header-container">
-      <img src="logo.png" alt="Logo Hôtel Congo" class="logo">
-      <div class="header-text">
-        <h1>Bienvenue sur Congo Brazza Hôtels</h1>
-        <p>Découvrez les meilleurs hôtels au Congo et réservez en toute confiance</p>
-      </div>
-    </div>
-  </header>
-
-  <!-- CONTENU -->
-  <div class="container">
-    <a href="hotels.html" class="btn-retour">← Retour à la liste des hôtels</a>
-
-    <!-- SLIDER -->
-    <div class="slider">
-      <div class="slides">
-        <img src="im1.png" alt="Image 1">
-        <img src="im2.png" alt="Image 2">
-        <img src="im3.png" alt="Image 3">
-        <img src="im4.png" alt="Image 4">
-        <img src="im5.png" alt="Image 5">
-      </div>
-    </div>
-
-    <!-- SERVICES -->
-    <h2 class="section-title">Services proposés</h2>
-    <div class="services">
-      <div class="service-item"><i class="fas fa-wifi"></i><span>Connexion Wi-Fi gratuite</span></div>
-      <div class="service-item"><i class="fas fa-shuttle-van"></i><span>Navette aéroport</span></div>
-      <div class="service-item"><i class="fas fa-smoking-ban"></i><span>Chambres non-fumeurs</span></div>
-      <div class="service-item"><i class="fas fa-parking"></i><span>Parking gratuit</span></div>
-      <div class="service-item"><i class="fas fa-utensils"></i><span>Restaurant & Bar</span></div>
-      <div class="service-item"><i class="fas fa-concierge-bell"></i><span>Service d'étage</span></div>
-      <div class="service-item"><i class="fas fa-users"></i><span>Chambres familiales</span></div>
-      <div class="service-item"><i class="fas fa-coffee"></i><span>Petit-déjeuner inclus</span></div>
+<header>
+  <div class="header-container">
+    <img src="logo.png" alt="Logo Hôtel Congo" class="logo">
+    <div class="header-text">
+      <h1>Bienvenue sur Congo Brazza Hôtels</h1>
+      <p>Découvrez les meilleurs hôtels au Congo et réservez en toute confiance</p>
     </div>
   </div>
+</header>
 
-  <!-- FOOTER -->
-  <footer>
-    <p>© 2025 Congo Brazza Hôtels. Tous droits réservés.</p>
-    <div class="social-icons">
-      <a href="https://facebook.com" target="_blank" title="Facebook">🌐</a>
-      <a href="https://instagram.com" target="_blank" title="Instagram">📸</a>
-      <a href="https://twitter.com" target="_blank" title="Twitter">🐦</a>
-      <a href="https://youtube.com" target="_blank" title="YouTube">▶️</a>
-      <a href="https://linkedin.com" target="_blank" title="LinkedIn">💼</a>
-    </div>
-  </footer>
+<a href="hotels.html" class="btn-retour">← Retour à la liste des hôtels</a>
+
+<!-- SLIDER -->
+<div class="slider">
+  <div class="slides">
+    <img src="im1.png" alt="Image 1">
+    <img src="im2.png" alt="Image 2">
+    <img src="im3.png" alt="Image 3">
+    <img src="im4.png" alt="Image 4">
+    <img src="im5.png" alt="Image 5">
+  </div>
+</div>
+
+<div class="container">
+  <h2>Services proposés</h2>
+  <div class="services">
+    <div class="service-item"><i class="fas fa-wifi"></i><span>Connexion Wi-Fi gratuite</span></div>
+    <div class="service-item"><i class="fas fa-shuttle-van"></i><span>Navette aéroport</span></div>
+    <div class="service-item"><i class="fas fa-smoking-ban"></i><span>Chambres non-fumeurs</span></div>
+    <div class="service-item"><i class="fas fa-parking"></i><span>Parking gratuit</span></div>
+    <div class="service-item"><i class="fas fa-utensils"></i><span>Restaurant & Bar</span></div>
+    <div class="service-item"><i class="fas fa-bell-concierge"></i><span>Service d'étage</span></div>
+    <div class="service-item"><i class="fas fa-users"></i><span>Chambres familiales</span></div>
+    <div class="service-item"><i class="fas fa-mug-hot"></i><span>Petit-déjeuner inclus</span></div>
+  </div>
+</div>
+
+<footer>
+  <p>© 2025 Congo Brazza Hôtels. Tous droits réservés.</p>
+  <div class="social-icons">
+    <a href="https://facebook.com" target="_blank">🌐</a>
+    <a href="https://instagram.com" target="_blank">📸</a>
+    <a href="https://twitter.com" target="_blank">🐦</a>
+    <a href="https://youtube.com" target="_blank">▶️</a>
+    <a href="https://linkedin.com" target="_blank">💼</a>
+  </div>
+</footer>
 
 </body>
 </html>
