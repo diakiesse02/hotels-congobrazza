@@ -2,16 +2,14 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Hôtel Marina - Congo Brazza Hôtels</title>
+  <title>Accueil - Congo Brazza Hôtels</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
       margin: 0;
-      background-color: #f4f9ff;
-      color: #333;
+      background-color: #e6f0fa;
     }
 
-    /* ===== HEADER ===== */
     header {
       background-color: #3498db;
       color: white;
@@ -41,103 +39,84 @@
       margin: 10px 0 0;
     }
 
-    /* ===== SLIDER ===== */
-    .slider {
-      position: relative;
-      width: 100%;
-      max-width: 1000px;
-      margin: 30px auto;
-      overflow: hidden;
-      border-radius: 15px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    nav {
+      background-color: #2980b9;
+      text-align: center;
     }
 
-    .slides {
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 10px;
       display: flex;
-      width: 500%;
-      animation: slide 20s infinite;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
     }
 
-    .slides img {
-      width: 100%;
-      height: 500px;
-      object-fit: cover;
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
     }
 
-    @keyframes slide {
-      0% { transform: translateX(0%); }
-      20% { transform: translateX(0%); }
-      25% { transform: translateX(-100%); }
-      45% { transform: translateX(-100%); }
-      50% { transform: translateX(-200%); }
-      70% { transform: translateX(-200%); }
-      75% { transform: translateX(-300%); }
-      95% { transform: translateX(-300%); }
-      100% { transform: translateX(-400%); }
+    .search-section {
+      padding: 30px 20px;
+      text-align: center;
     }
 
-    .container {
-      max-width: 1100px;
-      margin: auto;
+    .search-section input,
+    .search-section select,
+    .search-section button {
+      padding: 10px;
+      margin: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .hero-images {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
       padding: 30px 20px;
     }
 
-    .btn-retour {
-      display: inline-block;
-      margin-bottom: 20px;
-      background-color: #2980b9;
-      color: white;
-      padding: 10px 20px;
-      text-decoration: none;
-      border-radius: 6px;
-      font-weight: bold;
-      transition: background 0.3s;
-    }
-
-    .btn-retour:hover {
-      background-color: #216a94;
-    }
-
-    .section-title {
-      font-size: 24px;
-      margin-top: 30px;
-      color: #2c3e50;
-    }
-
-    /* ===== SERVICES ===== */
-    .services {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 15px;
-      margin-top: 20px;
-    }
-
-    .service-item {
-      background: white;
+    .hero-images .image-container {
+      overflow: hidden;
       border-radius: 10px;
-      padding: 15px;
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 
-    .service-item i {
-      font-size: 24px;
-      color: #3498db;
+    .hero-images img {
+      display: block;
+      width: 600px;
+      height: auto;
+      transition: transform 0.4s ease;
     }
 
-    .service-item span {
+    .hero-images .image-container:hover img {
+      transform: scale(1.05);
+    }
+
+    .voir-plus-btn {
+      display: block;
+      margin: 20px auto;
+      background-color: #3498db;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
       font-size: 16px;
+      text-decoration: none;
+      text-align: center;
     }
 
-    /* ===== FOOTER ===== */
     footer {
       background-color: #2c3e50;
       color: white;
       text-align: center;
       padding: 30px 10px;
-      margin-top: 50px;
     }
 
     .social-icons {
@@ -157,53 +136,68 @@
       color: #3498db;
     }
   </style>
-
-  <!-- FONT AWESOME POUR LES ICÔNES -->
-  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
-  <!-- HEADER -->
   <header>
     <div class="header-container">
       <img src="logo.png" alt="Logo Hôtel Congo" class="logo">
       <div class="header-text">
         <h1>Bienvenue sur Congo Brazza Hôtels</h1>
-        <p>Découvrez les meilleurs hôtels au Congo et réservez en toute confiance</p>
+        <p>Découvrez les meilleurs hôtels au Congo sur toutes les villes et faites votre réservation</p>
       </div>
     </div>
   </header>
 
-  <!-- CONTENU -->
-  <div class="container">
-    <a href="hotels.html" class="btn-retour">← Retour à la liste des hôtels</a>
+  <nav>
+  <ul>
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="hotels.html">Liste des hôtels</a></li>
+    <li><a href="meubles.html">Maisons meublées</a></li> <!-- NOUVEAU -->
+    <li><a href="services.html">Services</a></li>
+    <li><a href="reservation.html">Réservation</a></li>
+    <li><a href="ajout-hotel.html">Ajouter votre hôtel</a></li> <!-- NOUVEAU -->
+    <li><a href="galerie.html">Galerie</a></li>
+    <li><a href="temoignages.html">Témoignages</a></li>
+    <li><a href="publicite.html">Publicité</a></li>
+<li><a href="about.html">À propos</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+  </ul>
+</nav>
 
-    <!-- SLIDER -->
-    <div class="slider">
-      <div class="slides">
-        <img src="im1.png" alt="Image 1">
-        <img src="im2.png" alt="Image 2">
-        <img src="im3.png" alt="Image 3">
-        <img src="im4.png" alt="Image 4">
-        <img src="im5.png" alt="Image 5">
-      </div>
+
+  <!-- Barre de recherche avec prix en FCFA -->
+  <section class="search-section">
+    <input type="text" placeholder="Ville">
+    <select>
+      <option>Catégorie</option>
+      <option>Luxe</option>
+      <option>Moins cher</option>
+    </select>
+    <select>
+      <option>Prix</option>
+      <option>0 - 30 000 FCFA</option>
+      <option>30 000 - 70 000 FCFA</option>
+      <option>70 000 FCFA +</option>
+    </select>
+    <button>Rechercher</button>
+  </section>
+
+  <!-- Images fixes avec effet zoom au survol -->
+  <section class="hero-images">
+    <div class="image-container">
+      <img src="im1.png" alt="Hôtel Résidence Brazza">
     </div>
-
-    <!-- SERVICES -->
-    <h2 class="section-title">Services proposés</h2>
-    <div class="services">
-      <div class="service-item"><i class="fas fa-wifi"></i><span>Connexion Wi-Fi gratuite</span></div>
-      <div class="service-item"><i class="fas fa-shuttle-van"></i><span>Navette aéroport</span></div>
-      <div class="service-item"><i class="fas fa-smoking-ban"></i><span>Chambres non-fumeurs</span></div>
-      <div class="service-item"><i class="fas fa-parking"></i><span>Parking gratuit</span></div>
-      <div class="service-item"><i class="fas fa-utensils"></i><span>Restaurant & Bar</span></div>
-      <div class="service-item"><i class="fas fa-concierge-bell"></i><span>Service d'étage</span></div>
-      <div class="service-item"><i class="fas fa-users"></i><span>Chambres familiales</span></div>
-      <div class="service-item"><i class="fas fa-coffee"></i><span>Petit-déjeuner inclus</span></div>
+    <div class="image-container">
+      <img src="im2.png" alt="Hôtel Émeraude Palace">
     </div>
-  </div>
+  </section>
 
-  <!-- FOOTER -->
+  <!-- Bouton voir plus -->
+  <a href="hotels.html" class="voir-plus-btn">Voir plus d'hôtels</a>
+
   <footer>
     <p>© 2025 Congo Brazza Hôtels. Tous droits réservés.</p>
     <div class="social-icons">
@@ -216,4 +210,4 @@
   </footer>
 
 </body>
-</html>
+</html> 
