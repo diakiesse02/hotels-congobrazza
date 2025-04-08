@@ -12,6 +12,7 @@
       color: #333;
     }
 
+    /* === HEADER identique à l’accueil === */
     header {
       background-color: #3498db;
       color: white;
@@ -21,18 +22,24 @@
     .header-container {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
       flex-wrap: wrap;
+      gap: 40px;
     }
 
     .logo {
-      width: 100px;
+      width: 120px;
       height: auto;
+      margin-right: 30px;
     }
 
     .header-text h1 {
       margin: 0;
-      font-size: 28px;
+      font-size: 32px;
+    }
+
+    .header-text p {
+      margin: 10px 0 0;
     }
 
     .container {
@@ -56,8 +63,10 @@
       background-color: #1da851;
     }
 
-    .hotel-title {
-      margin-top: 30px;
+    .section-title {
+      margin-top: 40px;
+      font-size: 22px;
+      color: #2980b9;
     }
 
     .gallery {
@@ -70,16 +79,10 @@
     .gallery img {
       width: 100%;
       max-width: 500px;
-      height: 300px;
+      height: 320px;
       object-fit: cover;
       border-radius: 10px;
       box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-
-    .section-title {
-      margin-top: 40px;
-      font-size: 22px;
-      color: #2980b9;
     }
 
     ul.services {
@@ -163,12 +166,13 @@
 </head>
 <body>
 
+  <!-- === En-tête repris de la page d’accueil === -->
   <header>
     <div class="header-container">
-      <img src="logo.png" class="logo" alt="Logo">
+      <img src="logo.png" alt="Logo Hôtel Brazzaville" class="logo">
       <div class="header-text">
-        <h1>Hôtel Marina</h1>
-        <p>À Brazzaville - Votre confort, notre priorité</p>
+        <h1>Bienvenue sur Brazzaville Hôtels</h1>
+        <p>Découvrez les meilleurs hôtels à Brazzaville, Pointe-Noire et Dolisie</p>
       </div>
     </div>
   </header>
@@ -176,16 +180,13 @@
   <div class="container">
     <a class="btn" href="https://wa.me/242061234567" target="_blank">📲 Réserver via WhatsApp</a>
 
-    <div class="hotel-title">
-      <h2 class="section-title">Galerie Photos</h2>
-      <div class="gallery">
-        <img src="chambre1.jpg" alt="Chambre Standard">
-        <img src="chambre2.jpg" alt="Chambre Supérieure">
-        <img src="piscine.jpg" alt="Piscine">
-      </div>
+    <h2 class="section-title">Galerie Photos</h2>
+    <div class="gallery">
+      <img src="https://via.placeholder.com/600x350?text=Chambre+1" alt="Chambre 1">
+      <img src="https://via.placeholder.com/600x350?text=Chambre+2" alt="Chambre 2">
     </div>
 
-    <h2 class="section-title">Services inclus</h2>
+    <h2 class="section-title">Services proposés</h2>
     <ul class="services">
       <li>Connexion Wi-Fi gratuite</li>
       <li>Navette aéroport</li>
