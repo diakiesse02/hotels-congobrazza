@@ -2,129 +2,148 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Hôtel Marina - Détails</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
       margin: 0;
-      background-color: #f4f9fc;
+      background-color: #f4f9ff;
+      color: #333;
     }
 
     header {
       background-color: #3498db;
       color: white;
       padding: 40px 20px;
-      text-align: center;
     }
 
-    nav {
-      background-color: #2980b9;
+    .header-container {
       display: flex;
-      justify-content: center;
-      gap: 20px;
-      padding: 10px;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
     }
 
-    nav a {
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
+    .logo {
+      width: 100px;
+      height: auto;
+    }
+
+    .header-text h1 {
+      margin: 0;
+      font-size: 28px;
     }
 
     .container {
-      padding: 40px 20px;
-      max-width: 1200px;
+      max-width: 1100px;
       margin: auto;
+      padding: 30px 20px;
+    }
+
+    .btn {
+      display: inline-block;
+      background-color: #25D366;
+      color: white;
+      padding: 12px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+
+    .btn:hover {
+      background-color: #1da851;
     }
 
     .hotel-title {
-      text-align: center;
-    }
-
-    .hotel-title h2 {
-      margin: 10px 0;
+      margin-top: 30px;
     }
 
     .gallery {
       display: flex;
-      flex-wrap: wrap;
       gap: 20px;
-      justify-content: center;
+      flex-wrap: wrap;
+      margin: 30px 0;
     }
 
     .gallery img {
-      width: 300px;
-      height: 200px;
+      width: 100%;
+      max-width: 500px;
+      height: 300px;
       object-fit: cover;
       border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
     }
 
-    .services {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-      gap: 15px;
+    .section-title {
       margin-top: 40px;
+      font-size: 22px;
+      color: #2980b9;
     }
 
-    .service-item {
+    ul.services {
+      list-style: none;
+      padding: 0;
+    }
+
+    ul.services li::before {
+      content: "✓ ";
+      color: green;
+    }
+
+    .chambre-cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .chambre {
+      flex: 1 1 300px;
       background-color: #ffffff;
-      border: 1px solid #ccc;
+      padding: 15px;
       border-radius: 10px;
-      padding: 20px;
-      text-align: center;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .room-types {
-      margin-top: 40px;
-    }
-
-    .room {
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      padding: 20px;
-      margin-bottom: 20px;
-      background-color: #fff;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
     }
 
     iframe {
+      margin-top: 30px;
       width: 100%;
       height: 300px;
       border: none;
       border-radius: 10px;
-      margin-top: 30px;
     }
 
     .avis-section {
       background-color: #f0f8ff;
       padding: 40px 20px;
-      margin-top: 40px;
+      margin-top: 50px;
+      border-radius: 10px;
     }
 
-    .avis-section form {
-      max-width: 600px;
-      margin: auto;
-    }
-
-    .avis-section input,
-    .avis-section textarea,
-    .avis-section select {
+    .avis-section form input,
+    .avis-section form textarea,
+    .avis-section form select {
       width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      margin-bottom: 16px;
+      padding: 12px;
+      margin: 10px 0;
+      border-radius: 6px;
       border: 1px solid #ccc;
-      border-radius: 5px;
     }
 
-    .avis-section button {
-      padding: 10px 20px;
+    .avis-section form button {
       background-color: #3498db;
       color: white;
+      padding: 12px 20px;
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      font-weight: bold;
+    }
+
+    .avis-section form button:hover {
+      background-color: #2980b9;
     }
 
     footer {
@@ -132,101 +151,94 @@
       color: white;
       text-align: center;
       padding: 30px 10px;
-      margin-top: 40px;
     }
 
     .social-icons a {
       margin: 0 10px;
+      font-size: 24px;
       color: white;
       text-decoration: none;
     }
   </style>
 </head>
 <body>
+
   <header>
-    <h1>Bienvenue sur Brazzaville Hôtels</h1>
-    <p>Découvrez les meilleurs hôtels au Congo</p>
+    <div class="header-container">
+      <img src="logo.png" class="logo" alt="Logo">
+      <div class="header-text">
+        <h1>Hôtel Marina</h1>
+        <p>À Brazzaville - Votre confort, notre priorité</p>
+      </div>
+    </div>
   </header>
 
-  <nav>
-    <a href="index.html">Accueil</a>
-    <a href="hotels.html">Hôtels</a>
-    <a href="publicite.html">Publicité</a>
-    <a href="contact.html">Contact</a>
-  </nav>
-
   <div class="container">
+    <a class="btn" href="https://wa.me/242061234567" target="_blank">📲 Réserver via WhatsApp</a>
+
     <div class="hotel-title">
-      <h2>Hôtel Marina</h2>
-      <p>Avenue de la Paix, Brazzaville</p>
-      <a class="btn" href="https://wa.me/242061234567">📱 Réserver sur WhatsApp</a>
-    </div>
-
-    <div class="gallery">
-      <img src="chambre1.jpg" alt="Chambre simple">
-      <img src="chambre2.jpg" alt="Chambre double">
-      <img src="piscine.jpg" alt="Piscine">
-    </div>
-
-    <div class="services">
-      <div class="service-item">📶 Connexion Wi-Fi gratuite</div>
-      <div class="service-item">🚐 Navette aéroport gratuite</div>
-      <div class="service-item">🚭 Chambres non-fumeurs</div>
-      <div class="service-item">🅿️ Parking gratuit</div>
-      <div class="service-item">🍽️ Restaurant</div>
-      <div class="service-item">🛎️ Service d'étage</div>
-      <div class="service-item">👨‍👩‍👧‍👦 Chambres familiales</div>
-      <div class="service-item">🍹 Bar</div>
-      <div class="service-item">🍳 Petit-déjeuner inclus</div>
-    </div>
-
-    <div class="room-types">
-      <div class="room">
-        <h3>Chambre Double Standard</h3>
-        <p>1 grand lit double | Pour 2 personnes</p>
-        <p>À partir de 35 000 FCFA</p>
-      </div>
-
-      <div class="room">
-        <h3>Chambre Double Supérieure</h3>
-        <p>1 grand lit double | Vue sur jardin</p>
-        <p>À partir de 45 000 FCFA</p>
-      </div>
-
-      <div class="room">
-        <h3>Suite avec Balcon</h3>
-        <p>1 grand lit double | Balcon privé</p>
-        <p>À partir de 60 000 FCFA</p>
+      <h2 class="section-title">Galerie Photos</h2>
+      <div class="gallery">
+        <img src="chambre1.jpg" alt="Chambre Standard">
+        <img src="chambre2.jpg" alt="Chambre Supérieure">
+        <img src="piscine.jpg" alt="Piscine">
       </div>
     </div>
 
-    <iframe src="https://www.google.com/maps?q=brazzaville&output=embed"></iframe>
+    <h2 class="section-title">Services inclus</h2>
+    <ul class="services">
+      <li>Connexion Wi-Fi gratuite</li>
+      <li>Navette aéroport</li>
+      <li>Chambres non-fumeurs</li>
+      <li>Parking gratuit</li>
+      <li>Restaurant & Bar</li>
+      <li>Service d'étage</li>
+      <li>Chambres familiales</li>
+      <li>Petit-déjeuner inclus</li>
+    </ul>
+
+    <h2 class="section-title">Types de chambres</h2>
+    <div class="chambre-cards">
+      <div class="chambre">
+        <h4>Chambre Double Standard</h4>
+        <p>1 grand lit double</p>
+        <p><strong>Prix :</strong> 35 000 FCFA / nuit</p>
+      </div>
+      <div class="chambre">
+        <h4>Chambre Supérieure</h4>
+        <p>1 grand lit double, vue sur la ville</p>
+        <p><strong>Prix :</strong> 45 000 FCFA / nuit</p>
+      </div>
+      <div class="chambre">
+        <h4>Suite avec Balcon</h4>
+        <p>1 lit king-size, balcon privé</p>
+        <p><strong>Prix :</strong> 60 000 FCFA / nuit</p>
+      </div>
+    </div>
+
+    <h2 class="section-title">Localisation</h2>
+    <iframe src="https://www.google.com/maps?q=brazzaville&output=embed" allowfullscreen></iframe>
 
     <div class="avis-section">
-      <h2>Laissez votre avis</h2>
+      <h2>Laissez un avis</h2>
       <form>
-        <label for="nom">Nom :</label>
-        <input type="text" id="nom" name="nom" required>
-
-        <label for="note">Note :</label>
-        <select id="note" name="note">
+        <input type="text" placeholder="Votre nom" required>
+        <select required>
+          <option value="">Note</option>
           <option value="5">⭐⭐⭐⭐⭐</option>
           <option value="4">⭐⭐⭐⭐</option>
           <option value="3">⭐⭐⭐</option>
           <option value="2">⭐⭐</option>
           <option value="1">⭐</option>
         </select>
-
-        <label for="commentaire">Commentaire :</label>
-        <textarea id="commentaire" name="commentaire" rows="4" required></textarea>
-
+        <textarea rows="4" placeholder="Votre commentaire..." required></textarea>
         <button type="submit">Envoyer</button>
       </form>
     </div>
   </div>
 
   <footer>
-    <p>© 2025 Brazzaville Hotels. Tous droits réservés.</p>
+    <p>© 2025 Brazzaville Hôtels. Tous droits réservés.</p>
     <div class="social-icons">
       <a href="#">🌐</a>
       <a href="#">📸</a>
@@ -235,5 +247,6 @@
       <a href="#">🎵</a>
     </div>
   </footer>
+
 </body>
 </html>
