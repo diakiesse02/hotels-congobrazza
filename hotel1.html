@@ -46,7 +46,7 @@
       border-radius: 6px;
     }
 
-    /* SLIDER AUTO STYLE */
+    /* SLIDER */
     .slider {
       position: relative;
       max-width: 1000px;
@@ -61,7 +61,7 @@
     }
 
     .slide {
-      min-width: 50%;
+      min-width: 100%;
       box-sizing: border-box;
     }
 
@@ -195,29 +195,29 @@
 
 <a href="hotels.html" class="btn-retour">← Retour à la liste des hôtels</a>
 
-<!-- SLIDER AUTO -->
+<!-- SLIDER AVEC chambre1 à chambre6 -->
 <div class="slider">
   <div class="slider-track" id="slider-track">
-    <div class="slide"><img src="chambre1.png" alt=""></div>
-    <div class="slide"><img src="chambre2.png" alt=""></div>
-    <div class="slide"><img src="chambre3.png" alt=""></div>
-    <div class="slide"><img src="chambre4.png" alt=""></div>
-    <div class="slide"><img src="chambre5.png" alt=""></div>
-    <div class="slide"><img src="chambre6.png" alt=""></div>
+    <div class="slide"><img src="chambre1.png" alt="Chambre 1"></div>
+    <div class="slide"><img src="chambre2.png" alt="Chambre 2"></div>
+    <div class="slide"><img src="chambre3.png" alt="Chambre 3"></div>
+    <div class="slide"><img src="chambre4.png" alt="Chambre 4"></div>
+    <div class="slide"><img src="chambre5.png" alt="Chambre 5"></div>
+    <div class="slide"><img src="chambre6.png" alt="Chambre 6"></div>
   </div>
 </div>
 
 <script>
-  let slider = document.getElementById("slider-track");
+  const slider = document.getElementById("slider-track");
   let index = 0;
-  let total = slider.children.length;
+  const total = slider.children.length;
+
   setInterval(() => {
-    index = (index + 1) % (total - 1);
-    slider.style.transform = `translateX(-${index * 50}%)`;
+    index = (index + 1) % total;
+    slider.style.transform = `translateX(-${index * 100}%)`;
   }, 3000);
 </script>
 
-<!-- SERVICES -->
 <div class="container">
   <h2>Services proposés</h2>
   <div class="services">
@@ -231,23 +231,19 @@
     <div class="service-item"><i class="fas fa-mug-hot"></i><span>Petit-déjeuner inclus</span></div>
   </div>
 
-  <!-- TARIFS -->
   <h2>Tarifs des chambres</h2>
   <div class="tarif-item">🛏️ Chambre Double Standard – <strong>35 000 FCFA</strong> / nuit</div>
   <div class="tarif-item">🛏️ Chambre Double Supérieure – <strong>45 000 FCFA</strong> / nuit</div>
   <div class="tarif-item">🛏️ Suite avec Balcon – <strong>60 000 FCFA</strong> / nuit</div>
 
-  <!-- WHATSAPP -->
   <a href="https://wa.me/242061234567" target="_blank" class="whatsapp-btn">
     📱 Réserver via WhatsApp
   </a>
 
-  <!-- AVIS EXISTANTS -->
   <h2>Avis des clients</h2>
   <div class="avis-item"><strong>Jean M.</strong> : “Super séjour. Très propre, excellent accueil. ⭐⭐⭐⭐⭐”</div>
   <div class="avis-item"><strong>Sylvie K.</strong> : “Bon rapport qualité/prix. À recommander ! ⭐⭐⭐⭐”</div>
 
-  <!-- FORMULAIRE AVIS -->
   <form>
     <h3>Laisser un avis</h3>
     <input type="text" placeholder="Votre nom" required>
@@ -263,12 +259,10 @@
     <button type="submit">Envoyer</button>
   </form>
 
-  <!-- MAP -->
   <h2>Localisation</h2>
   <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3979.753859812985!2d15.2844!3d-4.2699!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1a6a35b54c299e11%3A0x111!2sBrazzaville!5e0!3m2!1sfr!2scg!4v1614104700000" allowfullscreen></iframe>
 </div>
 
-<!-- FOOTER -->
 <footer>
   <p>© 2025 Congo Brazza Hôtels. Tous droits réservés.</p>
   <div class="social-icons">
