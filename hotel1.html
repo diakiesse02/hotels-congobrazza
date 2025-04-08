@@ -1,9 +1,8 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Hôtel Marina - Détails</title>
+  <meta charset="UTF-8">
+  <title>Hôtel Marina - Congo Brazza Hôtels</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -12,7 +11,7 @@
       color: #333;
     }
 
-    /* === HEADER identique à l’accueil === */
+    /* ===== HEADER ===== */
     header {
       background-color: #3498db;
       color: white;
@@ -42,210 +41,177 @@
       margin: 10px 0 0;
     }
 
+    /* ===== SLIDER ===== */
+    .slider {
+      position: relative;
+      width: 100%;
+      max-width: 1000px;
+      margin: 30px auto;
+      overflow: hidden;
+      border-radius: 15px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    }
+
+    .slides {
+      display: flex;
+      width: 500%;
+      animation: slide 20s infinite;
+    }
+
+    .slides img {
+      width: 100%;
+      height: 500px;
+      object-fit: cover;
+    }
+
+    @keyframes slide {
+      0% { transform: translateX(0%); }
+      20% { transform: translateX(0%); }
+      25% { transform: translateX(-100%); }
+      45% { transform: translateX(-100%); }
+      50% { transform: translateX(-200%); }
+      70% { transform: translateX(-200%); }
+      75% { transform: translateX(-300%); }
+      95% { transform: translateX(-300%); }
+      100% { transform: translateX(-400%); }
+    }
+
     .container {
       max-width: 1100px;
       margin: auto;
       padding: 30px 20px;
     }
 
-    .btn {
+    .btn-retour {
       display: inline-block;
-      background-color: #25D366;
+      margin-bottom: 20px;
+      background-color: #2980b9;
       color: white;
-      padding: 12px 20px;
-      border-radius: 5px;
+      padding: 10px 20px;
       text-decoration: none;
+      border-radius: 6px;
       font-weight: bold;
-      transition: 0.3s;
+      transition: background 0.3s;
     }
 
-    .btn:hover {
-      background-color: #1da851;
+    .btn-retour:hover {
+      background-color: #216a94;
     }
 
     .section-title {
-      margin-top: 40px;
-      font-size: 22px;
-      color: #2980b9;
+      font-size: 24px;
+      margin-top: 30px;
+      color: #2c3e50;
     }
 
-    .gallery {
-      display: flex;
-      gap: 20px;
-      flex-wrap: wrap;
-      margin: 30px 0;
-    }
-
-    .gallery img {
-      width: 100%;
-      max-width: 500px;
-      height: 320px;
-      object-fit: cover;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-    }
-
-    ul.services {
-      list-style: none;
-      padding: 0;
-    }
-
-    ul.services li::before {
-      content: "✓ ";
-      color: green;
-    }
-
-    .chambre-cards {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
+    /* ===== SERVICES ===== */
+    .services {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 15px;
       margin-top: 20px;
     }
 
-    .chambre {
-      flex: 1 1 300px;
-      background-color: #ffffff;
+    .service-item {
+      background: white;
+      border-radius: 10px;
       padding: 15px;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
     }
 
-    iframe {
-      margin-top: 30px;
-      width: 100%;
-      height: 300px;
-      border: none;
-      border-radius: 10px;
+    .service-item i {
+      font-size: 24px;
+      color: #3498db;
     }
 
-    .avis-section {
-      background-color: #f0f8ff;
-      padding: 40px 20px;
-      margin-top: 50px;
-      border-radius: 10px;
+    .service-item span {
+      font-size: 16px;
     }
 
-    .avis-section form input,
-    .avis-section form textarea,
-    .avis-section form select {
-      width: 100%;
-      padding: 12px;
-      margin: 10px 0;
-      border-radius: 6px;
-      border: 1px solid #ccc;
-    }
-
-    .avis-section form button {
-      background-color: #3498db;
-      color: white;
-      padding: 12px 20px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-weight: bold;
-    }
-
-    .avis-section form button:hover {
-      background-color: #2980b9;
-    }
-
+    /* ===== FOOTER ===== */
     footer {
       background-color: #2c3e50;
       color: white;
       text-align: center;
       padding: 30px 10px;
+      margin-top: 50px;
+    }
+
+    .social-icons {
+      margin-top: 15px;
     }
 
     .social-icons a {
-      margin: 0 10px;
-      font-size: 24px;
+      display: inline-block;
+      margin: 0 8px;
       color: white;
+      font-size: 20px;
       text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .social-icons a:hover {
+      color: #3498db;
     }
   </style>
+
+  <!-- FONT AWESOME POUR LES ICÔNES -->
+  <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
 </head>
 <body>
 
-  <!-- === En-tête repris de la page d’accueil === -->
+  <!-- HEADER -->
   <header>
     <div class="header-container">
-      <img src="logo.png" alt="Logo Hôtel Brazzaville" class="logo">
+      <img src="logo.png" alt="Logo Hôtel Congo" class="logo">
       <div class="header-text">
-        <h1>Bienvenue sur Brazzaville Hôtels</h1>
-        <p>Découvrez les meilleurs hôtels à Brazzaville, Pointe-Noire et Dolisie</p>
+        <h1>Bienvenue sur Congo Brazza Hôtels</h1>
+        <p>Découvrez les meilleurs hôtels au Congo et réservez en toute confiance</p>
       </div>
     </div>
   </header>
 
+  <!-- CONTENU -->
   <div class="container">
-    <a class="btn" href="https://wa.me/242061234567" target="_blank">📲 Réserver via WhatsApp</a>
+    <a href="hotels.html" class="btn-retour">← Retour à la liste des hôtels</a>
 
-    <h2 class="section-title">Galerie Photos</h2>
-    <div class="gallery">
-      <img src="https://via.placeholder.com/600x350?text=Chambre+1" alt="Chambre 1">
-      <img src="https://via.placeholder.com/600x350?text=Chambre+2" alt="Chambre 2">
+    <!-- SLIDER -->
+    <div class="slider">
+      <div class="slides">
+        <img src="im1.png" alt="Image 1">
+        <img src="im2.png" alt="Image 2">
+        <img src="im3.png" alt="Image 3">
+        <img src="im4.png" alt="Image 4">
+        <img src="im5.png" alt="Image 5">
+      </div>
     </div>
 
+    <!-- SERVICES -->
     <h2 class="section-title">Services proposés</h2>
-    <ul class="services">
-      <li>Connexion Wi-Fi gratuite</li>
-      <li>Navette aéroport</li>
-      <li>Chambres non-fumeurs</li>
-      <li>Parking gratuit</li>
-      <li>Restaurant & Bar</li>
-      <li>Service d'étage</li>
-      <li>Chambres familiales</li>
-      <li>Petit-déjeuner inclus</li>
-    </ul>
-
-    <h2 class="section-title">Types de chambres</h2>
-    <div class="chambre-cards">
-      <div class="chambre">
-        <h4>Chambre Double Standard</h4>
-        <p>1 grand lit double</p>
-        <p><strong>Prix :</strong> 35 000 FCFA / nuit</p>
-      </div>
-      <div class="chambre">
-        <h4>Chambre Supérieure</h4>
-        <p>1 grand lit double, vue sur la ville</p>
-        <p><strong>Prix :</strong> 45 000 FCFA / nuit</p>
-      </div>
-      <div class="chambre">
-        <h4>Suite avec Balcon</h4>
-        <p>1 lit king-size, balcon privé</p>
-        <p><strong>Prix :</strong> 60 000 FCFA / nuit</p>
-      </div>
-    </div>
-
-    <h2 class="section-title">Localisation</h2>
-    <iframe src="https://www.google.com/maps?q=brazzaville&output=embed" allowfullscreen></iframe>
-
-    <div class="avis-section">
-      <h2>Laissez un avis</h2>
-      <form>
-        <input type="text" placeholder="Votre nom" required>
-        <select required>
-          <option value="">Note</option>
-          <option value="5">⭐⭐⭐⭐⭐</option>
-          <option value="4">⭐⭐⭐⭐</option>
-          <option value="3">⭐⭐⭐</option>
-          <option value="2">⭐⭐</option>
-          <option value="1">⭐</option>
-        </select>
-        <textarea rows="4" placeholder="Votre commentaire..." required></textarea>
-        <button type="submit">Envoyer</button>
-      </form>
+    <div class="services">
+      <div class="service-item"><i class="fas fa-wifi"></i><span>Connexion Wi-Fi gratuite</span></div>
+      <div class="service-item"><i class="fas fa-shuttle-van"></i><span>Navette aéroport</span></div>
+      <div class="service-item"><i class="fas fa-smoking-ban"></i><span>Chambres non-fumeurs</span></div>
+      <div class="service-item"><i class="fas fa-parking"></i><span>Parking gratuit</span></div>
+      <div class="service-item"><i class="fas fa-utensils"></i><span>Restaurant & Bar</span></div>
+      <div class="service-item"><i class="fas fa-concierge-bell"></i><span>Service d'étage</span></div>
+      <div class="service-item"><i class="fas fa-users"></i><span>Chambres familiales</span></div>
+      <div class="service-item"><i class="fas fa-coffee"></i><span>Petit-déjeuner inclus</span></div>
     </div>
   </div>
 
+  <!-- FOOTER -->
   <footer>
-    <p>© 2025 Brazzaville Hôtels. Tous droits réservés.</p>
+    <p>© 2025 Congo Brazza Hôtels. Tous droits réservés.</p>
     <div class="social-icons">
-      <a href="#">🌐</a>
-      <a href="#">📸</a>
-      <a href="#">🐦</a>
-      <a href="#">▶️</a>
-      <a href="#">🎵</a>
+      <a href="https://facebook.com" target="_blank" title="Facebook">🌐</a>
+      <a href="https://instagram.com" target="_blank" title="Instagram">📸</a>
+      <a href="https://twitter.com" target="_blank" title="Twitter">🐦</a>
+      <a href="https://youtube.com" target="_blank" title="YouTube">▶️</a>
+      <a href="https://linkedin.com" target="_blank" title="LinkedIn">💼</a>
     </div>
   </footer>
 
