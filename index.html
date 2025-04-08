@@ -74,34 +74,55 @@
       border: 1px solid #ccc;
     }
 
-    .hero-images {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 20px;
-      padding: 30px 20px;
+    .hero-section {
+      position: relative;
+      width: 100%;
+      overflow: hidden;
+      max-width: 1200px;
+      margin: 40px auto;
     }
 
-    .hero-images .image-container {
-      overflow: hidden;
+    .slider-container {
+      display: flex;
+      width: 200%;
+      animation: slide 10s infinite;
+    }
+
+    .slider-item {
+      flex: 0 0 50%;
+      text-align: center;
+      position: relative;
+    }
+
+    .slider-item h2 {
+      margin-bottom: 10px;
+      font-size: 20px;
+      color: #2c3e50;
+    }
+
+    .slider-item img {
+      width: 100%;
+      max-width: 600px;
+      height: auto;
       border-radius: 10px;
+      transition: transform 0.5s ease;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 
-    .hero-images img {
-      display: block;
-      width: 600px;
-      height: auto;
-      transition: transform 0.4s ease;
+    .slider-item img:hover {
+      transform: scale(1.05);
     }
 
-    .hero-images .image-container:hover img {
-      transform: scale(1.05);
+    @keyframes slide {
+      0% { transform: translateX(0); }
+      45% { transform: translateX(0); }
+      55% { transform: translateX(-50%); }
+      100% { transform: translateX(-50%); }
     }
 
     .voir-plus-btn {
       display: block;
-      margin: 20px auto;
+      margin: 30px auto;
       background-color: #3498db;
       color: white;
       padding: 12px 24px;
@@ -164,7 +185,7 @@
     </ul>
   </nav>
 
-  <!-- Barre de recherche avec prix en FCFA -->
+  <!-- Barre de recherche -->
   <section class="search-section">
     <input type="text" placeholder="Ville">
     <select>
@@ -175,23 +196,27 @@
     <select>
       <option>Prix</option>
       <option>0 - 30 000 FCFA</option>
-      <option>30 000 - 70 000 FCFA</option>
-      <option>70 000 FCFA +</option>
+      <option>30 000 - 60 000 FCFA</option>
+      <option>60 000 FCFA +</option>
     </select>
     <button>Rechercher</button>
   </section>
 
-  <!-- Images fixes avec effet zoom au survol -->
-  <section class="hero-images">
-    <div class="image-container">
-      <img src="im1.png" alt="Hôtel Résidence Brazza">
-    </div>
-    <div class="image-container">
-      <img src="im2.png" alt="Hôtel Émeraude Palace">
+  <!-- Slider d'images -->
+  <section class="hero-section">
+    <div class="slider-container">
+      <div class="slider-item">
+        <h2>Hôtel Résidence Marina</h2>
+        <img src="im1.png" alt="Hôtel 1">
+      </div>
+      <div class="slider-item">
+        <h2>Grand Hôtel de Kintele</h2>
+        <img src="im2.png" alt="Hôtel 2">
+      </div>
     </div>
   </section>
 
-  <!-- Bouton voir plus -->
+  <!-- Voir plus -->
   <a href="hotels.html" class="voir-plus-btn">Voir plus d'hôtels</a>
 
   <footer>
