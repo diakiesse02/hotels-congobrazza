@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Accueil - Hôtels Brazzaville</title>
+  <title>Accueil - Congo Brazza Hôtels</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -61,33 +61,26 @@
       font-weight: bold;
     }
 
-    .search-bar {
-      text-align: center;
+    .hero-images {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
       padding: 30px 20px;
     }
 
-    .search-bar input, .search-bar select {
-      padding: 10px;
-      margin: 5px;
-      width: 200px;
-      max-width: 90%;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-
-    .search-bar button {
-      padding: 10px 20px;
-      background-color: #3498db;
-      border: none;
-      color: white;
-      border-radius: 5px;
-      cursor: pointer;
+    .hero-images img {
+      width: 100%;
+      max-width: 600px;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 
     .container {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-      gap: 30px;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
       padding: 40px 20px;
     }
 
@@ -96,35 +89,49 @@
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
       overflow: hidden;
+      transition: transform 0.3s;
+    }
+
+    .hotel-card:hover {
+      transform: translateY(-5px);
     }
 
     .hotel-card img {
       width: 100%;
-      height: 240px;
+      height: 160px;
       object-fit: cover;
     }
 
     .hotel-card-content {
-      padding: 20px;
+      padding: 15px;
     }
 
     .hotel-card h3 {
-      margin: 0 0 10px;
+      margin-top: 0;
       color: #2980b9;
-    }
-
-    .hotel-card p {
-      margin: 0 0 15px;
     }
 
     .btn {
       display: inline-block;
+      margin-top: 10px;
       background-color: #3498db;
       color: white;
-      padding: 10px 18px;
+      padding: 8px 16px;
       border-radius: 5px;
       text-decoration: none;
-      font-weight: bold;
+      font-size: 14px;
+    }
+
+    .small-image {
+      margin-top: 10px;
+    }
+
+    .small-image img {
+      width: 100px;
+      height: 80px;
+      object-fit: cover;
+      border-radius: 5px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
     }
 
     footer {
@@ -156,10 +163,10 @@
 
   <header>
     <div class="header-container">
-      <img src="logo.png" alt="Logo Hôtel Brazzaville" class="logo">
+      <img src="logo.png" alt="Logo Hôtel Congo" class="logo">
       <div class="header-text">
-        <h1>Bienvenue sur Brazzaville Hôtels</h1>
-        <p>Découvrez les meilleurs hôtels à Brazzaville, Pointe-Noire et Dolisie</p>
+        <h1>Bienvenue sur Congo Brazza Hôtels</h1>
+        <p>Découvrez les meilleurs hôtels au Congo sur toutes les villes et faites votre réservation</p>
       </div>
     </div>
   </header>
@@ -179,36 +186,38 @@
     </ul>
   </nav>
 
-  <!-- Barre de recherche -->
-  <div class="search-bar">
-    <input type="text" placeholder="Rechercher par ville">
-    <select>
-      <option value="">Prix</option>
-      <option value="1">Moins de 30.000 FCFA</option>
-      <option value="2">30.000 - 60.000 FCFA</option>
-      <option value="3">Plus de 60.000 FCFA</option>
-    </select>
-    <select>
-      <option value="">Type</option>
-      <option value="business">Affaires</option>
-      <option value="vacances">Vacances</option>
-      <option value="luxe">Luxe</option>
-    </select>
-    <button>Rechercher</button>
+  <!-- Nouvelle section avec deux grandes images -->
+  <div class="hero-images">
+    <img src="im1.png" alt="Image Hôtel 1">
+    <img src="im2.png" alt="Image Hôtel 2">
   </div>
 
-  <!-- Trois hôtels vedettes -->
+  <!-- Section hôtels (existant si tu veux garder une sélection) -->
   <div class="container">
     <div class="hotel-card">
-      <img src="https://source.unsplash.com/600x400/?hotel,brazzaville" alt="Hôtel Marina">
+      <img src="https://source.unsplash.com/400x300/?hotel,marina" alt="Hotel 1">
       <div class="hotel-card-content">
         <h3>Hôtel Résidence Marina</h3>
-        <p>Luxueux, centre-ville, proche du fleuve</p>
-        <a href="hotels.html" class="btn">Voir plus</a>
+        <p>Centre-ville, Wi-Fi, piscine</p>
+        <div class="small-image">
+          <img src="https://source.unsplash.com/100x80/?room,marina" alt="Mini Marina">
+        </div>
+        <a href="hotel1.html" class="btn">Voir plus</a>
       </div>
     </div>
+    <!-- Tu peux ajouter d'autres hotels ici -->
+  </div>
 
-    <div class="hotel-card">
-      <img src="https://source.unsplash.com/600x400/?hotel,luxury" alt="Grand Hôtel Kintele">
-      <div class="hotel-card-content">
-        <h3>Grand Hôtel de Kintele</
+  <footer>
+    <p>© 2025 Congo Brazza Hôtels. Tous droits réservés.</p>
+    <div class="social-icons">
+      <a href="https://facebook.com" target="_blank" title="Facebook">🌐</a>
+      <a href="https://instagram.com" target="_blank" title="Instagram">📸</a>
+      <a href="https://twitter.com" target="_blank" title="Twitter">🐦</a>
+      <a href="https://youtube.com" target="_blank" title="YouTube">▶️</a>
+      <a href="https://linkedin.com" target="_blank" title="LinkedIn">💼</a>
+    </div>
+  </footer>
+
+</body>
+</html>
