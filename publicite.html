@@ -69,14 +69,14 @@
 
   <section>
     <h2>Formulaire de publicité</h2>
-    <form id="publicite-form">
+    <form id="pub-form">
       <input type="text" name="nom_etablissement" placeholder="Nom de l'établissement" required>
       <input type="email" name="email" placeholder="Adresse Email" required>
       <input type="tel" name="telephone" placeholder="Téléphone">
       <input type="text" name="ville" placeholder="Ville">
       <textarea name="description" placeholder="Description de l’offre publicitaire" rows="5"></textarea>
       <label>Images (max 3):</label>
-      <input type="file" id="images" name="images" multiple accept="image/*">
+      <input type="file" name="images" multiple accept="image/*">
       <select name="duree">
         <option value="">Durée souhaitée</option>
         <option value="7j">1 semaine</option>
@@ -87,63 +87,53 @@
     </form>
   </section>
 
-  <!-- 🔥 Firebase Script -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
-    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
-    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-storage.js";
+  <!-- Firebase SDK -->
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js"></script>
 
+  <script>
+    // Configuration Firebase
     const firebaseConfig = {
-      apiKey: "TA_CLE",
-      authDomain: "TON_PROJET.firebaseapp.com",
-      projectId: "TON_PROJET",
-      storageBucket: "TON_PROJET.appspot.com",
-      messagingSenderId: "XXX",
-      appId: "XXX"
+      apiKey: "AIzaSyArRdBWuZANHdThzHVLdVh1XXqliInuGmA",
+      authDomain: "congo-hotels.firebaseapp.com",
+      projectId: "congo-hotels",
+      storageBucket: "congo-hotels.firebasestorage.app",
+      messagingSenderId: "427899226169",
+      appId: "1:427899226169:web:d450701e4e5c4ca21565e8",
+      measurementId: "G-ZMTLRBW0Z9"
     };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const storage = getStorage(app);
+    // Initialiser Firebase
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
 
-    document.getElementById('publicite-form').addEventListener('submit', async (e) => {
+    // Gérer la soumission du formulaire
+    document.getElementById("pub-form").addEventListener("submit", async function(e) {
       e.preventDefault();
 
-      const nom = e.target.nom_etablissement.value;
-      const email = e.target.email.value;
-      const telephone = e.target.telephone.value;
-      const ville = e.target.ville.value;
-      const description = e.target.description.value;
-      const duree = e.target.duree.value;
-      const images = document.getElementById('images').files;
+      const nom = this.nom_etablissement.value;
+      const email = this.email.value;
+      const telephone = this.telephone.value;
+      const ville = this.ville.value;
+      const description = this.description.value;
+      const duree = this.duree.value;
 
       try {
-        const imageUrls = [];
-
-        for (const image of images) {
-          const imageRef = ref(storage, 'publicites/' + Date.now() + '-' + image.name);
-          await uploadBytes(imageRef, image);
-          const imageUrl = await getDownloadURL(imageRef);
-          imageUrls.push(imageUrl);
-        }
-
-        await addDoc(collection(db, "publicites"), {
+        await db.collection("publicites").add({
           nom,
           email,
           telephone,
           ville,
           description,
           duree,
-          images: imageUrls,
-          timestamp: new Date()
+          createdAt: new Date()
         });
 
         alert("Publicité envoyée avec succès !");
-        e.target.reset();
-
+        this.reset();
       } catch (error) {
-        console.error("Erreur :", error);
-        alert("Erreur lors de l'envoi : " + error.message);
+        console.error("Erreur d'envoi :", error);
+        alert("Une erreur est survenue. Veuillez réessayer.");
       }
     });
   </script>
