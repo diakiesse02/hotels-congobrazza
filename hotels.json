@@ -13,4 +13,11 @@
     "image": "https://source.unsplash.com/400x300/?hotel,pointe-noire1",
     "lien": "#"
   }
+  {
+  "ville": "Oyo",
+  "nom": "Hôtel Alima Palace",
+  "description": "Piscine, salle de conférence, Wi-Fi gratuit",
+  "image": "images/hotels/alima-palace.jpg",
+  "lien": "alima-palace.html"
+}
 ]
