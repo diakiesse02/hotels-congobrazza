@@ -220,21 +220,17 @@
     </ul>
   </nav>
 
-  <section class="search-section">
-    <input type="text" id="ville" placeholder="Ville">
-    <select id="categorie">
-      <option value="">Catégorie</option>
-      <option value="luxe">Luxe</option>
-      <option value="standard">Standard</option>
-    </select>
-    <select id="prix">
-      <option value="">Prix</option>
-      <option value="1">0 - 30 000 FCFA</option>
-      <option value="2">30 000 - 70 000 FCFA</option>
-      <option value="3">70 000 FCFA +</option>
-    </select>
-    <button id="recherche-btn">Rechercher</button>
-  </section>
+ <form action="resultats.html" method="get" class="search-form" style="text-align: center; margin: 30px 0;">
+  <input type="text" name="ville" placeholder="Ville (ex: Brazzaville)" style="padding:10px; border-radius:5px; border:1px solid #ccc; margin:5px;">
+  <select name="prix" style="padding:10px; border-radius:5px; border:1px solid #ccc; margin:5px;">
+    <option value="">Prix</option>
+    <option value="1">Moins de 30 000 FCFA</option>
+    <option value="2">30 000 à 70 000 FCFA</option>
+    <option value="3">Plus de 70 000 FCFA</option>
+  </select>
+  <button type="submit" style="padding:10px 20px; background:#3498db; color:white; border:none; border-radius:5px; cursor:pointer;">Rechercher</button>
+</form>
+
 
   <section class="hero-images">
     <div class="image-container"><img src="im1.png" alt="Hôtel Résidence Brazza"></div>
