@@ -11,11 +11,25 @@
       background-color: #f0f8ff;
     }
 
+    /* ======== HEADER UNIFORME ======== */
     header {
       background-color: #3498db;
       color: white;
       padding: 30px 20px;
       text-align: center;
+    }
+
+    .header-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      width: 80px;
+      height: auto;
     }
 
     nav {
@@ -30,17 +44,21 @@
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 15px;
+      gap: 10px;
     }
 
     nav ul li a {
       color: white;
       text-decoration: none;
       font-weight: bold;
+      padding: 8px 14px;
     }
 
+    /* ======== CONTENU ======== */
     .container {
       padding: 30px 20px;
+      max-width: 1200px;
+      margin: auto;
     }
 
     .results-info {
@@ -50,12 +68,22 @@
       margin-bottom: 20px;
     }
 
+    .grid-results {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 20px;
+    }
+
     .hotel-card {
       background-color: white;
       border-radius: 10px;
       box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-      margin-bottom: 20px;
       padding: 20px;
+      transition: transform 0.2s;
+    }
+
+    .hotel-card:hover {
+      transform: scale(1.02);
     }
 
     .hotel-card h3 {
@@ -73,7 +101,7 @@
       padding: 10px 20px;
       border-radius: 5px;
       text-decoration: none;
-      margin-top: 30px;
+      margin-top: 40px;
     }
 
     footer {
@@ -84,19 +112,29 @@
       margin-top: 40px;
     }
 
-    @media (max-width: 768px) {
-      nav ul {
+    @media (max-width: 600px) {
+      .header-container {
         flex-direction: column;
-        padding: 10px 0;
+        text-align: center;
+      }
+
+      .logo {
+        margin-bottom: 10px;
       }
     }
   </style>
 </head>
 <body>
 
+  <!-- HEADER UNIFORME -->
   <header>
-    <h1>Résultats de votre recherche</h1>
-    <p>Découvrez les hôtels correspondant à vos critères</p>
+    <div class="header-container">
+      <img src="logo.png" alt="Logo Congo Hôtels" class="logo">
+      <div>
+        <h1>Bienvenue sur Congo Brazza Hôtels</h1>
+        <p>Réservez dans les meilleurs hôtels du pays</p>
+      </div>
+    </div>
   </header>
 
   <nav>
@@ -109,27 +147,31 @@
     </ul>
   </nav>
 
+  <!-- CONTENU PRINCIPAL -->
   <div class="container">
     <div class="results-info" id="critere"></div>
 
-    <div id="hotel-list">
-      <!-- Résultats insérés ici par JS -->
+    <div id="hotel-list" class="grid-results">
+      <!-- Hôtels insérés dynamiquement ici -->
     </div>
 
     <a href="index.html" class="btn-retour">← Retour à l'accueil</a>
   </div>
 
+  <!-- FOOTER -->
   <footer>
     <p>© 2025 Congo Brazza Hôtels. Tous droits réservés.</p>
   </footer>
 
+  <!-- SCRIPT JS -->
   <script>
-    // Simuler des hôtels pour test
     const hotels = [
       { nom: "Hôtel Marina", ville: "Brazzaville", categorie: "Luxe", prix: "70 000 FCFA +", tarif: "75 000 FCFA/nuit" },
       { nom: "Résidence Victoria", ville: "Pointe-Noire", categorie: "Moins cher", prix: "0 - 30 000 FCFA", tarif: "25 000 FCFA/nuit" },
       { nom: "Emeraude Palace", ville: "Brazzaville", categorie: "Luxe", prix: "30 000 - 70 000 FCFA", tarif: "50 000 FCFA/nuit" },
-      { nom: "Hôtel Prestige", ville: "Dolisie", categorie: "Moins cher", prix: "30 000 - 70 000 FCFA", tarif: "40 000 FCFA/nuit" }
+      { nom: "Hôtel Prestige", ville: "Dolisie", categorie: "Moins cher", prix: "30 000 - 70 000 FCFA", tarif: "40 000 FCFA/nuit" },
+      { nom: "Hôtel Relax", ville: "Owando", categorie: "Moins cher", prix: "0 - 30 000 FCFA", tarif: "20 000 FCFA/nuit" },
+      { nom: "Palace de la Rivière", ville: "Brazzaville", categorie: "Luxe", prix: "70 000 FCFA +", tarif: "90 000 FCFA/nuit" }
     ];
 
     const params = new URLSearchParams(window.location.search);
@@ -145,6 +187,7 @@
     `;
 
     const hotelList = document.getElementById("hotel-list");
+
     const results = hotels.filter(h => {
       return (!ville || h.ville.toLowerCase().includes(ville.toLowerCase())) &&
              (!categorie || h.categorie === categorie) &&
@@ -168,6 +211,5 @@
       });
     }
   </script>
-
 </body>
 </html>
