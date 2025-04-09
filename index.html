@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Accueil - Congo Brazza Hôtels</title>
   <style>
     body {
@@ -11,7 +11,6 @@
       background-color: #e6f0fa;
     }
 
-    /* === HEADER ORIGINAL === */
     header {
       background-color: #3498db;
       color: white;
@@ -43,10 +42,11 @@
       text-align: center;
     }
 
-    /* === MENU RESPONSIVE === */
+    /* MENU */
     nav {
       background-color: #2980b9;
       text-align: center;
+      position: relative;
     }
 
     nav ul {
@@ -65,7 +65,6 @@
       font-weight: bold;
     }
 
-    /* Toggle bouton */
     .menu-toggle {
       display: none;
       font-size: 28px;
@@ -73,9 +72,8 @@
       background: none;
       border: none;
       position: absolute;
-      top: 15px;
+      top: 10px;
       right: 20px;
-      z-index: 10;
     }
 
     @media (max-width: 768px) {
@@ -88,7 +86,7 @@
         flex-direction: column;
         gap: 0;
         background-color: #2980b9;
-        padding: 0;
+        width: 100%;
       }
 
       nav ul.show {
@@ -96,7 +94,7 @@
       }
 
       nav ul li {
-        border-bottom: 1px solid rgba(255,255,255,0.2);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
       }
 
       nav ul li a {
@@ -138,20 +136,20 @@
       padding: 30px 20px;
     }
 
-    .hero-images .image-container {
+    .image-container {
       overflow: hidden;
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 
-    .hero-images img {
+    .image-container img {
       display: block;
       width: 600px;
       height: auto;
       transition: transform 0.4s ease;
     }
 
-    .hero-images .image-container:hover img {
+    .image-container:hover img {
       transform: scale(1.05);
     }
 
@@ -195,7 +193,6 @@
 </head>
 <body>
 
-  <!-- HEADER ORIGINAL -->
   <header>
     <div class="header-container">
       <img src="logo.png" alt="Logo Hôtel Congo" class="logo">
@@ -207,7 +204,6 @@
     </div>
   </header>
 
-  <!-- MENU PRINCIPAL -->
   <nav>
     <ul id="main-menu">
       <li><a href="index.html">Accueil</a></li>
@@ -226,7 +222,6 @@
     </ul>
   </nav>
 
-  <!-- RECHERCHE -->
   <section class="search-section">
     <input type="text" id="ville" placeholder="Ville">
     <select id="categorie">
@@ -243,18 +238,13 @@
     <button id="recherche-btn">Rechercher</button>
   </section>
 
-  <!-- IMAGES D’HOTEL -->
   <section class="hero-images">
     <div class="image-container"><img src="im1.png" alt="Hôtel Résidence Brazza"></div>
     <div class="image-container"><img src="im2.png" alt="Hôtel Émeraude Palace"></div>
-    <div class="image-container"><img src="im3.png" alt="Hôtel Prestige"></div>
-    <div class="image-container"><img src="im4.png" alt="Hôtel Sympa"></div>
   </section>
 
-  <!-- VOIR PLUS -->
   <a href="hotels.html" class="voir-plus-btn">Voir plus d'hôtels</a>
 
-  <!-- FOOTER -->
   <footer>
     <p>© 2025 Congo Brazza Hôtels. Tous droits réservés.</p>
     <div class="social-icons">
@@ -286,6 +276,5 @@
       window.location.href = query;
     });
   </script>
-
 </body>
 </html>
