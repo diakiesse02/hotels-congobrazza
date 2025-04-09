@@ -168,7 +168,28 @@
     </ul>
   </nav>
 
-  <!-- Les sections hôtels seront générées ici par JavaScript -->
+  <section>
+    <h2>Nos Hôtels à Brazzaville</h2>
+    <div class="container">
+      <div class="hotel-card">
+        <img src="images/hotels/olympic.jpg" alt="Olympic Palace">
+        <div class="hotel-card-content">
+          <h3>Olympic Palace</h3>
+          <p>Hôtel luxueux avec piscine et spa en centre-ville.</p>
+          <a href="olympic.html" class="btn">Voir plus</a>
+        </div>
+      </div>
+
+      <div class="hotel-card">
+        <img src="images/hotels/grand-hotel.jpg" alt="Grand Hôtel de Kintele">
+        <div class="hotel-card-content">
+          <h3>Grand Hôtel de Kintele</h3>
+          <p>Hôtel moderne à proximité du stade et du palais des congrès.</p>
+          <a href="kintele.html" class="btn">Voir plus</a>
+        </div>
+      </div>
+    </div>
+  </section>
 
   <footer>
     <p>© 2025 Brazzaville Hotels. Tous droits réservés.</p>
@@ -180,35 +201,6 @@
       <a href="https://tiktok.com" target="_blank" title="TikTok">🎵</a>
     </div>
   </footer>
-
-  <!-- 👇 TON SCRIPT JAVASCRIPT 👇 -->
-  <script>
-    fetch('hotels.json')
-      .then(response => response.json())
-      .then(data => {
-        const villes = [...new Set(data.map(h => h.ville))];
-
-        villes.forEach(ville => {
-          const section = document.createElement('section');
-          section.innerHTML = `<h2>${ville}</h2><div class="container"></div>`;
-          document.body.insertBefore(section, document.querySelector('footer'));
-
-          const container = section.querySelector('.container');
-          data.filter(h => h.ville === ville).forEach(hotel => {
-            container.innerHTML += `
-              <div class="hotel-card">
-                <img src="${hotel.image}" alt="Hotel">
-                <div class="hotel-card-content">
-                  <h3>${hotel.nom}</h3>
-                  <p>${hotel.description}</p>
-                  <a href="${hotel.lien}" class="btn">Voir plus</a>
-                </div>
-              </div>
-            `;
-          });
-        });
-      });
-  </script>
 
 </body>
 </html>
