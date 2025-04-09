@@ -15,7 +15,6 @@
       background-color: #3498db;
       color: white;
       padding: 40px 20px;
-      position: relative;
     }
 
     .header-container {
@@ -29,16 +28,11 @@
     .logo {
       width: 120px;
       height: auto;
-      margin-right: 30px;
     }
 
     .header-text h1 {
       margin: 0;
       font-size: 32px;
-    }
-
-    .header-text p {
-      margin: 10px 0 0;
     }
 
     nav {
@@ -47,102 +41,88 @@
 
     nav ul {
       list-style: none;
-      margin: 0;
       padding: 10px;
+      margin: 0;
       display: flex;
-      justify-content: center;
       flex-wrap: wrap;
-      gap: 15px;
+      justify-content: center;
     }
 
-    nav ul li a {
+    nav li {
+      margin: 5px 15px;
+    }
+
+    nav a {
       color: white;
       text-decoration: none;
       font-weight: bold;
     }
 
-    /* Responsive burger */
-    .burger {
+    .menu-toggle {
       display: none;
+      background-color: #2980b9;
+      color: white;
+      border: none;
+      padding: 10px;
+      font-size: 20px;
       cursor: pointer;
-      font-size: 28px;
-      color: #ffffff;
-      background-color: #1a6ca3;
-      border: 2px solid #ffffff;
-      border-radius: 6px;
-      padding: 4px 10px;
-      position: absolute;
-      right: 20px;
-      top: 12px;
-      z-index: 1000;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.3);
-      transition: background-color 0.3s ease;
+      width: 100%;
+      text-align: left;
     }
 
-    .burger:hover {
-      background-color: #145b89;
-    }
-
-    @media (max-width: 768px) {
+    @media screen and (max-width: 768px) {
       nav ul {
         display: none;
         flex-direction: column;
-        background-color: #2980b9;
-        width: 100%;
-        padding: 10px 0;
+        align-items: center;
       }
 
       nav ul.active {
         display: flex;
       }
 
-      .burger {
+      .menu-toggle {
         display: block;
       }
     }
 
     .search-section {
-      padding: 30px 20px;
       text-align: center;
+      padding: 20px;
     }
 
     .search-section input,
     .search-section select,
     .search-section button {
       padding: 10px;
-      margin: 5px;
+      margin: 8px;
       border-radius: 5px;
       border: 1px solid #ccc;
     }
 
-    .hero-images {
+    .hotel-list {
       display: flex;
-      justify-content: center;
       flex-wrap: wrap;
+      justify-content: center;
+      padding: 20px;
       gap: 20px;
-      padding: 30px 20px;
     }
 
-    .hero-images .image-container {
-      overflow: hidden;
+    .hotel-card {
+      background-color: white;
+      padding: 20px;
+      width: 280px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
       border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 
-    .hero-images img {
-      display: block;
-      width: 600px;
-      height: auto;
-      transition: transform 0.4s ease;
-    }
-
-    .hero-images .image-container:hover img {
-      transform: scale(1.05);
+    .hotel-card h3 {
+      margin-top: 0;
     }
 
     .voir-plus-btn {
       display: block;
-      margin: 20px auto;
+      margin: 30px auto;
       background-color: #3498db;
       color: white;
       padding: 12px 24px;
@@ -170,7 +150,6 @@
       color: white;
       font-size: 20px;
       text-decoration: none;
-      transition: color 0.3s;
     }
 
     .social-icons a:hover {
@@ -180,80 +159,121 @@
 </head>
 <body>
 
-  <header>
-    <div class="header-container">
-      <img src="logo.png" alt="Logo Hôtel Congo" class="logo">
-      <div class="header-text">
-        <h1>Bienvenue sur Congo Brazza Hôtels</h1>
-        <p>Découvrez les meilleurs hôtels au Congo sur toutes les villes et faites votre réservation</p>
-      </div>
+<header>
+  <div class="header-container">
+    <img src="logo.png" alt="Logo Hôtel Congo" class="logo">
+    <div class="header-text">
+      <h1>Bienvenue sur Congo Brazza Hôtels</h1>
+      <p>Découvrez les meilleurs hôtels au Congo sur toutes les villes</p>
     </div>
-    <button class="burger" onclick="toggleMenu()">☰</button>
-  </header>
+  </div>
+</header>
 
-  <nav>
-    <ul id="menu">
-      <li><a href="index.html">Accueil</a></li>
-      <li><a href="hotels.html">Liste des hôtels</a></li>
-      <li><a href="meubles.html">Maisons meublées</a></li>
-      <li><a href="services.html">Services</a></li>
-      <li><a href="reservation.html">Réservation</a></li>
-      <li><a href="ajout-hotel.html">Ajouter votre hôtel</a></li>
-      <li><a href="galerie.html">Galerie</a></li>
-      <li><a href="temoignages.html">Témoignages</a></li>
-      <li><a href="publicite.html">Publicité</a></li>
-      <li><a href="about.html">À propos</a></li>
-      <li><a href="contact.html">Contact</a></li>
-      <li><a href="blog.html">Blog</a></li>
-      <li><a href="faq.html">FAQ</a></li>
-    </ul>
-  </nav>
+<nav>
+  <button class="menu-toggle" onclick="toggleMenu()">☰ Menu</button>
+  <ul id="menu">
+    <li><a href="index.html">Accueil</a></li>
+    <li><a href="hotels.html">Liste des hôtels</a></li>
+    <li><a href="meubles.html">Maisons meublées</a></li>
+    <li><a href="services.html">Services</a></li>
+    <li><a href="reservation.html">Réservation</a></li>
+    <li><a href="ajout-hotel.html">Ajouter votre hôtel</a></li>
+    <li><a href="galerie.html">Galerie</a></li>
+    <li><a href="temoignages.html">Témoignages</a></li>
+    <li><a href="publicite.html">Publicité</a></li>
+    <li><a href="about.html">À propos</a></li>
+    <li><a href="contact.html">Contact</a></li>
+    <li><a href="blog.html">Blog</a></li>
+    <li><a href="faq.html">FAQ</a></li>
+  </ul>
+</nav>
 
-  <!-- Barre de recherche -->
-  <section class="search-section">
-    <input type="text" placeholder="Ville">
-    <select>
-      <option>Catégorie</option>
-      <option>Luxe</option>
-      <option>Moins cher</option>
-    </select>
-    <select>
-      <option>Prix</option>
-      <option>0 - 30 000 FCFA</option>
-      <option>30 000 - 70 000 FCFA</option>
-      <option>70 000 FCFA +</option>
-    </select>
-    <button>Rechercher</button>
-  </section>
+<section class="search-section">
+  <input type="text" id="villeInput" placeholder="Ville (ex: Brazzaville)">
+  <select id="categorieInput">
+    <option value="">Catégorie</option>
+    <option value="luxe">Luxe</option>
+    <option value="moins_cher">Moins cher</option>
+  </select>
+  <select id="prixInput">
+    <option value="">Prix</option>
+    <option value="1">0 - 30 000 FCFA</option>
+    <option value="2">30 000 - 70 000 FCFA</option>
+    <option value="3">70 000 FCFA +</option>
+  </select>
+  <button onclick="filtrerHotels()">Rechercher</button>
+</section>
 
-  <!-- Images fixes -->
-  <section class="hero-images">
-    <div class="image-container">
-      <img src="im1.png" alt="Hôtel Résidence Brazza">
-    </div>
-    <div class="image-container">
-      <img src="im2.png" alt="Hôtel Émeraude Palace">
-    </div>
-  </section>
+<section class="hotel-list" id="hotelList">
+  <div class="hotel-card" data-ville="brazzaville" data-categorie="luxe" data-prix="80000">
+    <h3>Hôtel Émeraude</h3>
+    <p>Ville : Brazzaville</p>
+    <p>Catégorie : Luxe</p>
+    <p>Prix : 80 000 FCFA</p>
+  </div>
+  <div class="hotel-card" data-ville="pointe-noire" data-categorie="moins_cher" data-prix="30000">
+    <h3>Résidence Pointe</h3>
+    <p>Ville : Pointe-Noire</p>
+    <p>Catégorie : Moins cher</p>
+    <p>Prix : 30 000 FCFA</p>
+  </div>
+  <div class="hotel-card" data-ville="dolisie" data-categorie="luxe" data-prix="65000">
+    <h3>Dolisie Palace</h3>
+    <p>Ville : Dolisie</p>
+    <p>Catégorie : Luxe</p>
+    <p>Prix : 65 000 FCFA</p>
+  </div>
+</section>
 
-  <a href="hotels.html" class="voir-plus-btn">Voir plus d'hôtels</a>
+<a href="hotels.html" class="voir-plus-btn">Voir plus d'hôtels</a>
 
-  <footer>
-    <p>© 2025 Congo Brazza Hôtels. Tous droits réservés.</p>
-    <div class="social-icons">
-      <a href="https://facebook.com" target="_blank" title="Facebook">🌐</a>
-      <a href="https://instagram.com" target="_blank" title="Instagram">📸</a>
-      <a href="https://twitter.com" target="_blank" title="Twitter">🐦</a>
-      <a href="https://youtube.com" target="_blank" title="YouTube">▶️</a>
-      <a href="https://linkedin.com" target="_blank" title="LinkedIn">💼</a>
-    </div>
-  </footer>
+<footer>
+  <p>© 2025 Congo Brazza Hôtels. Tous droits réservés.</p>
+  <div class="social-icons">
+    <a href="https://facebook.com" target="_blank">🌐</a>
+    <a href="https://instagram.com" target="_blank">📸</a>
+    <a href="https://twitter.com" target="_blank">🐦</a>
+    <a href="https://youtube.com" target="_blank">▶️</a>
+    <a href="https://linkedin.com" target="_blank">💼</a>
+  </div>
+</footer>
 
-  <script>
-    function toggleMenu() {
-      const menu = document.getElementById('menu');
-      menu.classList.toggle('active');
-    }
-  </script>
+<script>
+  function toggleMenu() {
+    const menu = document.getElementById("menu");
+    menu.classList.toggle("active");
+  }
+
+  function filtrerHotels() {
+    const ville = document.getElementById("villeInput").value.toLowerCase();
+    const categorie = document.getElementById("categorieInput").value;
+    const prixOption = document.getElementById("prixInput").value;
+
+    const cards = document.querySelectorAll(".hotel-card");
+
+    cards.forEach(card => {
+      const cardVille = card.dataset.ville.toLowerCase();
+      const cardCategorie = card.dataset.categorie;
+      const cardPrix = parseInt(card.dataset.prix);
+
+      let match = true;
+
+      if (ville && !cardVille.includes(ville)) {
+        match = false;
+      }
+
+      if (categorie && cardCategorie !== categorie) {
+        match = false;
+      }
+
+      if (prixOption === "1" && cardPrix > 30000) match = false;
+      if (prixOption === "2" && (cardPrix < 30000 || cardPrix > 70000)) match = false;
+      if (prixOption === "3" && cardPrix < 70000) match = false;
+
+      card.style.display = match ? "block" : "none";
+    });
+  }
+</script>
+
 </body>
 </html>
