@@ -14,38 +14,35 @@
     header {
       background-color: #3498db;
       color: white;
-      padding: 30px 20px;
+      padding: 40px 20px;
     }
 
     .header-container {
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      justify-content: center;
+      gap: 40px;
       flex-wrap: wrap;
     }
 
     .logo {
-      width: 100px;
+      width: 120px;
       height: auto;
-    }
-
-    .header-text {
-      flex: 1;
-      text-align: center;
+      margin-right: 30px;
     }
 
     .header-text h1 {
-      margin: 10px 0 5px;
-      font-size: 24px;
+      margin: 0;
+      font-size: 32px;
     }
 
     .header-text p {
-      margin: 0;
-      font-size: 14px;
+      margin: 10px 0 0;
     }
 
     nav {
       background-color: #2980b9;
+      text-align: center;
     }
 
     .menu-toggle {
@@ -66,8 +63,8 @@
       padding: 10px;
       display: flex;
       justify-content: center;
-      flex-wrap: wrap;
       gap: 15px;
+      flex-wrap: wrap;
     }
 
     nav ul li a {
@@ -84,8 +81,9 @@
       nav ul {
         display: none;
         flex-direction: column;
-        gap: 10px;
         background-color: #2980b9;
+        gap: 10px;
+        padding: 10px;
       }
 
       nav ul.show {
@@ -97,19 +95,9 @@
       padding: 40px 20px;
     }
 
-    .btn-retour {
-      display: inline-block;
-      margin-bottom: 20px;
-      background-color: #3498db;
-      color: white;
-      padding: 10px 20px;
-      border-radius: 5px;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
     h2 {
       color: #2980b9;
+      margin-top: 40px;
     }
 
     .container {
@@ -211,33 +199,117 @@
     </ul>
   </nav>
 
+  <!-- Brazzaville -->
   <section>
-    <a href="index.html" class="btn-retour">← Retour à l'accueil</a>
-    <h2>Liste des Hôtels</h2>
+    <h2>Brazzaville</h2>
     <div class="container">
       <div class="hotel-card">
-        <img src="https://source.unsplash.com/400x300/?hotel,room1" alt="Hotel">
+        <img src="https://source.unsplash.com/400x300/?hotel,brazzaville1" alt="Hotel">
         <div class="hotel-card-content">
           <h3>Hôtel Résidence Marina</h3>
-          <p>Wi-Fi, Piscine, Parking</p>
+          <p>Centre-ville, Wi-Fi, piscine</p>
           <a href="hotel1.html" class="btn">Voir plus</a>
         </div>
       </div>
-
       <div class="hotel-card">
-        <img src="https://source.unsplash.com/400x300/?hotel,room2" alt="Hotel">
+        <img src="https://source.unsplash.com/400x300/?hotel,brazzaville2" alt="Hotel">
         <div class="hotel-card-content">
-          <h3>Grand Hôtel Kintele</h3>
-          <p>5 étoiles, Restaurant</p>
+          <h3>Grand Hôtel de Kintele</h3>
+          <p>5 étoiles, parking sécurisé</p>
           <a href="#" class="btn">Voir plus</a>
         </div>
       </div>
-
       <div class="hotel-card">
-        <img src="https://source.unsplash.com/400x300/?hotel,room3" alt="Hotel">
+        <img src="https://source.unsplash.com/400x300/?hotel,brazzaville3" alt="Hotel">
         <div class="hotel-card-content">
           <h3>Olympic Palace</h3>
-          <p>Fitness, Salle de conférence</p>
+          <p>Restaurant, salle de sport</p>
+          <a href="#" class="btn">Voir plus</a>
+        </div>
+      </div>
+      <div class="hotel-card">
+        <img src="https://source.unsplash.com/400x300/?hotel,brazzaville4" alt="Hotel">
+        <div class="hotel-card-content">
+          <h3>Ledger Plaza</h3>
+          <p>Proche aéroport, luxueux</p>
+          <a href="#" class="btn">Voir plus</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pointe-Noire -->
+  <section>
+    <h2>Pointe-Noire</h2>
+    <div class="container">
+      <div class="hotel-card">
+        <img src="https://source.unsplash.com/400x300/?hotel,pointe-noire1" alt="Hotel">
+        <div class="hotel-card-content">
+          <h3>Hôtel Océan Palace</h3>
+          <p>Vue sur mer, piscine</p>
+          <a href="#" class="btn">Voir plus</a>
+        </div>
+      </div>
+      <div class="hotel-card">
+        <img src="https://source.unsplash.com/400x300/?hotel,pointe-noire2" alt="Hotel">
+        <div class="hotel-card-content">
+          <h3>Hôtel Elais</h3>
+          <p>Moderne, centre-ville</p>
+          <a href="#" class="btn">Voir plus</a>
+        </div>
+      </div>
+      <div class="hotel-card">
+        <img src="https://source.unsplash.com/400x300/?hotel,pointe-noire3" alt="Hotel">
+        <div class="hotel-card-content">
+          <h3>Résidence Tropicana</h3>
+          <p>Ambiance relax</p>
+          <a href="#" class="btn">Voir plus</a>
+        </div>
+      </div>
+      <div class="hotel-card">
+        <img src="https://source.unsplash.com/400x300/?hotel,pointe-noire4" alt="Hotel">
+        <div class="hotel-card-content">
+          <h3>Hotel Palm Beach</h3>
+          <p>Restaurant, plage privée</p>
+          <a href="#" class="btn">Voir plus</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Dolisie -->
+  <section>
+    <h2>Dolisie</h2>
+    <div class="container">
+      <div class="hotel-card">
+        <img src="https://source.unsplash.com/400x300/?hotel,dolisie1" alt="Hotel">
+        <div class="hotel-card-content">
+          <h3>Hotel La Paix</h3>
+          <p>Centre-ville, économique</p>
+          <a href="#" class="btn">Voir plus</a>
+        </div>
+      </div>
+      <div class="hotel-card">
+        <img src="https://source.unsplash.com/400x300/?hotel,dolisie2" alt="Hotel">
+        <div class="hotel-card-content">
+          <h3>Hôtel de la Gare</h3>
+          <p>Proche transport</p>
+          <a href="#" class="btn">Voir plus</a>
+        </div>
+      </div>
+      <div class="hotel-card">
+        <img src="https://source.unsplash.com/400x300/?hotel,dolisie3" alt="Hotel">
+        <div class="hotel-card-content">
+          <h3>Résidence Les Pins</h3>
+          <p>Confort et calme</p>
+          <a href="#" class="btn">Voir plus</a>
+        </div>
+      </div>
+      <div class="hotel-card">
+        <img src="https://source.unsplash.com/400x300/?hotel,dolisie4" alt="Hotel">
+        <div class="hotel-card-content">
+          <h3>Hotel du Marché</h3>
+          <p>Proche commerces</p>
           <a href="#" class="btn">Voir plus</a>
         </div>
       </div>
@@ -247,11 +319,11 @@
   <footer>
     <p>© 2025 Brazzaville Hotels. Tous droits réservés.</p>
     <div class="social-icons">
-      <a href="https://facebook.com" target="_blank">🌐</a>
-      <a href="https://instagram.com" target="_blank">📸</a>
-      <a href="https://twitter.com" target="_blank">🐦</a>
-      <a href="https://youtube.com" target="_blank">▶️</a>
-      <a href="https://tiktok.com" target="_blank">🎵</a>
+      <a href="https://facebook.com" target="_blank" title="Facebook">🌐</a>
+      <a href="https://instagram.com" target="_blank" title="Instagram">📸</a>
+      <a href="https://twitter.com" target="_blank" title="Twitter">🐦</a>
+      <a href="https://youtube.com" target="_blank" title="YouTube">▶️</a>
+      <a href="https://tiktok.com" target="_blank" title="TikTok">🎵</a>
     </div>
   </footer>
 
@@ -261,5 +333,6 @@
       menu.classList.toggle("show");
     }
   </script>
+
 </body>
 </html>
