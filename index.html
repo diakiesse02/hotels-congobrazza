@@ -5,6 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Accueil - Congo Brazza Hôtels</title>
   <style>
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       font-family: 'Segoe UI', sans-serif;
       margin: 0;
@@ -14,16 +18,14 @@
     header {
       background-color: #3498db;
       color: white;
-      padding: 40px 20px;
+      padding: 30px 20px;
     }
 
     .header-container {
       display: flex;
-      flex-wrap: wrap;
       align-items: center;
-      justify-content: center;
-      gap: 20px;
-      text-align: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
     }
 
     .logo {
@@ -31,84 +33,72 @@
       height: auto;
     }
 
+    .header-text {
+      flex: 1;
+      text-align: center;
+    }
+
     .header-text h1 {
-      margin: 10px 0 5px;
-      font-size: 28px;
+      margin: 0;
+      font-size: 24px;
     }
 
     .header-text p {
-      margin: 0;
-      font-size: 16px;
+      margin: 5px 0 0;
+      font-size: 14px;
     }
 
+    /* MENU */
     nav {
       background-color: #2980b9;
     }
 
+    .menu-toggle {
+      display: none;
+      background-color: transparent;
+      border: none;
+      font-size: 26px;
+      color: white;
+      cursor: pointer;
+      padding: 10px 20px;
+    }
+
     nav ul {
       list-style: none;
-      padding: 10px;
       margin: 0;
+      padding: 0;
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
     }
 
-    nav li {
-      margin: 5px 15px;
+    nav ul li {
+      margin: 0;
     }
 
-    nav a {
-      color: white;
+    nav ul li a {
+      display: block;
+      padding: 14px 20px;
       text-decoration: none;
+      color: white;
       font-weight: bold;
     }
 
-    .menu-toggle {
-      display: none;
-      background-color: #1c6ca3;
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      font-size: 20px;
-      cursor: pointer;
-      width: 100%;
-      text-align: left;
-      box-shadow: 0 2px 5px rgba(0,0,0,0.2);
+    nav ul li a:hover {
+      background-color: #2471a3;
     }
 
-    @media screen and (max-width: 768px) {
-      nav ul {
-        display: none;
-        flex-direction: column;
-        background-color: #2980b9;
-        text-align: center;
-      }
-
-      nav ul.active {
-        display: flex;
-      }
-
-      .menu-toggle {
-        display: block;
-      }
-
-      .header-container {
-        text-align: center;
-        flex-direction: column;
-      }
-    }
-
+    /* Recherche */
     .search-section {
-      text-align: center;
       padding: 30px 20px;
+      text-align: center;
     }
 
     .search-section input,
     .search-section select,
     .search-section button {
       padding: 10px;
-      margin: 8px;
+      margin: 5px;
       border-radius: 5px;
       border: 1px solid #ccc;
     }
@@ -120,6 +110,11 @@
       cursor: pointer;
     }
 
+    .search-section button:hover {
+      background-color: #2471a3;
+    }
+
+    /* Image section */
     .hero-images {
       display: flex;
       justify-content: center;
@@ -128,27 +123,27 @@
       padding: 30px 20px;
     }
 
-    .image-container {
+    .hero-images .image-container {
       overflow: hidden;
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-      max-width: 500px;
     }
 
-    .image-container img {
+    .hero-images img {
       display: block;
-      width: 100%;
-      height: auto;
-      transition: transform 0.4s ease;
+      width: 300px;
+      height: 200px;
+      object-fit: cover;
+      transition: transform 0.3s ease;
     }
 
-    .image-container:hover img {
+    .hero-images .image-container:hover img {
       transform: scale(1.05);
     }
 
     .voir-plus-btn {
       display: block;
-      margin: 30px auto;
+      margin: 20px auto;
       background-color: #3498db;
       color: white;
       padding: 12px 24px;
@@ -182,6 +177,30 @@
     .social-icons a:hover {
       color: #3498db;
     }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+
+      nav ul {
+        display: none;
+        flex-direction: column;
+        background-color: #2980b9;
+        width: 100%;
+      }
+
+      nav ul.active {
+        display: flex;
+      }
+
+      .header-text {
+        text-align: center;
+        width: 100%;
+        margin-top: 15px;
+      }
+    }
   </style>
 </head>
 <body>
@@ -191,58 +210,50 @@
       <img src="logo.png" alt="Logo Hôtel Congo" class="logo">
       <div class="header-text">
         <h1>Bienvenue sur Congo Brazza Hôtels</h1>
-        <p>Découvrez les meilleurs hôtels au Congo sur toutes les villes</p>
+        <p>Découvrez les meilleurs hôtels au Congo et réservez facilement</p>
       </div>
+      <button class="menu-toggle" onclick="toggleMenu()">☰</button>
     </div>
   </header>
 
   <nav>
-    <button class="menu-toggle" onclick="toggleMenu()">☰ Menu</button>
-    <ul id="menu">
+    <ul id="main-menu">
       <li><a href="index.html">Accueil</a></li>
       <li><a href="hotels.html">Liste des hôtels</a></li>
-      <li><a href="meubles.html">Maisons meublées</a></li>
-      <li><a href="services.html">Services</a></li>
       <li><a href="reservation.html">Réservation</a></li>
-      <li><a href="ajout-hotel.html">Ajouter votre hôtel</a></li>
-      <li><a href="galerie.html">Galerie</a></li>
-      <li><a href="temoignages.html">Témoignages</a></li>
-      <li><a href="publicite.html">Publicité</a></li>
-      <li><a href="about.html">À propos</a></li>
+      <li><a href="ajout-hotel.html">Ajouter un hôtel</a></li>
       <li><a href="contact.html">Contact</a></li>
-      <li><a href="blog.html">Blog</a></li>
-      <li><a href="faq.html">FAQ</a></li>
     </ul>
   </nav>
 
   <section class="search-section">
-    <input type="text" placeholder="Ville">
-    <select>
-      <option>Catégorie</option>
-      <option>Luxe</option>
-      <option>Moins cher</option>
+    <input type="text" id="ville" placeholder="Ville">
+    <select id="categorie">
+      <option value="">Catégorie</option>
+      <option value="luxe">Luxe</option>
+      <option value="standard">Standard</option>
     </select>
-    <select>
-      <option>Prix</option>
-      <option>0 - 30 000 FCFA</option>
-      <option>30 000 - 70 000 FCFA</option>
-      <option>70 000 FCFA +</option>
+    <select id="prix">
+      <option value="">Prix</option>
+      <option value="1">0 - 30 000 FCFA</option>
+      <option value="2">30 000 - 70 000 FCFA</option>
+      <option value="3">70 000 FCFA +</option>
     </select>
-    <button>Rechercher</button>
+    <button id="recherche-btn">Rechercher</button>
   </section>
 
   <section class="hero-images">
     <div class="image-container">
-      <img src="chambre1.png" alt="Chambre 1">
+      <img src="im1.png" alt="Hôtel Résidence Brazza">
     </div>
     <div class="image-container">
-      <img src="chambre2.png" alt="Chambre 2">
+      <img src="im2.png" alt="Hôtel Émeraude Palace">
     </div>
     <div class="image-container">
-      <img src="chambre3.png" alt="Chambre 3">
+      <img src="im3.png" alt="Hôtel 3">
     </div>
     <div class="image-container">
-      <img src="chambre4.png" alt="Chambre 4">
+      <img src="im4.png" alt="Hôtel 4">
     </div>
   </section>
 
@@ -261,9 +272,18 @@
 
   <script>
     function toggleMenu() {
-      const menu = document.getElementById("menu");
+      const menu = document.getElementById("main-menu");
       menu.classList.toggle("active");
     }
+
+    document.getElementById("recherche-btn").addEventListener("click", function () {
+      const ville = document.getElementById("ville").value.trim();
+      const categorie = document.getElementById("categorie").value;
+      const prix = document.getElementById("prix").value;
+
+      const query = `resultats.html?ville=${encodeURIComponent(ville)}&categorie=${categorie}&prix=${prix}`;
+      window.location.href = query;
+    });
   </script>
 
 </body>
