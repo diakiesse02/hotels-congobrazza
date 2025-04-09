@@ -19,20 +19,26 @@
 
     .header-container {
       display: flex;
+      flex-wrap: wrap;
       align-items: center;
       justify-content: center;
-      flex-wrap: wrap;
-      gap: 40px;
+      gap: 20px;
+      text-align: center;
     }
 
     .logo {
-      width: 120px;
+      width: 100px;
       height: auto;
     }
 
     .header-text h1 {
+      margin: 10px 0 5px;
+      font-size: 28px;
+    }
+
+    .header-text p {
       margin: 0;
-      font-size: 32px;
+      font-size: 16px;
     }
 
     nav {
@@ -75,8 +81,8 @@
       nav ul {
         display: none;
         flex-direction: column;
-        align-items: center;
         background-color: #2980b9;
+        text-align: center;
       }
 
       nav ul.active {
@@ -86,11 +92,16 @@
       .menu-toggle {
         display: block;
       }
+
+      .header-container {
+        text-align: center;
+        flex-direction: column;
+      }
     }
 
     .search-section {
       text-align: center;
-      padding: 20px;
+      padding: 30px 20px;
     }
 
     .search-section input,
@@ -107,31 +118,32 @@
       color: white;
       border: none;
       cursor: pointer;
-      transition: background 0.3s;
     }
 
-    .search-section button:hover {
-      background-color: #2c80b4;
-    }
-
-    .hotel-list {
+    .hero-images {
       display: flex;
-      flex-wrap: wrap;
       justify-content: center;
-      padding: 20px;
+      flex-wrap: wrap;
       gap: 20px;
+      padding: 30px 20px;
     }
 
-    .hotel-card {
-      background-color: white;
-      padding: 20px;
-      width: 280px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    .image-container {
+      overflow: hidden;
       border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      max-width: 500px;
     }
 
-    .hotel-card h3 {
-      margin-top: 0;
+    .image-container img {
+      display: block;
+      width: 100%;
+      height: auto;
+      transition: transform 0.4s ease;
+    }
+
+    .image-container:hover img {
+      transform: scale(1.05);
     }
 
     .voir-plus-btn {
@@ -164,6 +176,7 @@
       color: white;
       font-size: 20px;
       text-decoration: none;
+      transition: color 0.3s;
     }
 
     .social-icons a:hover {
@@ -173,121 +186,85 @@
 </head>
 <body>
 
-<header>
-  <div class="header-container">
-    <img src="logo.png" alt="Logo Hôtel Congo" class="logo">
-    <div class="header-text">
-      <h1>Bienvenue sur Congo Brazza Hôtels</h1>
-      <p>Découvrez les meilleurs hôtels au Congo sur toutes les villes</p>
+  <header>
+    <div class="header-container">
+      <img src="logo.png" alt="Logo Hôtel Congo" class="logo">
+      <div class="header-text">
+        <h1>Bienvenue sur Congo Brazza Hôtels</h1>
+        <p>Découvrez les meilleurs hôtels au Congo sur toutes les villes</p>
+      </div>
     </div>
-  </div>
-</header>
+  </header>
 
-<nav>
-  <button class="menu-toggle" onclick="toggleMenu()">☰ Menu</button>
-  <ul id="menu">
-    <li><a href="index.html">Accueil</a></li>
-    <li><a href="hotels.html">Liste des hôtels</a></li>
-    <li><a href="meubles.html">Maisons meublées</a></li>
-    <li><a href="services.html">Services</a></li>
-    <li><a href="reservation.html">Réservation</a></li>
-    <li><a href="ajout-hotel.html">Ajouter votre hôtel</a></li>
-    <li><a href="galerie.html">Galerie</a></li>
-    <li><a href="temoignages.html">Témoignages</a></li>
-    <li><a href="publicite.html">Publicité</a></li>
-    <li><a href="about.html">À propos</a></li>
-    <li><a href="contact.html">Contact</a></li>
-    <li><a href="blog.html">Blog</a></li>
-    <li><a href="faq.html">FAQ</a></li>
-  </ul>
-</nav>
+  <nav>
+    <button class="menu-toggle" onclick="toggleMenu()">☰ Menu</button>
+    <ul id="menu">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="hotels.html">Liste des hôtels</a></li>
+      <li><a href="meubles.html">Maisons meublées</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="reservation.html">Réservation</a></li>
+      <li><a href="ajout-hotel.html">Ajouter votre hôtel</a></li>
+      <li><a href="galerie.html">Galerie</a></li>
+      <li><a href="temoignages.html">Témoignages</a></li>
+      <li><a href="publicite.html">Publicité</a></li>
+      <li><a href="about.html">À propos</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+    </ul>
+  </nav>
 
-<section class="search-section">
-  <input type="text" id="villeInput" placeholder="Ville (ex: Brazzaville)">
-  <select id="categorieInput">
-    <option value="">Catégorie</option>
-    <option value="luxe">Luxe</option>
-    <option value="moins_cher">Moins cher</option>
-  </select>
-  <select id="prixInput">
-    <option value="">Prix</option>
-    <option value="1">0 - 30 000 FCFA</option>
-    <option value="2">30 000 - 70 000 FCFA</option>
-    <option value="3">70 000 FCFA +</option>
-  </select>
-  <button type="button" onclick="filtrerHotels()">Rechercher</button>
-</section>
+  <section class="search-section">
+    <input type="text" placeholder="Ville">
+    <select>
+      <option>Catégorie</option>
+      <option>Luxe</option>
+      <option>Moins cher</option>
+    </select>
+    <select>
+      <option>Prix</option>
+      <option>0 - 30 000 FCFA</option>
+      <option>30 000 - 70 000 FCFA</option>
+      <option>70 000 FCFA +</option>
+    </select>
+    <button>Rechercher</button>
+  </section>
 
-<section class="hotel-list" id="hotelList">
-  <div class="hotel-card" data-ville="brazzaville" data-categorie="luxe" data-prix="80000">
-    <h3>Hôtel Émeraude</h3>
-    <p>Ville : Brazzaville</p>
-    <p>Catégorie : Luxe</p>
-    <p>Prix : 80 000 FCFA</p>
-  </div>
-  <div class="hotel-card" data-ville="pointe-noire" data-categorie="moins_cher" data-prix="30000">
-    <h3>Résidence Pointe</h3>
-    <p>Ville : Pointe-Noire</p>
-    <p>Catégorie : Moins cher</p>
-    <p>Prix : 30 000 FCFA</p>
-  </div>
-  <div class="hotel-card" data-ville="dolisie" data-categorie="luxe" data-prix="65000">
-    <h3>Dolisie Palace</h3>
-    <p>Ville : Dolisie</p>
-    <p>Catégorie : Luxe</p>
-    <p>Prix : 65 000 FCFA</p>
-  </div>
-</section>
+  <section class="hero-images">
+    <div class="image-container">
+      <img src="chambre1.png" alt="Chambre 1">
+    </div>
+    <div class="image-container">
+      <img src="chambre2.png" alt="Chambre 2">
+    </div>
+    <div class="image-container">
+      <img src="chambre3.png" alt="Chambre 3">
+    </div>
+    <div class="image-container">
+      <img src="chambre4.png" alt="Chambre 4">
+    </div>
+  </section>
 
-<a href="hotels.html" class="voir-plus-btn">Voir plus d'hôtels</a>
+  <a href="hotels.html" class="voir-plus-btn">Voir plus d'hôtels</a>
 
-<footer>
-  <p>© 2025 Congo Brazza Hôtels. Tous droits réservés.</p>
-  <div class="social-icons">
-    <a href="https://facebook.com" target="_blank">🌐</a>
-    <a href="https://instagram.com" target="_blank">📸</a>
-    <a href="https://twitter.com" target="_blank">🐦</a>
-    <a href="https://youtube.com" target="_blank">▶️</a>
-    <a href="https://linkedin.com" target="_blank">💼</a>
-  </div>
-</footer>
+  <footer>
+    <p>© 2025 Congo Brazza Hôtels. Tous droits réservés.</p>
+    <div class="social-icons">
+      <a href="https://facebook.com" target="_blank" title="Facebook">🌐</a>
+      <a href="https://instagram.com" target="_blank" title="Instagram">📸</a>
+      <a href="https://twitter.com" target="_blank" title="Twitter">🐦</a>
+      <a href="https://youtube.com" target="_blank" title="YouTube">▶️</a>
+      <a href="https://linkedin.com" target="_blank" title="LinkedIn">💼</a>
+    </div>
+  </footer>
 
-<script>
-  function toggleMenu() {
-    const menu = document.getElementById("menu");
-    menu.classList.toggle("active");
-  }
-
-  function filtrerHotels() {
-    const ville = document.getElementById("villeInput").value.toLowerCase();
-    const categorie = document.getElementById("categorieInput").value;
-    const prixOption = document.getElementById("prixInput").value;
-
-    const cards = document.querySelectorAll(".hotel-card");
-
-    cards.forEach(card => {
-      const cardVille = card.dataset.ville.toLowerCase();
-      const cardCategorie = card.dataset.categorie;
-      const cardPrix = parseInt(card.dataset.prix);
-
-      let match = true;
-
-      if (ville && !cardVille.includes(ville)) {
-        match = false;
-      }
-
-      if (categorie && cardCategorie !== categorie) {
-        match = false;
-      }
-
-      if (prixOption === "1" && cardPrix > 30000) match = false;
-      if (prixOption === "2" && (cardPrix < 30000 || cardPrix > 70000)) match = false;
-      if (prixOption === "3" && cardPrix < 70000) match = false;
-
-      card.style.display = match ? "block" : "none";
-    });
-  }
-</script>
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById("menu");
+      menu.classList.toggle("active");
+    }
+  </script>
 
 </body>
 </html>
