@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Réservation - Congo Brazza Hôtels</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f2f9ff;
+      margin: 0;
+    }
+
+    header {
+      background-color: #3498db;
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+    }
+
+    nav {
+      background-color: #2980b9;
+    }
+
+    nav ul {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      list-style: none;
+      margin: 0;
+      padding: 10px;
+      gap: 15px;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 6px 12px;
+    }
+
+    .reservation-container {
+      max-width: 600px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      color: #2980b9;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    input, select, textarea {
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      width: 100%;
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 80px;
+    }
+
+    button {
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      font-size: 16px;
+      padding: 12px;
+      cursor: pointer;
+      border-radius: 5px;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #219150;
+    }
+
+    .confirmation {
+      margin-top: 20px;
+      color: #2ecc71;
+      font-weight: bold;
+      display: none;
+      text-align: center;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    footer {
+      background-color: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 20px 10px;
+      margin-top: 60px;
+    }
+
+    .social-icons {
+      margin-top: 10px;
+    }
+
+    .social-icons a {
+      color: white;
+      font-size: 20px;
+      margin: 0 8px;
+      text-decoration: none;
+    }
+
+    @media (max-width: 600px) {
+      nav ul {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .reservation-container {
+        margin: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Réservez votre séjour avec Congo Brazza Hôtels</h1>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="hotels.html">Hôtels</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="reservation.html">Réservation</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="reservation-container">
+    <h2>Formulaire de Réservation</h2>
+    <form id="reservationForm">
+      <input type="text" name="nom" placeholder="Nom complet" required>
+      <input type="tel" name="telephone" placeholder="Téléphone" required>
+      <input type="email" name="email" placeholder="Email" required>
+
+      <label>Date d’arrivée :</label>
+      <input type="date" name="date_arrivee" required>
+
+      <label>Date de départ :</label>
+      <input type="date" name="date_depart" required>
+
+      <label>Choisissez un hôtel :</label>
+      <select name="hotel" required>
+        <option value="">-- Sélectionner --</option>
+        <option value="Résidence Brazza">Résidence Brazza</option>
+        <option value="Émeraude Palace">Émeraude Palace</option>
+        <option value="Palace Maya">Palace Maya</option>
+      </select>
+
+      <textarea name="message" placeholder="Message / Besoins spécifiques (facultatif)"></textarea>
+
+      <button type="submit">Réserver maintenant</button>
+    </form>
+
+    <div class="confirmation" id="confirmationMessage">
+      ✅ Merci pour votre réservation ! Nous vous contacterons très bientôt.
+    </div>
+  </div>
+
+  <footer>
+    <p>&copy; 2025 Congo Brazza Hôtels. Tous droits réservés.</p>
+    <div class="social-icons">
+      <a href="#">🌐</a>
+      <a href="#">📸</a>
+      <a href="#">🐦</a>
+      <a href="#">▶️</a>
+      <a href="#">💼</a>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById("reservationForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      document.getElementById("confirmationMessage").style.display = "block";
+      this.reset();
+    });
+  </script>
+
+</body>
+</html>
