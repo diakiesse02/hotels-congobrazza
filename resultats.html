@@ -3,249 +3,278 @@
 <head>
   <meta charset="UTF-8">
   <title>Résultats de recherche - Congo Brazza Hôtels</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
+      background-color: #f3f7fb;
       margin: 0;
-      background-color: #f0f8ff;
+      padding: 0;
     }
 
-    /* ======== HEADER ======== */
     header {
       background-color: #3498db;
       color: white;
-      padding: 30px 20px;
+      padding: 20px;
       text-align: center;
     }
 
-    .header-container {
+    .container {
+      max-width: 1100px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .filters {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      justify-content: center;
+      margin-bottom: 25px;
+    }
+
+    .filters label {
       display: flex;
       align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 20px;
+      font-size: 14px;
     }
 
-    .logo {
-      width: 80px;
-      height: auto;
+    .filters input[type="checkbox"] {
+      margin-right: 5px;
     }
 
-    nav {
-      background-color: #2980b9;
-    }
-
-    nav ul {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      list-style: none;
-      padding: 0;
-      margin: 0;
-    }
-
-    nav ul li {
-      margin: 5px;
-    }
-
-    nav ul li a {
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-      padding: 10px 15px;
-      display: block;
-    }
-
-    /* ======== Responsive Menu ======== */
-    .menu-toggle {
-      display: none;
-      background-color: #3498db;
-      color: white;
-      padding: 10px;
-      font-size: 20px;
-      border: none;
-      cursor: pointer;
-    }
-
-    @media (max-width: 768px) {
-      nav ul {
-        display: none;
-        flex-direction: column;
-        background-color: #2980b9;
-      }
-
-      nav ul.show {
-        display: flex;
-      }
-
-      .menu-toggle {
-        display: block;
-        width: 100%;
-        text-align: left;
-      }
-    }
-
-    /* ======== CONTENU ======== */
-    .container {
-      padding: 30px 20px;
-      max-width: 1200px;
-      margin: auto;
-    }
-
-    .results-info {
-      background-color: #dff0ff;
-      padding: 15px;
-      border-radius: 8px;
-      margin-bottom: 20px;
-    }
-
-    .grid-results {
+    .results {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 20px;
     }
 
-    .hotel-card {
+    .card {
       background-color: white;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
       padding: 20px;
-      transition: transform 0.2s;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     }
 
-    .hotel-card:hover {
-      transform: scale(1.02);
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 8px;
     }
 
-    .hotel-card h3 {
-      margin-top: 0;
+    .card h3 {
+      margin: 15px 0 10px;
     }
 
-    .hotel-card p {
+    .card p {
       margin: 5px 0;
     }
 
-    .btn-retour {
+    .btn-whatsapp {
       display: inline-block;
-      background-color: #2980b9;
+      background-color: #25d366;
       color: white;
-      padding: 10px 20px;
+      padding: 10px 15px;
       border-radius: 5px;
       text-decoration: none;
+      margin-top: 10px;
+      font-size: 14px;
+    }
+
+    .no-results {
+      text-align: center;
+      font-size: 18px;
+      color: #777;
       margin-top: 40px;
     }
 
-    footer {
-      background-color: #2c3e50;
+    .back-btn {
+      display: inline-block;
+      margin: 30px auto 0;
+      background-color: #2980b9;
       color: white;
+      padding: 10px 20px;
+      border-radius: 6px;
+      text-decoration: none;
       text-align: center;
-      padding: 25px 10px;
-      margin-top: 40px;
     }
+
+    .date-group, .avis-form {
+      margin-top: 10px;
+    }
+
+    .date-group input {
+      padding: 6px;
+      margin-right: 5px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .avis-form textarea,
+    .avis-form input[type="text"],
+    .avis-form select {
+      width: 100%;
+      padding: 6px;
+      margin-top: 6px;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .avis-form button {
+      margin-top: 8px;
+      background-color: #3498db;
+      color: white;
+      padding: 8px 12px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .avis-form button:hover {
+      background-color: #2980b9;
+    }
+
   </style>
 </head>
 <body>
 
-  <!-- ======== HEADER ======== -->
   <header>
-    <div class="header-container">
-      <img src="logo.png" alt="Logo Congo Hôtels" class="logo">
-      <div>
-        <h1>Bienvenue sur Congo Brazza Hôtels</h1>
-        <p>Réservez dans les meilleurs hôtels du pays</p>
-      </div>
-    </div>
+    <h1>Résultats de votre recherche</h1>
   </header>
 
-  <!-- ======== NAVIGATION ======== -->
-  <button class="menu-toggle" onclick="toggleMenu()">☰ Menu</button>
-  <nav>
-    <ul id="menu">
-      <li><a href="index.html">Accueil</a></li>
-      <li><a href="hotels.html">Liste des hôtels</a></li>
-      <li><a href="meubles.html">Maisons meublées</a></li>
-      <li><a href="services.html">Services</a></li>
-      <li><a href="reservation.html">Réservation</a></li>
-      <li><a href="ajout-hotel.html">Ajouter votre hôtel</a></li>
-      <li><a href="galerie.html">Galerie</a></li>
-      <li><a href="temoignages.html">Témoignages</a></li>
-      <li><a href="publicite.html">Publicité</a></li>
-      <li><a href="about.html">À propos</a></li>
-      <li><a href="contact.html">Contact</a></li>
-      <li><a href="blog.html">Blog</a></li>
-      <li><a href="faq.html">FAQ</a></li>
-    </ul>
-  </nav>
-
-  <!-- ======== CONTENU PRINCIPAL ======== -->
   <div class="container">
-    <div class="results-info" id="critere"></div>
+    <h2>Hôtels disponibles</h2>
 
-    <div id="hotel-list" class="grid-results">
-      <!-- Résultats dynamiques ici -->
+    <div class="filters">
+      <label><input type="checkbox" id="wifi"> Wi-Fi</label>
+      <label><input type="checkbox" id="parking"> Parking</label>
+      <label><input type="checkbox" id="climatisation"> Climatisation</label>
     </div>
 
-    <a href="index.html" class="btn-retour">← Retour à l'accueil</a>
+    <div id="results" class="results"></div>
+    <p id="no-results" class="no-results" style="display:none;">Aucun hôtel trouvé pour votre recherche.</p>
+    <div style="text-align:center;">
+      <a href="index.html" class="back-btn">← Retour à l'accueil</a>
+    </div>
   </div>
 
-  <!-- ======== FOOTER ======== -->
-  <footer>
-    <p>© 2025 Congo Brazza Hôtels. Tous droits réservés.</p>
-  </footer>
-
-  <!-- ======== SCRIPT ======== -->
   <script>
-    function toggleMenu() {
-      const menu = document.getElementById("menu");
-      menu.classList.toggle("show");
-    }
+    document.addEventListener("DOMContentLoaded", () => {
+      const resultsDiv = document.getElementById("results");
+      const noResults = document.getElementById("no-results");
 
-    const hotels = [
-      { nom: "Hôtel Marina", ville: "Brazzaville", categorie: "Luxe", prix: "70 000 FCFA +", tarif: "75 000 FCFA/nuit" },
-      { nom: "Résidence Victoria", ville: "Pointe-Noire", categorie: "Moins cher", prix: "0 - 30 000 FCFA", tarif: "25 000 FCFA/nuit" },
-      { nom: "Emeraude Palace", ville: "Brazzaville", categorie: "Luxe", prix: "30 000 - 70 000 FCFA", tarif: "50 000 FCFA/nuit" },
-      { nom: "Hôtel Prestige", ville: "Dolisie", categorie: "Moins cher", prix: "30 000 - 70 000 FCFA", tarif: "40 000 FCFA/nuit" },
-      { nom: "Hôtel Relax", ville: "Owando", categorie: "Moins cher", prix: "0 - 30 000 FCFA", tarif: "20 000 FCFA/nuit" },
-      { nom: "Palace de la Rivière", ville: "Brazzaville", categorie: "Luxe", prix: "70 000 FCFA +", tarif: "90 000 FCFA/nuit" }
-    ];
+      const hotels = [
+        {
+          ville: "Brazzaville",
+          nom: "Hôtel Marina",
+          prix: "35 000 FCFA",
+          categorie: "Luxe",
+          image: "chambre1.png",
+          whatsapp: "242061234567",
+          wifi: true,
+          parking: true,
+          clim: true
+        },
+        {
+          ville: "Pointe-Noire",
+          nom: "Émeraude Palace",
+          prix: "45 000 FCFA",
+          categorie: "Luxe",
+          image: "chambre2.png",
+          whatsapp: "242062345678",
+          wifi: true,
+          parking: false,
+          clim: true
+        },
+        {
+          ville: "Dolisie",
+          nom: "Résidence Safari",
+          prix: "25 000 FCFA",
+          categorie: "Moins cher",
+          image: "chambre3.png",
+          whatsapp: "242063456789",
+          wifi: false,
+          parking: true,
+          clim: false
+        }
+      ];
 
-    const params = new URLSearchParams(window.location.search);
-    const ville = params.get("ville");
-    const categorie = params.get("categorie");
-    const prix = params.get("prix");
+      const urlParams = new URLSearchParams(window.location.search);
+      const ville = urlParams.get("ville")?.toLowerCase() || "";
+      const categorie = urlParams.get("categorie")?.toLowerCase() || "";
+      const prix = urlParams.get("prix")?.toLowerCase() || "";
 
-    document.getElementById("critere").innerHTML = `
-      <strong>Critères de recherche :</strong><br>
-      ${ville ? "Ville : " + ville + "<br>" : ""}
-      ${categorie ? "Catégorie : " + categorie + "<br>" : ""}
-      ${prix ? "Prix : " + prix : ""}
-    `;
+      function filterHotels() {
+        const wifiFilter = document.getElementById("wifi").checked;
+        const parkingFilter = document.getElementById("parking").checked;
+        const climFilter = document.getElementById("climatisation").checked;
 
-    const hotelList = document.getElementById("hotel-list");
+        const filtrés = hotels.filter(hotel => {
+          return (
+            (!ville || hotel.ville.toLowerCase().includes(ville)) &&
+            (!categorie || hotel.categorie.toLowerCase() === categorie) &&
+            (!prix || hotel.prix.toLowerCase().includes(prix)) &&
+            (!wifiFilter || hotel.wifi) &&
+            (!parkingFilter || hotel.parking) &&
+            (!climFilter || hotel.clim)
+          );
+        });
 
-    const results = hotels.filter(h => {
-      return (!ville || h.ville.toLowerCase().includes(ville.toLowerCase())) &&
-             (!categorie || h.categorie === categorie) &&
-             (!prix || h.prix === prix);
+        resultsDiv.innerHTML = "";
+        if (filtrés.length === 0) {
+          noResults.style.display = "block";
+        } else {
+          noResults.style.display = "none";
+          filtrés.forEach(hotel => {
+            const card = document.createElement("div");
+            card.className = "card";
+            card.innerHTML = `
+              <img src="${hotel.image}" alt="${hotel.nom}">
+              <h3>${hotel.nom}</h3>
+              <p><strong>Ville :</strong> ${hotel.ville}</p>
+              <p><strong>Prix :</strong> ${hotel.prix}</p>
+              <p><strong>Catégorie :</strong> ${hotel.categorie}</p>
+
+              <div class="date-group">
+                <label>Date d'arrivée :
+                  <input type="date" name="checkin">
+                </label><br>
+                <label>Date de départ :
+                  <input type="date" name="checkout">
+                </label>
+              </div>
+
+              <a class="btn-whatsapp" target="_blank" href="https://wa.me/${hotel.whatsapp}?text=Bonjour%20je%20souhaite%20réserver%20une%20chambre%20à%20${encodeURIComponent(hotel.nom)}">Réserver via WhatsApp</a>
+
+              <div class="avis-form">
+                <h4>Laisser un avis</h4>
+                <input type="text" placeholder="Votre nom" />
+                <select>
+                  <option value="5">⭐⭐⭐⭐⭐ (Excellent)</option>
+                  <option value="4">⭐⭐⭐⭐ (Très bien)</option>
+                  <option value="3">⭐⭐⭐ (Bien)</option>
+                  <option value="2">⭐⭐ (Passable)</option>
+                  <option value="1">⭐ (Mauvais)</option>
+                </select>
+                <textarea rows="3" placeholder="Votre commentaire..."></textarea>
+                <button>Envoyer</button>
+              </div>
+            `;
+            resultsDiv.appendChild(card);
+          });
+        }
+      }
+
+      filterHotels();
+      document.getElementById("wifi").addEventListener("change", filterHotels);
+      document.getElementById("parking").addEventListener("change", filterHotels);
+      document.getElementById("climatisation").addEventListener("change", filterHotels);
     });
-
-    if (results.length === 0) {
-      hotelList.innerHTML = "<p>Aucun hôtel trouvé avec ces critères.</p>";
-    } else {
-      results.forEach(hotel => {
-        const div = document.createElement("div");
-        div.className = "hotel-card";
-        div.innerHTML = `
-          <h3>${hotel.nom}</h3>
-          <p><strong>Ville :</strong> ${hotel.ville}</p>
-          <p><strong>Catégorie :</strong> ${hotel.categorie}</p>
-          <p><strong>Prix estimé :</strong> ${hotel.tarif}</p>
-          <a href="hotel1.html">Voir l'hôtel</a>
-        `;
-        hotelList.appendChild(div);
-      });
-    }
   </script>
 
 </body>
