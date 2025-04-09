@@ -11,7 +11,7 @@
       background-color: #f0f8ff;
     }
 
-    /* ======== HEADER UNIFORME ======== */
+    /* ======== HEADER ======== */
     header {
       background-color: #3498db;
       color: white;
@@ -23,8 +23,8 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 20px;
       flex-wrap: wrap;
+      gap: 20px;
     }
 
     .logo {
@@ -34,24 +34,56 @@
 
     nav {
       background-color: #2980b9;
-      text-align: center;
     }
 
     nav ul {
-      list-style: none;
-      margin: 0;
-      padding: 10px;
       display: flex;
-      justify-content: center;
       flex-wrap: wrap;
-      gap: 10px;
+      justify-content: center;
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    nav ul li {
+      margin: 5px;
     }
 
     nav ul li a {
       color: white;
       text-decoration: none;
       font-weight: bold;
-      padding: 8px 14px;
+      padding: 10px 15px;
+      display: block;
+    }
+
+    /* ======== Responsive Menu ======== */
+    .menu-toggle {
+      display: none;
+      background-color: #3498db;
+      color: white;
+      padding: 10px;
+      font-size: 20px;
+      border: none;
+      cursor: pointer;
+    }
+
+    @media (max-width: 768px) {
+      nav ul {
+        display: none;
+        flex-direction: column;
+        background-color: #2980b9;
+      }
+
+      nav ul.show {
+        display: flex;
+      }
+
+      .menu-toggle {
+        display: block;
+        width: 100%;
+        text-align: left;
+      }
     }
 
     /* ======== CONTENU ======== */
@@ -111,22 +143,11 @@
       padding: 25px 10px;
       margin-top: 40px;
     }
-
-    @media (max-width: 600px) {
-      .header-container {
-        flex-direction: column;
-        text-align: center;
-      }
-
-      .logo {
-        margin-bottom: 10px;
-      }
-    }
   </style>
 </head>
 <body>
 
-  <!-- HEADER UNIFORME -->
+  <!-- ======== HEADER ======== -->
   <header>
     <div class="header-container">
       <img src="logo.png" alt="Logo Congo Hôtels" class="logo">
@@ -137,34 +158,49 @@
     </div>
   </header>
 
+  <!-- ======== NAVIGATION ======== -->
+  <button class="menu-toggle" onclick="toggleMenu()">☰ Menu</button>
   <nav>
-    <ul>
+    <ul id="menu">
       <li><a href="index.html">Accueil</a></li>
       <li><a href="hotels.html">Liste des hôtels</a></li>
       <li><a href="meubles.html">Maisons meublées</a></li>
+      <li><a href="services.html">Services</a></li>
       <li><a href="reservation.html">Réservation</a></li>
+      <li><a href="ajout-hotel.html">Ajouter votre hôtel</a></li>
+      <li><a href="galerie.html">Galerie</a></li>
+      <li><a href="temoignages.html">Témoignages</a></li>
+      <li><a href="publicite.html">Publicité</a></li>
+      <li><a href="about.html">À propos</a></li>
       <li><a href="contact.html">Contact</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="faq.html">FAQ</a></li>
     </ul>
   </nav>
 
-  <!-- CONTENU PRINCIPAL -->
+  <!-- ======== CONTENU PRINCIPAL ======== -->
   <div class="container">
     <div class="results-info" id="critere"></div>
 
     <div id="hotel-list" class="grid-results">
-      <!-- Hôtels insérés dynamiquement ici -->
+      <!-- Résultats dynamiques ici -->
     </div>
 
     <a href="index.html" class="btn-retour">← Retour à l'accueil</a>
   </div>
 
-  <!-- FOOTER -->
+  <!-- ======== FOOTER ======== -->
   <footer>
     <p>© 2025 Congo Brazza Hôtels. Tous droits réservés.</p>
   </footer>
 
-  <!-- SCRIPT JS -->
+  <!-- ======== SCRIPT ======== -->
   <script>
+    function toggleMenu() {
+      const menu = document.getElementById("menu");
+      menu.classList.toggle("show");
+    }
+
     const hotels = [
       { nom: "Hôtel Marina", ville: "Brazzaville", categorie: "Luxe", prix: "70 000 FCFA +", tarif: "75 000 FCFA/nuit" },
       { nom: "Résidence Victoria", ville: "Pointe-Noire", categorie: "Moins cher", prix: "0 - 30 000 FCFA", tarif: "25 000 FCFA/nuit" },
@@ -211,5 +247,6 @@
       });
     }
   </script>
+
 </body>
 </html>
