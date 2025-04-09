@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Résultats de recherche - Congo Brazza Hôtels</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background-color: #f0f8ff;
+    }
+
+    header {
+      background-color: #3498db;
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+    }
+
+    nav {
+      background-color: #2980b9;
+      text-align: center;
+    }
+
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .container {
+      padding: 30px 20px;
+    }
+
+    .results-info {
+      background-color: #dff0ff;
+      padding: 15px;
+      border-radius: 8px;
+      margin-bottom: 20px;
+    }
+
+    .hotel-card {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+      padding: 20px;
+    }
+
+    .hotel-card h3 {
+      margin-top: 0;
+    }
+
+    .hotel-card p {
+      margin: 5px 0;
+    }
+
+    .btn-retour {
+      display: inline-block;
+      background-color: #2980b9;
+      color: white;
+      padding: 10px 20px;
+      border-radius: 5px;
+      text-decoration: none;
+      margin-top: 30px;
+    }
+
+    footer {
+      background-color: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 25px 10px;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 768px) {
+      nav ul {
+        flex-direction: column;
+        padding: 10px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Résultats de votre recherche</h1>
+    <p>Découvrez les hôtels correspondant à vos critères</p>
+  </header>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="hotels.html">Liste des hôtels</a></li>
+      <li><a href="meubles.html">Maisons meublées</a></li>
+      <li><a href="reservation.html">Réservation</a></li>
+      <li><a href="contact.html">Contact</a></li>
+    </ul>
+  </nav>
+
+  <div class="container">
+    <div class="results-info" id="critere"></div>
+
+    <div id="hotel-list">
+      <!-- Résultats insérés ici par JS -->
+    </div>
+
+    <a href="index.html" class="btn-retour">← Retour à l'accueil</a>
+  </div>
+
+  <footer>
+    <p>© 2025 Congo Brazza Hôtels. Tous droits réservés.</p>
+  </footer>
+
+  <script>
+    // Simuler des hôtels pour test
+    const hotels = [
+      { nom: "Hôtel Marina", ville: "Brazzaville", categorie: "Luxe", prix: "70 000 FCFA +", tarif: "75 000 FCFA/nuit" },
+      { nom: "Résidence Victoria", ville: "Pointe-Noire", categorie: "Moins cher", prix: "0 - 30 000 FCFA", tarif: "25 000 FCFA/nuit" },
+      { nom: "Emeraude Palace", ville: "Brazzaville", categorie: "Luxe", prix: "30 000 - 70 000 FCFA", tarif: "50 000 FCFA/nuit" },
+      { nom: "Hôtel Prestige", ville: "Dolisie", categorie: "Moins cher", prix: "30 000 - 70 000 FCFA", tarif: "40 000 FCFA/nuit" }
+    ];
+
+    const params = new URLSearchParams(window.location.search);
+    const ville = params.get("ville");
+    const categorie = params.get("categorie");
+    const prix = params.get("prix");
+
+    document.getElementById("critere").innerHTML = `
+      <strong>Critères de recherche :</strong><br>
+      ${ville ? "Ville : " + ville + "<br>" : ""}
+      ${categorie ? "Catégorie : " + categorie + "<br>" : ""}
+      ${prix ? "Prix : " + prix : ""}
+    `;
+
+    const hotelList = document.getElementById("hotel-list");
+    const results = hotels.filter(h => {
+      return (!ville || h.ville.toLowerCase().includes(ville.toLowerCase())) &&
+             (!categorie || h.categorie === categorie) &&
+             (!prix || h.prix === prix);
+    });
+
+    if (results.length === 0) {
+      hotelList.innerHTML = "<p>Aucun hôtel trouvé avec ces critères.</p>";
+    } else {
+      results.forEach(hotel => {
+        const div = document.createElement("div");
+        div.className = "hotel-card";
+        div.innerHTML = `
+          <h3>${hotel.nom}</h3>
+          <p><strong>Ville :</strong> ${hotel.ville}</p>
+          <p><strong>Catégorie :</strong> ${hotel.categorie}</p>
+          <p><strong>Prix estimé :</strong> ${hotel.tarif}</p>
+          <a href="hotel1.html">Voir l'hôtel</a>
+        `;
+        hotelList.appendChild(div);
+      });
+    }
+  </script>
+
+</body>
+</html>
