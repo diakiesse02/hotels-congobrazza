@@ -1,13 +1,10 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hôtels - Brazzaville Hotels</title>
-  <link rel="stylesheet" href="styles.css"> <!-- Tu peux aussi intégrer le CSS ici directement si tu veux -->
   <style>
-    /* Styles simplifiés pour que tout soit visible rapidement */
-
     body {
       margin: 0;
       font-family: Arial, sans-serif;
@@ -39,39 +36,51 @@
     }
 
     .slider {
-      max-width: 100%;
-      overflow: hidden;
+      display: flex;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 20px;
     }
 
     .slider img {
       width: 100%;
-      height: auto;
+      max-width: 100%;
+      height: 300px;
+      object-fit: cover;
+      border-radius: 10px;
+      scroll-snap-align: center;
+      flex-shrink: 0;
     }
 
     .services {
       display: flex;
-      justify-content: space-around;
       flex-wrap: wrap;
+      justify-content: space-around;
+      gap: 20px;
+      margin-top: 20px;
     }
 
     .service-card {
       background: white;
       padding: 20px;
-      margin: 10px;
-      border-radius: 8px;
-      width: 300px;
+      border-radius: 10px;
+      width: 280px;
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
       text-align: center;
     }
 
-    .map-container {
-      margin-top: 40px;
+    .service-card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
     }
 
     iframe {
       width: 100%;
       height: 300px;
       border: none;
+      border-radius: 10px;
     }
 
     .like-form {
@@ -99,9 +108,6 @@
       text-decoration: none;
       font-size: 18px;
       z-index: 1000;
-      display: flex;
-      align-items: center;
-      gap: 10px;
     }
 
     #scrollTopBtn {
@@ -123,6 +129,7 @@
       color: white;
       text-align: center;
       padding: 20px;
+      margin-top: 60px;
     }
   </style>
 </head>
@@ -130,7 +137,7 @@
 
   <header>
     <h1>Nos Hôtels à Brazzaville et ailleurs</h1>
-    <p>Trouvez l'hôtel parfait pour votre séjour</p>
+    <p>Confort, luxe, et services haut de gamme</p>
   </header>
 
   <nav>
@@ -141,41 +148,52 @@
     <a href="contact.html">Contact</a>
   </nav>
 
-  <!-- SLIDER -->
-  <section class="slider">
-    <img src="images/slide1.jpg" alt="Hôtel 1">
-    <!-- Tu peux utiliser un vrai slider type Swiper ou Slick ici -->
+  <!-- SLIDER AVEC PHOTOS -->
+  <section>
+    <h2>Nos meilleurs espaces</h2>
+    <div class="slider">
+      <img src="images/chambre.jpg" alt="Chambre moderne">
+      <img src="images/piscine.jpg" alt="Piscine de l'hôtel">
+      <img src="images/restaurant.jpg" alt="Restaurant élégant">
+    </div>
   </section>
 
-  <!-- SERVICES -->
+  <!-- SERVICES ILLUSTRÉS -->
   <section>
     <h2>Nos Services</h2>
     <div class="services">
       <div class="service-card">
+        <img src="images/service-petitdej.jpg" alt="Petit-déjeuner">
         <h3>Petit-déjeuner inclus</h3>
-        <p>Profitez de nos buffets frais tous les matins.</p>
+        <p>Buffets variés et délicieux chaque matin.</p>
       </div>
       <div class="service-card">
+        <img src="images/service-wifi.jpg" alt="Wi-Fi gratuit">
         <h3>Wi-Fi gratuit</h3>
-        <p>Connexion rapide dans toutes les chambres.</p>
+        <p>Internet haut débit dans toutes les chambres.</p>
       </div>
       <div class="service-card">
+        <img src="images/service-navette.jpg" alt="Navette aéroport">
         <h3>Navette aéroport</h3>
-        <p>Transport depuis et vers l’aéroport.</p>
+        <p>Transport sécurisé vers et depuis l'aéroport.</p>
       </div>
     </div>
   </section>
 
   <!-- MAP -->
-  <section class="map-container">
+  <section>
     <h2>Où nous trouver ?</h2>
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18..."></iframe>
+    <iframe 
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3979.886856396013!2d15.2663!3d-4.2634!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1a6a3176e5f0386f%3A0xc4af6ae2ed1f1d36!2sBrazzaville!5e0!3m2!1sfr!2scg!4v1616175202745!5m2!1sfr!2scg" 
+      allowfullscreen="" 
+      loading="lazy"
+    ></iframe>
   </section>
 
   <!-- LIKE FORM -->
   <section class="like-form">
-    <h2>Avez-vous aimé nos hôtels ?</h2>
-    <form onsubmit="event.preventDefault(); alert('Merci pour votre avis !');">
+    <h2>Vous aimez notre site ?</h2>
+    <form onsubmit="event.preventDefault(); alert('Merci pour votre soutien !');">
       <button type="submit">👍 J’aime</button>
     </form>
   </section>
@@ -185,13 +203,15 @@
     <p>&copy; 2025 Brazzaville Hotels. Tous droits réservés.</p>
   </footer>
 
-  <!-- WHATSAPP FLOAT BUTTON -->
+  <!-- WHATSAPP -->
   <a href="https://wa.me/242061234567" class="whatsapp-button" target="_blank">
-    📞 Réserver sur WhatsApp
+    💬 Réserver via WhatsApp
   </a>
 
-  <!-- SCROLL TO TOP -->
-  <button id="scrollTopBtn" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">⬆ Haut</button>
+  <!-- BOUTON HAUT -->
+  <button id="scrollTopBtn" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">
+    ⬆ Haut
+  </button>
 
 </body>
 </html>
