@@ -1,0 +1,16 @@
+[
+  {
+    "ville": "Brazzaville",
+    "nom": "Hôtel Résidence Marina",
+    "description": "Centre-ville, Wi-Fi, piscine",
+    "image": "https://source.unsplash.com/400x300/?hotel,brazzaville1",
+    "lien": "hotel1.html"
+  },
+  {
+    "ville": "Pointe-Noire",
+    "nom": "Hôtel Océan Palace",
+    "description": "Vue sur mer, piscine",
+    "image": "https://source.unsplash.com/400x300/?hotel,pointe-noire1",
+    "lien": "#"
+  }
+]
