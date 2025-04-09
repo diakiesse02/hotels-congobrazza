@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Accueil - Congo Brazza Hôtels</title>
   <style>
     body {
@@ -23,6 +23,7 @@
       justify-content: center;
       flex-wrap: wrap;
       gap: 40px;
+      text-align: center;
     }
 
     .logo {
@@ -39,27 +40,65 @@
       margin: 10px 0 0;
     }
 
-    nav {
+    /* ----------- NAVBAR ----------- */
+    .navbar {
       background-color: #2980b9;
-      text-align: center;
+      padding: 10px 20px;
+      position: relative;
     }
 
-    nav ul {
+    .navbar ul {
       list-style: none;
       margin: 0;
-      padding: 10px;
+      padding: 0;
       display: flex;
+      flex-wrap: wrap;
       justify-content: center;
       gap: 15px;
-      flex-wrap: wrap;
     }
 
-    nav ul li a {
+    .navbar ul li a {
       color: white;
       text-decoration: none;
       font-weight: bold;
+      padding: 8px 12px;
+      display: block;
     }
 
+    .burger {
+      display: none;
+      cursor: pointer;
+      font-size: 26px;
+      color: white;
+      background: none;
+      border: none;
+      position: absolute;
+      right: 20px;
+      top: 12px;
+    }
+
+    @media screen and (max-width: 768px) {
+      .navbar ul {
+        flex-direction: column;
+        background-color: #2980b9;
+        position: absolute;
+        top: 60px;
+        left: 0;
+        width: 100%;
+        display: none;
+        z-index: 999;
+      }
+
+      .navbar ul.show {
+        display: flex;
+      }
+
+      .burger {
+        display: block;
+      }
+    }
+
+    /* ----------- SEARCH ----------- */
     .search-section {
       padding: 30px 20px;
       text-align: center;
@@ -74,26 +113,31 @@
       border: 1px solid #ccc;
     }
 
-    .slider {
+    /* ----------- IMAGES ----------- */
+    .hero-images {
       display: flex;
-      overflow-x: auto;
-      scroll-snap-type: x mandatory;
+      justify-content: center;
+      flex-wrap: wrap;
       gap: 20px;
       padding: 30px 20px;
     }
 
-    .slider img {
-      width: 600px;
-      height: 350px;
-      object-fit: cover;
-      scroll-snap-align: center;
-      border-radius: 12px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-      transition: transform 0.3s;
+    .hero-images .image-container {
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     }
 
-    .slider img:hover {
-      transform: scale(1.03);
+    .hero-images img {
+      display: block;
+      width: 100%;
+      max-width: 600px;
+      height: auto;
+      transition: transform 0.4s ease;
+    }
+
+    .hero-images .image-container:hover img {
+      transform: scale(1.05);
     }
 
     .voir-plus-btn {
@@ -109,6 +153,7 @@
       text-align: center;
     }
 
+    /* ----------- FOOTER ----------- */
     footer {
       background-color: #2c3e50;
       color: white;
@@ -136,6 +181,7 @@
 </head>
 <body>
 
+  <!-- -------- HEADER -------- -->
   <header>
     <div class="header-container">
       <img src="logo.png" alt="Logo Hôtel Congo" class="logo">
@@ -146,8 +192,10 @@
     </div>
   </header>
 
-  <nav>
-    <ul>
+  <!-- -------- NAVBAR -------- -->
+  <nav class="navbar">
+    <button class="burger" onclick="toggleMenu()">☰</button>
+    <ul id="menu">
       <li><a href="index.html">Accueil</a></li>
       <li><a href="hotels.html">Liste des hôtels</a></li>
       <li><a href="meubles.html">Maisons meublées</a></li>
@@ -164,13 +212,13 @@
     </ul>
   </nav>
 
-  <!-- Barre de recherche -->
+  <!-- -------- SEARCH BAR -------- -->
   <section class="search-section">
     <input type="text" placeholder="Ville">
     <select>
       <option>Catégorie</option>
       <option>Luxe</option>
-      <option>Économique</option>
+      <option>Moins cher</option>
     </select>
     <select>
       <option>Prix</option>
@@ -181,20 +229,26 @@
     <button>Rechercher</button>
   </section>
 
-  <!-- Slider -->
-  <section class="slider">
-    <img src="chambre1.png" alt="Hôtel 1">
-    <img src="chambre2.png" alt="Hôtel 2">
-    <img src="chambre3.png" alt="Hôtel 3">
-    <img src="chambre4.png" alt="Hôtel 4">
-    <img src="chambre5.png" alt="Hôtel 5">
-    <img src="chambre6.png" alt="Hôtel 6">
+  <!-- -------- HOTEL IMAGES -------- -->
+  <section class="hero-images">
+    <div class="image-container">
+      <img src="im1.png" alt="Hôtel Résidence Brazza">
+    </div>
+    <div class="image-container">
+      <img src="im2.png" alt="Hôtel Émeraude Palace">
+    </div>
+    <div class="image-container">
+      <img src="im3.png" alt="Hôtel Chic">
+    </div>
+    <div class="image-container">
+      <img src="im4.png" alt="Hôtel Moderne">
+    </div>
   </section>
 
-  <!-- Voir plus -->
+  <!-- -------- VOIR PLUS -------- -->
   <a href="hotels.html" class="voir-plus-btn">Voir plus d'hôtels</a>
 
-  <!-- Footer -->
+  <!-- -------- FOOTER -------- -->
   <footer>
     <p>© 2025 Congo Brazza Hôtels. Tous droits réservés.</p>
     <div class="social-icons">
@@ -205,6 +259,12 @@
       <a href="https://linkedin.com" target="_blank" title="LinkedIn">💼</a>
     </div>
   </footer>
+
+  <script>
+    function toggleMenu() {
+      document.getElementById("menu").classList.toggle("show");
+    }
+  </script>
 
 </body>
 </html>
