@@ -3,16 +3,26 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hôtels - Brazzaville Hotels</title>
+  <title>Hôtel OYO - Brazzaville Hotels</title>
   <style>
+    :root {
+      --main-color: #3498db;
+      --dark-color: #2c3e50;
+      --light-bg: #f5f7fa;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: #f5f7fa;
+      background: var(--light-bg);
     }
 
     header {
-      background-color: #3498db;
+      background-color: var(--main-color);
       color: white;
       padding: 30px 20px;
       text-align: center;
@@ -27,45 +37,47 @@
     nav a {
       color: white;
       text-decoration: none;
-      margin: 0 15px;
+      margin: 0 10px;
       font-weight: bold;
     }
 
     section {
       padding: 40px 20px;
+      max-width: 1200px;
+      margin: auto;
     }
 
-    .slider {
+    /* SLIDER */
+    .slider-container {
+      overflow-x: scroll;
       display: flex;
-      overflow-x: auto;
+      gap: 15px;
       scroll-snap-type: x mandatory;
-      gap: 20px;
     }
 
-    .slider img {
-      width: 100%;
-      max-width: 100%;
-      height: 300px;
-      object-fit: cover;
-      border-radius: 10px;
-      scroll-snap-align: center;
+    .slider-container img {
       flex-shrink: 0;
+      width: 100%;
+      max-width: 350px;
+      height: 220px;
+      object-fit: cover;
+      scroll-snap-align: center;
+      border-radius: 10px;
     }
 
+    /* SERVICES */
     .services {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: space-around;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
-      margin-top: 20px;
+      margin-top: 30px;
     }
 
     .service-card {
       background: white;
       padding: 20px;
       border-radius: 10px;
-      width: 280px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
       text-align: center;
     }
 
@@ -81,6 +93,7 @@
       height: 300px;
       border: none;
       border-radius: 10px;
+      margin-top: 20px;
     }
 
     .like-form {
@@ -125,19 +138,26 @@
     }
 
     footer {
-      background-color: #2c3e50;
+      background-color: var(--dark-color);
       color: white;
       text-align: center;
       padding: 20px;
       margin-top: 60px;
+    }
+
+    @media (max-width: 600px) {
+      .slider-container img {
+        max-width: 100%;
+        height: 200px;
+      }
     }
   </style>
 </head>
 <body>
 
   <header>
-    <h1>Nos Hôtels à Brazzaville et ailleurs</h1>
-    <p>Confort, luxe, et services haut de gamme</p>
+    <h1>Hôtel OYO - Brazzaville</h1>
+    <p>Confort moderne et hospitalité africaine</p>
   </header>
 
   <nav>
@@ -148,70 +168,70 @@
     <a href="contact.html">Contact</a>
   </nav>
 
-  <!-- SLIDER AVEC PHOTOS -->
+  <!-- SLIDER AVEC 10 PHOTOS -->
   <section>
-    <h2>Nos meilleurs espaces</h2>
-    <div class="slider">
-      <img src="images/chambre.jpg" alt="Chambre moderne">
-      <img src="images/piscine.jpg" alt="Piscine de l'hôtel">
-      <img src="images/restaurant.jpg" alt="Restaurant élégant">
+    <h2>Galerie de l’hôtel</h2>
+    <div class="slider-container">
+      <img src="images/oyo1.jpg" alt="Image 1">
+      <img src="images/oyo2.jpg" alt="Image 2">
+      <img src="images/oyo3.jpg" alt="Image 3">
+      <img src="images/oyo4.jpg" alt="Image 4">
+      <img src="images/oyo5.jpg" alt="Image 5">
+      <img src="images/oyo6.jpg" alt="Image 6">
+      <img src="images/oyo7.jpg" alt="Image 7">
+      <img src="images/oyo8.jpg" alt="Image 8">
+      <img src="images/oyo9.jpg" alt="Image 9">
+      <img src="images/oyo10.jpg" alt="Image 10">
     </div>
   </section>
 
-  <!-- SERVICES ILLUSTRÉS -->
+  <!-- SERVICES -->
   <section>
-    <h2>Nos Services</h2>
+    <h2>Services proposés</h2>
     <div class="services">
       <div class="service-card">
         <img src="images/service-petitdej.jpg" alt="Petit-déjeuner">
-        <h3>Petit-déjeuner inclus</h3>
-        <p>Buffets variés et délicieux chaque matin.</p>
+        <h3>Petit-déjeuner</h3>
+        <p>Buffet continental chaque matin</p>
       </div>
       <div class="service-card">
-        <img src="images/service-wifi.jpg" alt="Wi-Fi gratuit">
+        <img src="images/service-wifi.jpg" alt="Wi-Fi">
         <h3>Wi-Fi gratuit</h3>
-        <p>Internet haut débit dans toutes les chambres.</p>
+        <p>Connexion rapide dans tout l’établissement</p>
       </div>
       <div class="service-card">
-        <img src="images/service-navette.jpg" alt="Navette aéroport">
-        <h3>Navette aéroport</h3>
-        <p>Transport sécurisé vers et depuis l'aéroport.</p>
+        <img src="images/service-piscine.jpg" alt="Piscine">
+        <h3>Piscine</h3>
+        <p>Détente et rafraîchissement toute la journée</p>
       </div>
     </div>
   </section>
 
   <!-- MAP -->
   <section>
-    <h2>Où nous trouver ?</h2>
-    <iframe 
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3979.886856396013!2d15.2663!3d-4.2634!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1a6a3176e5f0386f%3A0xc4af6ae2ed1f1d36!2sBrazzaville!5e0!3m2!1sfr!2scg!4v1616175202745!5m2!1sfr!2scg" 
-      allowfullscreen="" 
-      loading="lazy"
-    ></iframe>
+    <h2>Localisation</h2>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18..." allowfullscreen loading="lazy"></iframe>
   </section>
 
-  <!-- LIKE FORM -->
+  <!-- FORMULAIRE DE LIKE -->
   <section class="like-form">
-    <h2>Vous aimez notre site ?</h2>
-    <form onsubmit="event.preventDefault(); alert('Merci pour votre soutien !');">
+    <h2>Vous aimez cet hôtel ?</h2>
+    <form onsubmit="event.preventDefault(); alert('Merci pour votre like !')">
       <button type="submit">👍 J’aime</button>
     </form>
   </section>
 
-  <!-- FOOTER -->
   <footer>
     <p>&copy; 2025 Brazzaville Hotels. Tous droits réservés.</p>
   </footer>
 
-  <!-- WHATSAPP -->
+  <!-- WhatsApp bouton -->
   <a href="https://wa.me/242061234567" class="whatsapp-button" target="_blank">
-    💬 Réserver via WhatsApp
+    💬 Réserver sur WhatsApp
   </a>
 
-  <!-- BOUTON HAUT -->
-  <button id="scrollTopBtn" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">
-    ⬆ Haut
-  </button>
+  <!-- Scroll haut -->
+  <button id="scrollTopBtn" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">⬆ Haut</button>
 
 </body>
 </html>
