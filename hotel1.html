@@ -4,7 +4,323 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Hôtel OYO - Brazzaville</title>
+  <style>a<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hôtel OYO - Brazzaville</title>
   <style>
+    :root {
+      --main-color: #3498db;
+      --dark-color: #2c3e50;
+      --light-bg: #f5f7fa;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--light-bg);
+    }
+
+    header {
+      background-color: var(--main-color);
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+    }
+
+    nav {
+      background-color: #2980b9;
+      padding: 10px;
+      text-align: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: bold;
+    }
+
+    section {
+      padding: 40px 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .slider-container {
+      display: flex;
+      overflow-x: auto;
+      gap: 15px;
+      scroll-snap-type: x mandatory;
+      animation: slide 20s linear infinite;
+    }
+
+    .slider-container img {
+      flex-shrink: 0;
+      width: 100%;
+      max-width: 350px;
+      height: 220px;
+      object-fit: cover;
+      scroll-snap-align: center;
+      border-radius: 10px;
+    }
+
+    @keyframes slide {
+      0% {transform: translateX(0);}
+      100% {transform: translateX(-100%);}
+    }
+
+    .services, .chambres {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 30px;
+    }
+
+    .service-card, .chambre {
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      text-align: center;
+    }
+
+    .service-card img {
+      width: 100%;
+      height: 150px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+
+    iframe {
+      width: 100%;
+      height: 300px;
+      border: none;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+
+    .avis-section {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .avis-card {
+      background-color: #ffffff;
+      padding: 15px;
+      border-radius: 8px;
+      margin: 10px auto;
+      max-width: 500px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .avis-form {
+      margin-top: 20px;
+    }
+
+    .avis-form input,
+    .avis-form textarea {
+      width: 100%;
+      max-width: 500px;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .avis-form button {
+      padding: 10px 20px;
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .like-form {
+      text-align: center;
+      margin-top: 40px;
+    }
+
+    .like-form button {
+      padding: 10px 20px;
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .whatsapp-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background-color: #25d366;
+      color: white;
+      padding: 15px 20px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-size: 18px;
+      z-index: 1000;
+    }
+
+    #scrollTopBtn {
+      position: fixed;
+      bottom: 90px;
+      right: 20px;
+      padding: 10px 15px;
+      font-size: 16px;
+      background-color: #2980b9;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    footer {
+      background-color: var(--dark-color);
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 60px;
+    }
+
+    @media (max-width: 600px) {
+      .slider-container img {
+        max-width: 100%;
+        height: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Hôtel OYO - Brazzaville</h1>
+    <p>Bienvenue à l'hôtel OYO à Brazzaville – confort moderne et hospitalité africaine</p>
+  </header>
+
+  <nav>
+    <a href="#">Accueil</a>
+    <a href="#">Hôtels</a>
+    <a href="#">Services</a>
+    <a href="#">Réservation</a>
+    <a href="#">Contact</a>
+  </nav>
+
+  <!-- SLIDER -->
+  <section>
+    <h2>Galerie de l’hôtel</h2>
+    <div class="slider-container">
+      <img src="images/oyo1.jpg" alt="Image 1">
+      <img src="images/oyo2.jpg" alt="Image 2">
+      <img src="images/oyo3.jpg" alt="Image 3">
+      <img src="images/oyo4.jpg" alt="Image 4">
+      <img src="images/oyo5.jpg" alt="Image 5">
+    </div>
+  </section>
+
+  <!-- SERVICES -->
+  <section>
+    <h2>Nos Services</h2>
+    <div class="services">
+      <div class="service-card" style="background-color:#e8f4fd;">
+        <img src="images/service-petitdej.jpg" alt="Petit-déjeuner">
+        <h3>Petit-déjeuner</h3>
+        <p>Buffet continental chaque matin</p>
+      </div>
+      <div class="service-card" style="background-color:#e8f4fd;">
+        <img src="images/service-wifi.jpg" alt="Wi-Fi">
+        <h3>Wi-Fi gratuit</h3>
+        <p>Connexion rapide dans tout l’établissement</p>
+      </div>
+      <div class="service-card" style="background-color:#e8f4fd;">
+        <img src="images/service-piscine.jpg" alt="Piscine">
+        <h3>Piscine</h3>
+        <p>Détente et rafraîchissement toute la journée</p>
+      </div>
+      <div class="service-card" style="background-color:#e8f4fd;">
+        <img src="images/service-navette.jpg" alt="Navette">
+        <h3>Navette aéroport</h3>
+        <p>Transport sécurisé vers l’aéroport</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CHAMBRES -->
+  <section>
+    <h2>Tarifs des chambres</h2>
+    <div class="chambres">
+      <div class="chambre" style="background-color:#fff6e5;">
+        <h3>Chambre Standard</h3>
+        <p>À partir de 25 000 FCFA</p>
+      </div>
+      <div class="chambre" style="background-color:#fff6e5;">
+        <h3>Chambre Deluxe</h3>
+        <p>À partir de 35 000 FCFA</p>
+      </div>
+      <div class="chambre" style="background-color:#fff6e5;">
+        <h3>Suite Junior</h3>
+        <p>À partir de 50 000 FCFA</p>
+      </div>
+      <div class="chambre" style="background-color:#fff6e5;">
+        <h3>Suite Prestige</h3>
+        <p>À partir de 80 000 FCFA</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAPS -->
+  <section>
+    <h2>Localisation</h2>
+    <iframe src="https://maps.google.com/maps?q=Brazzaville&t=&z=13&ie=UTF8&iwloc=&output=embed" allowfullscreen></iframe>
+  </section>
+
+  <!-- AVIS -->
+  <section class="avis-section">
+    <h2>Avis des clients</h2>
+    <div class="avis-card">
+      <p><strong>Jean :</strong> ⭐⭐⭐⭐ Excellent séjour, très propre et personnel accueillant.</p>
+    </div>
+    <div class="avis-card">
+      <p><strong>Fatou :</strong> ⭐⭐⭐⭐ J’ai adoré le petit-déjeuner !</p>
+    </div>
+    <div class="avis-form">
+      <h3>Laissez votre avis</h3>
+      <form onsubmit="event.preventDefault(); alert('Merci pour votre avis !')">
+        <input type="text" placeholder="Votre nom" required />
+        <textarea rows="4" placeholder="Votre avis..." required></textarea>
+        <button type="submit">Envoyer</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- LIKE -->
+  <section class="like-form">
+    <h2>Vous avez aimé l’hôtel ?</h2>
+    <form onsubmit="event.preventDefault(); alert('Merci pour votre like !')">
+      <button type="submit">👍 J’aime</button>
+    </form>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Hôtel OYO - Brazzaville. Tous droits réservés.</p>
+  </footer>
+
+  <a href="https://wa.me/242061234567" class="whatsapp-button" target="_blank">
+    💬 Réserver sur WhatsApp
+  </a>
+
+  <button id="scrollTopBtn" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">⬆ Haut</button>
+</body>
+</html>
+
     :root {
       --main-color: #3498db;
       --dark-color: #2c3e50;
