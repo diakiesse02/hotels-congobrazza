@@ -48,21 +48,37 @@
     }
 
     /* SLIDER */
-    .slider-container {
-      overflow-x: scroll;
+    .slider-wrapper {
       display: flex;
-      gap: 15px;
-      scroll-snap-type: x mandatory;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      position: relative;
+      max-width: 1000px;
+      margin: auto;
     }
 
-    .slider-container img {
-      flex-shrink: 0;
+    .slider-images {
+      display: flex;
+      transition: transform 0.5s ease-in-out;
       width: 100%;
-      max-width: 350px;
-      height: 220px;
+    }
+
+    .slider-images img {
+      min-width: 100%;
+      height: 300px;
       object-fit: cover;
-      scroll-snap-align: center;
       border-radius: 10px;
+    }
+
+    .prev, .next {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 2;
     }
 
     /* SERVICES */
@@ -146,8 +162,7 @@
     }
 
     @media (max-width: 600px) {
-      .slider-container img {
-        max-width: 100%;
+      .slider-images img {
         height: 200px;
       }
     }
@@ -168,20 +183,24 @@
     <a href="contact.html">Contact</a>
   </nav>
 
-  <!-- SLIDER AVEC 10 PHOTOS -->
+  <!-- SLIDER -->
   <section>
     <h2>Galerie de l’hôtel</h2>
-    <div class="slider-container">
-      <img src="images/oyo1.jpg" alt="Image 1">
-      <img src="images/oyo2.jpg" alt="Image 2">
-      <img src="images/oyo3.jpg" alt="Image 3">
-      <img src="images/oyo4.jpg" alt="Image 4">
-      <img src="images/oyo5.jpg" alt="Image 5">
-      <img src="images/oyo6.jpg" alt="Image 6">
-      <img src="images/oyo7.jpg" alt="Image 7">
-      <img src="images/oyo8.jpg" alt="Image 8">
-      <img src="images/oyo9.jpg" alt="Image 9">
-      <img src="images/oyo10.jpg" alt="Image 10">
+    <div class="slider-wrapper">
+      <button class="prev" onclick="moveSlide(-1)">⬅</button>
+      <div class="slider-images" id="slider">
+        <img src="images/oyo1.jpg" alt="Image 1">
+        <img src="images/oyo2.jpg" alt="Image 2">
+        <img src="images/oyo3.jpg" alt="Image 3">
+        <img src="images/oyo4.jpg" alt="Image 4">
+        <img src="images/oyo5.jpg" alt="Image 5">
+        <img src="images/oyo6.jpg" alt="Image 6">
+        <img src="images/oyo7.jpg" alt="Image 7">
+        <img src="images/oyo8.jpg" alt="Image 8">
+        <img src="images/oyo9.jpg" alt="Image 9">
+        <img src="images/oyo10.jpg" alt="Image 10">
+      </div>
+      <button class="next" onclick="moveSlide(1)">➡</button>
     </div>
   </section>
 
@@ -232,6 +251,20 @@
 
   <!-- Scroll haut -->
   <button id="scrollTopBtn" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">⬆ Haut</button>
+
+  <!-- SCRIPT SLIDER -->
+  <script>
+    let index = 0;
+    const slider = document.getElementById("slider");
+    const totalSlides = slider.children.length;
+
+    function moveSlide(direction) {
+      index += direction;
+      if (index < 0) index = totalSlides - 1;
+      if (index >= totalSlides) index = 0;
+      slider.style.transform = `translateX(-${index * 100}%)`;
+    }
+  </script>
 
 </body>
 </html>
