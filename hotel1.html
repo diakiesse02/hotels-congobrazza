@@ -28,6 +28,12 @@
       text-align: center;
     }
 
+    header p + p {
+      margin-top: 10px;
+      font-size: 1.2em;
+      font-weight: bold;
+    }
+
     nav {
       background-color: #2980b9;
       padding: 10px;
@@ -137,25 +143,23 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
+      align-items: center;
       gap: 10px;
     }
 
-    .avis-form input,
-    .avis-form textarea {
+    .avis-form input {
+      width: 200px;
       padding: 10px;
       border-radius: 5px;
       border: 1px solid #ccc;
-      font-size: 14px;
-    }
-
-    .avis-form input {
-      flex: 1 1 200px;
-      min-width: 200px;
     }
 
     .avis-form textarea {
-      flex: 2 1 300px;
-      min-width: 250px;
+      flex-grow: 1;
+      min-width: 300px;
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
       height: 80px;
     }
 
@@ -242,8 +246,9 @@
 <body>
 
   <header>
-    <h1>Bienvenue à l’Hôtel OYO</h1>
-    <p>Hôtel OYO à Brazzaville – confort moderne et hospitalité africaine</p>
+    <h1>Hôtel OYO - Brazzaville</h1>
+    <p>Confort moderne et hospitalité africaine</p>
+    <p>Bienvenue à l’hôtel OYO</p>
   </header>
 
   <nav>
