@@ -47,7 +47,6 @@
       margin: auto;
     }
 
-    /* SLIDER AUTO */
     .slider-container {
       overflow: hidden;
       width: 100%;
@@ -86,11 +85,14 @@
       border-radius: 10px;
       box-shadow: 0 0 10px rgba(0,0,0,0.05);
       text-align: center;
-      background-color: #c8f0f7; /* couleur pour services */
+    }
+
+    .service-card {
+      background-color: #c8f0f7;
     }
 
     .chambre {
-      background-color: #d0ebff; /* couleur différente pour chambres */
+      background-color: #d0ebff;
     }
 
     .service-card img {
@@ -131,17 +133,36 @@
       margin-top: 20px;
     }
 
+    .avis-form form {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 10px;
+    }
+
     .avis-form input,
     .avis-form textarea {
-      width: 100%;
-      max-width: 500px;
       padding: 10px;
-      margin: 10px 0;
       border-radius: 5px;
       border: 1px solid #ccc;
+      font-size: 14px;
+    }
+
+    .avis-form input {
+      flex: 1 1 200px;
+      min-width: 200px;
+    }
+
+    .avis-form textarea {
+      flex: 2 1 300px;
+      min-width: 250px;
+      height: 80px;
     }
 
     .avis-form button {
+      width: 100%;
+      max-width: 200px;
+      margin-top: 10px;
       padding: 10px 20px;
       background-color: #27ae60;
       color: white;
@@ -204,14 +225,25 @@
         max-width: 100%;
         height: 200px;
       }
+
+      .avis-form form {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .avis-form input,
+      .avis-form textarea {
+        width: 100%;
+        max-width: 400px;
+      }
     }
   </style>
 </head>
 <body>
 
   <header>
-    <h1>Hôtel OYO - Brazzaville</h1>
-    <p>Bienvenue à l'hôtel OYO à Brazzaville – confort moderne et hospitalité africaine</p>
+    <h1>Bienvenue à l’Hôtel OYO</h1>
+    <p>Hôtel OYO à Brazzaville – confort moderne et hospitalité africaine</p>
   </header>
 
   <nav>
@@ -305,7 +337,7 @@
       <h3>Laissez votre avis</h3>
       <form onsubmit="event.preventDefault(); alert('Merci pour votre avis !')">
         <input type="text" placeholder="Votre nom" required />
-        <textarea rows="4" placeholder="Votre avis..." required></textarea>
+        <textarea placeholder="Votre avis..." required></textarea>
         <button type="submit">Envoyer</button>
       </form>
     </div>
