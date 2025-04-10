@@ -154,6 +154,28 @@
       border-radius: 5px;
     }
 
+    iframe {
+      width: 100%;
+      height: 300px;
+      border: none;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+
+    .avis {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .avis-card {
+      background: white;
+      padding: 15px;
+      border-radius: 10px;
+      box-shadow: 0 0 5px rgba(0,0,0,0.1);
+    }
+
     footer {
       background: var(--dark-color);
       color: white;
@@ -235,6 +257,34 @@
   </div>
 </section>
 
+<!-- AVIS CLIENTS -->
+<section>
+  <h2>Ce que disent nos clients</h2>
+  <div class="avis">
+    <div class="avis-card">
+      <strong>⭐️⭐️⭐️⭐️⭐️</strong>
+      <p>"Super séjour à Kintélé ! Personnel très accueillant et chambre très propre."</p>
+      <p><em>- Alice B.</em></p>
+    </div>
+    <div class="avis-card">
+      <strong>⭐️⭐️⭐️⭐️</strong>
+      <p>"J’ai adoré la piscine et la navette gratuite ! Je recommande."</p>
+      <p><em>- Thierry M.</em></p>
+    </div>
+    <div class="avis-card">
+      <strong>⭐️⭐️⭐️⭐️⭐️</strong>
+      <p>"Excellent rapport qualité/prix. Le petit déjeuner est délicieux."</p>
+      <p><em>- Fatou K.</em></p>
+    </div>
+  </div>
+</section>
+
+<!-- GOOGLE MAPS -->
+<section>
+  <h2>Nous localiser</h2>
+  <iframe src="https://www.google.com/maps/embed?pb=!1m18!..." allowfullscreen loading="lazy"></iframe>
+</section>
+
 <!-- WHATSAPP -->
 <a href="https://wa.me/242061234567" class="whatsapp-button" target="_blank">
   💬 Réserver via WhatsApp
@@ -267,7 +317,7 @@
     slider.style.transform = `translateX(-${index * 100}%)`;
   }
 
-  setInterval(nextSlide, 4000); // slide auto toutes les 4 secondes
+  setInterval(nextSlide, 4000);
 </script>
 
 </body>
