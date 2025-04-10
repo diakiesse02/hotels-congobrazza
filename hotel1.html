@@ -28,12 +28,6 @@
       text-align: center;
     }
 
-    header p + p {
-      margin-top: 10px;
-      font-size: 1.2em;
-      font-weight: bold;
-    }
-
     nav {
       background-color: #2980b9;
       padding: 10px;
@@ -45,6 +39,14 @@
       text-decoration: none;
       margin: 0 10px;
       font-weight: bold;
+    }
+
+    .welcome-message {
+      text-align: center;
+      background-color: #e1f0ff;
+      padding: 10px 0;
+      font-weight: bold;
+      font-size: 1.1em;
     }
 
     section {
@@ -143,29 +145,31 @@
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      align-items: center;
+      align-items: flex-start;
       gap: 10px;
     }
 
     .avis-form input {
-      width: 200px;
-      padding: 10px;
+      width: 160px;
+      padding: 8px;
+      font-size: 14px;
       border-radius: 5px;
       border: 1px solid #ccc;
     }
 
     .avis-form textarea {
       flex-grow: 1;
-      min-width: 300px;
-      padding: 10px;
+      min-width: 250px;
+      padding: 8px;
+      font-size: 14px;
       border-radius: 5px;
       border: 1px solid #ccc;
-      height: 80px;
+      height: 70px;
     }
 
     .avis-form button {
       width: 100%;
-      max-width: 200px;
+      max-width: 180px;
       margin-top: 10px;
       padding: 10px 20px;
       background-color: #27ae60;
@@ -248,7 +252,6 @@
   <header>
     <h1>Hôtel OYO - Brazzaville</h1>
     <p>Confort moderne et hospitalité africaine</p>
-    <p>Bienvenue à l’hôtel OYO</p>
   </header>
 
   <nav>
@@ -258,6 +261,10 @@
     <a href="#">Réservation</a>
     <a href="#">Contact</a>
   </nav>
+
+  <div class="welcome-message">
+    Bienvenue à l’hôtel OYO
+  </div>
 
   <!-- SLIDER -->
   <section>
