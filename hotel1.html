@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hôtel OYO - Brazzaville Hotels</title>
+  <title>Hôtel Kintélé - Brazzaville</title>
   <style>
     :root {
       --main-color: #3498db;
@@ -17,21 +17,21 @@
 
     body {
       margin: 0;
-      font-family: Arial, sans-serif;
+      font-family: 'Arial', sans-serif;
       background: var(--light-bg);
     }
 
     header {
       background-color: var(--main-color);
       color: white;
-      padding: 30px 20px;
       text-align: center;
+      padding: 30px 20px;
     }
 
     nav {
       background-color: #2980b9;
-      padding: 10px;
       text-align: center;
+      padding: 10px;
     }
 
     nav a {
@@ -42,46 +42,37 @@
     }
 
     section {
-      padding: 40px 20px;
+      padding: 30px 20px;
       max-width: 1200px;
       margin: auto;
     }
 
-    /* SLIDER */
-    .slider-wrapper {
+    .slider-container {
       display: flex;
-      align-items: center;
-      justify-content: center;
-      overflow: hidden;
-      position: relative;
-      max-width: 1000px;
-      margin: auto;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      gap: 15px;
     }
 
-    .slider-images {
-      display: flex;
-      transition: transform 0.5s ease-in-out;
+    .slider-container img {
+      flex-shrink: 0;
       width: 100%;
-    }
-
-    .slider-images img {
-      min-width: 100%;
-      height: 300px;
+      max-width: 350px;
+      height: 220px;
       object-fit: cover;
+      scroll-snap-align: center;
       border-radius: 10px;
     }
 
-    .prev, .next {
-      background-color: #3498db;
-      color: white;
-      border: none;
-      padding: 10px 15px;
-      font-size: 24px;
-      cursor: pointer;
-      z-index: 2;
+    .intro {
+      text-align: center;
     }
 
-    /* SERVICES */
+    .intro p {
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
     .services {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -93,7 +84,7 @@
       background: white;
       padding: 20px;
       border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.05);
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
       text-align: center;
     }
 
@@ -104,7 +95,7 @@
       border-radius: 8px;
     }
 
-    iframe {
+    .map iframe {
       width: 100%;
       height: 300px;
       border: none;
@@ -162,7 +153,8 @@
     }
 
     @media (max-width: 600px) {
-      .slider-images img {
+      .slider-container img {
+        max-width: 100%;
         height: 200px;
       }
     }
@@ -171,8 +163,8 @@
 <body>
 
   <header>
-    <h1>Hôtel OYO - Brazzaville</h1>
-    <p>Confort moderne et hospitalité africaine</p>
+    <h1>Hôtel Kintélé - Brazzaville</h1>
+    <p>Confort moderne et hospitalité au cœur du Congo</p>
   </header>
 
   <nav>
@@ -186,85 +178,80 @@
   <!-- SLIDER -->
   <section>
     <h2>Galerie de l’hôtel</h2>
-    <div class="slider-wrapper">
-      <button class="prev" onclick="moveSlide(-1)">⬅</button>
-      <div class="slider-images" id="slider">
-        <img src="images/oyo1.jpg" alt="Image 1">
-        <img src="images/oyo2.jpg" alt="Image 2">
-        <img src="images/oyo3.jpg" alt="Image 3">
-        <img src="images/oyo4.jpg" alt="Image 4">
-        <img src="images/oyo5.jpg" alt="Image 5">
-        <img src="images/oyo6.jpg" alt="Image 6">
-        <img src="images/oyo7.jpg" alt="Image 7">
-        <img src="images/oyo8.jpg" alt="Image 8">
-        <img src="images/oyo9.jpg" alt="Image 9">
-        <img src="images/oyo10.jpg" alt="Image 10">
-      </div>
-      <button class="next" onclick="moveSlide(1)">➡</button>
+    <div class="slider-container">
+      <img src="images/kintele1.jpg" alt="Chambre">
+      <img src="images/kintélé2.jpg" alt="Piscine">
+      <img src="images/kintélé3.jpg" alt="Restaurant">
+      <img src="images/kintélé4.jpg" alt="Réception">
+      <img src="images/kintélé5.jpg" alt="Salle de réunion">
     </div>
+  </section>
+
+  <!-- PRÉSENTATION -->
+  <section class="intro">
+    <h2>À propos de l’hôtel</h2>
+    <p>L’Hôtel Kintélé est un établissement 4 étoiles situé à quelques minutes du centre-ville de Brazzaville. Il offre un cadre moderne et paisible, parfait pour les séjours d'affaires comme pour les vacances.</p>
   </section>
 
   <!-- SERVICES -->
   <section>
-    <h2>Services proposés</h2>
+    <h2>Nos services</h2>
     <div class="services">
       <div class="service-card">
         <img src="images/service-petitdej.jpg" alt="Petit-déjeuner">
-        <h3>Petit-déjeuner</h3>
-        <p>Buffet continental chaque matin</p>
+        <h3>Petit-déjeuner inclus</h3>
+        <p>Buffet continental servi tous les matins.</p>
       </div>
       <div class="service-card">
         <img src="images/service-wifi.jpg" alt="Wi-Fi">
-        <h3>Wi-Fi gratuit</h3>
-        <p>Connexion rapide dans tout l’établissement</p>
+        <h3>Wi-Fi haut débit</h3>
+        <p>Connexion gratuite dans toutes les zones.</p>
       </div>
       <div class="service-card">
         <img src="images/service-piscine.jpg" alt="Piscine">
-        <h3>Piscine</h3>
-        <p>Détente et rafraîchissement toute la journée</p>
+        <h3>Piscine extérieure</h3>
+        <p>Espace détente ouvert de 8h à 22h.</p>
+      </div>
+      <div class="service-card">
+        <img src="images/service-navette.jpg" alt="Navette">
+        <h3>Navette aéroport</h3>
+        <p>Transfert disponible sur réservation.</p>
       </div>
     </div>
   </section>
 
-  <!-- MAP -->
-  <section>
+  <!-- LOCALISATION -->
+  <section class="map">
     <h2>Localisation</h2>
-    <iframe src="https://www.google.com/maps/embed?pb=!1m18..." allowfullscreen loading="lazy"></iframe>
+    <iframe 
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3979.886856396013!2d15.2663!3d-4.2634!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1a6a3176e5f0386f%3A0xc4af6ae2ed1f1d36!2sBrazzaville!5e0!3m2!1sfr!2scg!4v1616175202745!5m2!1sfr!2scg" 
+      loading="lazy" 
+      allowfullscreen
+    ></iframe>
   </section>
 
-  <!-- FORMULAIRE DE LIKE -->
+  <!-- FORMULAIRE LIKE -->
   <section class="like-form">
     <h2>Vous aimez cet hôtel ?</h2>
-    <form onsubmit="event.preventDefault(); alert('Merci pour votre like !')">
+    <form onsubmit="event.preventDefault(); alert('Merci pour votre soutien !');">
       <button type="submit">👍 J’aime</button>
     </form>
   </section>
 
+  <!-- FOOTER -->
   <footer>
     <p>&copy; 2025 Brazzaville Hotels. Tous droits réservés.</p>
   </footer>
 
-  <!-- WhatsApp bouton -->
+  <!-- WHATSAPP -->
   <a href="https://wa.me/242061234567" class="whatsapp-button" target="_blank">
-    💬 Réserver sur WhatsApp
+    💬 Réserver via WhatsApp
   </a>
 
-  <!-- Scroll haut -->
-  <button id="scrollTopBtn" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">⬆ Haut</button>
-
-  <!-- SCRIPT SLIDER -->
-  <script>
-    let index = 0;
-    const slider = document.getElementById("slider");
-    const totalSlides = slider.children.length;
-
-    function moveSlide(direction) {
-      index += direction;
-      if (index < 0) index = totalSlides - 1;
-      if (index >= totalSlides) index = 0;
-      slider.style.transform = `translateX(-${index * 100}%)`;
-    }
-  </script>
+  <!-- BOUTON HAUT -->
+  <button id="scrollTopBtn" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">
+    ⬆ Haut
+  </button>
 
 </body>
 </html>
