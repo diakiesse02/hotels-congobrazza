@@ -49,16 +49,15 @@
 
     /* SLIDER AUTO */
     .slider-container {
-      display: flex;
       overflow: hidden;
-      position: relative;
       width: 100%;
     }
 
     .slider-track {
       display: flex;
-      animation: scroll 30s linear infinite;
+      animation: scroll 25s linear infinite;
       gap: 15px;
+      width: max-content;
     }
 
     .slider-track img {
@@ -72,7 +71,7 @@
 
     @keyframes scroll {
       0% { transform: translateX(0); }
-      100% { transform: translateX(-100%); }
+      100% { transform: translateX(-1750px); }
     }
 
     .services, .chambres {
@@ -85,9 +84,13 @@
     .service-card, .chambre {
       padding: 20px;
       border-radius: 10px;
-      background-color: #eaf6ff;
       box-shadow: 0 0 10px rgba(0,0,0,0.05);
       text-align: center;
+      background-color: #c8f0f7; /* couleur pour services */
+    }
+
+    .chambre {
+      background-color: #d0ebff; /* couleur différente pour chambres */
     }
 
     .service-card img {
@@ -117,6 +120,11 @@
       margin: 10px auto;
       max-width: 500px;
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .avis-card p::after {
+      content: " ⭐⭐⭐⭐⭐";
+      color: gold;
     }
 
     .avis-form {
@@ -288,10 +296,10 @@
   <section class="avis-section">
     <h2>Avis des clients</h2>
     <div class="avis-card">
-      <p><strong>Jean :</strong> ⭐⭐⭐⭐ Excellent séjour, très propre et personnel accueillant.</p>
+      <p><strong>Jean :</strong> Excellent séjour, très propre et personnel accueillant.</p>
     </div>
     <div class="avis-card">
-      <p><strong>Fatou :</strong> ⭐⭐⭐⭐ J’ai adoré le petit-déjeuner !</p>
+      <p><strong>Fatou :</strong> J’ai adoré le petit-déjeuner !</p>
     </div>
     <div class="avis-form">
       <h3>Laissez votre avis</h3>
