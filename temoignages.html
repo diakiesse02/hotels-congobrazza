@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Témoignages - Congo Brazza Hôtel</title>
+  <style>
+    :root {
+      --main-color: #3498db;
+      --dark-color: #2c3e50;
+      --light-bg: #f5f7fa;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--light-bg);
+    }
+
+    header {
+      background-color: var(--main-color);
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+    }
+
+    nav {
+      background-color: #2980b9;
+      padding: 10px;
+      text-align: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: bold;
+    }
+
+    section {
+      padding: 40px 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .temoignage-card {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .temoignage-card strong {
+      display: block;
+      margin-bottom: 8px;
+      color: #2c3e50;
+    }
+
+    .temoignage-form {
+      background-color: #eaf6ff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .temoignage-form input,
+    .temoignage-form textarea {
+      width: 100%;
+      padding: 12px;
+      margin: 10px 0;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+
+    .temoignage-form button {
+      padding: 12px 20px;
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    footer {
+      background-color: var(--dark-color);
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 50px;
+    }
+
+    @media (max-width: 600px) {
+      nav {
+        display: flex;
+        flex-direction: column;
+      }
+
+      nav a {
+        margin: 8px 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Congo Brazza Hôtel</h1>
+    <p>Vos retours font la différence</p>
+  </header>
+
+  <nav>
+    <a href="index.html">Accueil</a>
+    <a href="services.html">Services</a>
+    <a href="reservation.html">Réservation</a>
+    <a href="galerie.html">Galerie</a>
+    <a href="ajouter-hotel.html">Ajouter votre hôtel</a>
+    <a href="temoignages.html">Témoignages</a>
+  </nav>
+
+  <section>
+    <h2>Ce que nos clients disent</h2>
+
+    <div class="temoignage-card">
+      <strong>Michel (Kinshasa) ⭐⭐⭐⭐</strong>
+      <p>“Très bon service. L’hôtel était impeccable et l’accueil chaleureux.”</p>
+    </div>
+
+    <div class="temoignage-card">
+      <strong>Sandrine (Pointe-Noire) ⭐⭐⭐⭐⭐</strong>
+      <p>“J’ai réservé via ce site sans problème. Je recommande fortement.”</p>
+    </div>
+
+    <div class="temoignage-card">
+      <strong>Arnaud (Brazzaville) ⭐⭐⭐⭐</strong>
+      <p>“Simple, rapide, efficace. Un bon site pour trouver un hôtel.”</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Laissez votre témoignage</h2>
+
+    <form class="temoignage-form" onsubmit="event.preventDefault(); alert('Merci pour votre témoignage !');">
+      <input type="text" placeholder="Votre nom" required />
+      <input type="text" placeholder="Votre ville" required />
+      <textarea rows="4" placeholder="Votre message..." required></textarea>
+      <button type="submit">Envoyer</button>
+    </form>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Congo Brazza Hôtel. Tous droits réservés.</p>
+  </footer>
+
+</body>
+</html>
