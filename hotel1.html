@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Bienvenue à l'Hôtel OYO</title>
+  <title>Bienvenue à l'hôtel OYO</title>
   <style>
     :root {
       --main-color: #3498db;
@@ -47,6 +47,7 @@
       margin: auto;
     }
 
+    /* SLIDER AUTO */
     .slider-container {
       display: flex;
       overflow: hidden;
@@ -67,11 +68,12 @@
       height: 220px;
       object-fit: cover;
       border-radius: 10px;
-      transition: transform 0.3s ease-in-out;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
     }
 
     .slider-track img:hover {
       transform: scale(1.05);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
 
     @keyframes scroll {
@@ -79,14 +81,14 @@
       100% { transform: translateX(-100%); }
     }
 
-    .services, .chambres, .plats {
+    .services, .plats, .chambres {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
       margin-top: 30px;
     }
 
-    .service-card, .chambre, .plat {
+    .service-card, .plat-card, .chambre-card {
       padding: 20px;
       border-radius: 10px;
       background-color: #eaf6ff;
@@ -94,11 +96,21 @@
       text-align: center;
     }
 
-    .service-card img, .chambre img, .plat img {
+    .service-card img,
+    .plat-card img,
+    .chambre-card img {
       width: 100%;
-      height: 150px;
+      height: 160px;
       object-fit: cover;
       border-radius: 8px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .service-card img:hover,
+    .plat-card img:hover,
+    .chambre-card img:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     }
 
     iframe {
@@ -127,16 +139,12 @@
       margin-top: 20px;
     }
 
-    .avis-form .row {
-      display: flex;
-      gap: 10px;
-    }
-
     .avis-form input,
     .avis-form textarea {
       width: 100%;
+      max-width: 480px;
       padding: 8px;
-      margin-top: 10px;
+      margin: 5px;
       border-radius: 5px;
       border: 1px solid #ccc;
     }
@@ -148,7 +156,6 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
-      margin-top: 10px;
     }
 
     .like-form {
@@ -211,8 +218,8 @@
 <body>
 
   <header>
-    <h1>Bienvenue à l'Hôtel OYO</h1>
-    <p>Confort moderne et hospitalité africaine à Brazzaville</p>
+    <h1>Bienvenue à l'hôtel OYO</h1>
+    <p>Confort moderne et hospitalité africaine au cœur de Brazzaville</p>
   </header>
 
   <nav>
@@ -264,64 +271,58 @@
     </div>
   </section>
 
-  <!-- TARIFS AVEC IMAGES -->
-  <section>
-    <h2>Nos chambres</h2>
-    <div class="chambres">
-      <div class="chambre">
-        <img src="images/chambre1.jpg" alt="Chambre Standard">
-        <h3>Chambre Standard</h3>
-        <p>À partir de 25 000 FCFA</p>
-      </div>
-      <div class="chambre">
-        <img src="images/chambre2.jpg" alt="Chambre Deluxe">
-        <h3>Chambre Deluxe</h3>
-        <p>À partir de 35 000 FCFA</p>
-      </div>
-      <div class="chambre">
-        <img src="images/chambre3.jpg" alt="Suite Junior">
-        <h3>Suite Junior</h3>
-        <p>À partir de 50 000 FCFA</p>
-      </div>
-      <div class="chambre">
-        <img src="images/chambre4.jpg" alt="Suite Prestige">
-        <h3>Suite Prestige</h3>
-        <p>À partir de 80 000 FCFA</p>
-      </div>
-    </div>
-  </section>
-
   <!-- PLATS -->
   <section>
-    <h2>Nos plats spéciaux</h2>
+    <h2>Nos Plats</h2>
     <div class="plats">
-      <div class="plat">
-        <img src="images/plat1.jpg" alt="Goulou Goulou">
+      <div class="plat-card">
+        <img src="images/plat1.jpg" alt="Plat 1">
         <h3>Goulou Goulou</h3>
-        <p>Délicieux plat local chaque samedi</p>
+        <p>Délicieux plat traditionnel du week-end</p>
       </div>
-      <div class="plat">
-        <img src="images/plat2.jpg" alt="Mamko">
-        <h3>Mamko</h3>
-        <p>Préparé avec amour chaque week-end</p>
-      </div>
-      <div class="plat">
-        <img src="images/plat3.jpg" alt="Mabokoké">
+      <div class="plat-card">
+        <img src="images/plat2.jpg" alt="Plat 2">
         <h3>Mabokoké</h3>
-        <p>Spécialité de la maison le dimanche</p>
+        <p>Plat de poisson savoureux préparé maison</p>
       </div>
-      <div class="plat">
-        <img src="images/plat4.jpg" alt="Poulet Grillé">
-        <h3>Poulet Grillé</h3>
-        <p>Accompagné de banane plantain</p>
+      <div class="plat-card">
+        <img src="images/plat3.jpg" alt="Plat 3">
+        <h3>Makayabu</h3>
+        <p>Spécialité brazzavilloise incontournable</p>
+      </div>
+      <div class="plat-card">
+        <img src="images/plat4.jpg" alt="Plat 4">
+        <h3>Ndolé</h3>
+        <p>Servi avec banane plantain ou riz</p>
       </div>
     </div>
   </section>
 
-  <!-- MAP -->
+  <!-- CHAMBRES -->
   <section>
-    <h2>Localisation</h2>
-    <iframe src="https://maps.google.com/maps?q=Brazzaville&t=&z=13&ie=UTF8&iwloc=&output=embed" allowfullscreen></iframe>
+    <h2>Nos Chambres</h2>
+    <div class="chambres">
+      <div class="chambre-card">
+        <img src="images/chambre1.jpg" alt="Chambre standard">
+        <h3>Chambre Standard</h3>
+        <p>25 000 FCFA / nuit</p>
+      </div>
+      <div class="chambre-card">
+        <img src="images/chambre2.jpg" alt="Chambre deluxe">
+        <h3>Chambre Deluxe</h3>
+        <p>35 000 FCFA / nuit</p>
+      </div>
+      <div class="chambre-card">
+        <img src="images/chambre3.jpg" alt="Suite Junior">
+        <h3>Suite Junior</h3>
+        <p>50 000 FCFA / nuit</p>
+      </div>
+      <div class="chambre-card">
+        <img src="images/chambre4.jpg" alt="Suite Prestige">
+        <h3>Suite Prestige</h3>
+        <p>80 000 FCFA / nuit</p>
+      </div>
+    </div>
   </section>
 
   <!-- AVIS CLIENTS -->
@@ -335,10 +336,7 @@
     </div>
     <div class="avis-form">
       <form onsubmit="event.preventDefault(); alert('Merci pour votre avis !')">
-        <div class="row">
-          <input type="text" placeholder="Votre nom" required />
-          <input type="text" placeholder="Votre note ⭐⭐⭐⭐" required />
-        </div>
+        <input type="text" placeholder="Votre nom" required />
         <textarea rows="3" placeholder="Votre avis..." required></textarea>
         <button type="submit">Envoyer</button>
       </form>
