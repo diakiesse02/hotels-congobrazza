@@ -1,176 +1,164 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Publicité - Congo Brazza Hôtels</title>
-  <script type="module">
-    // Import Firebase modules
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
-    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-firestore.js";
-    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-storage.js";
-
-    const firebaseConfig = {
-      apiKey: "AIzaSyArRdBWuZANHdThzHVLdVh1XXqliInuGmA",
-      authDomain: "congo-hotels.firebaseapp.com",
-      projectId: "congo-hotels",
-      storageBucket: "congo-hotels.appspot.com",
-      messagingSenderId: "427899226169",
-      appId: "1:427899226169:web:d450701e4e5c4ca21565e8",
-      measurementId: "G-ZMTLRBW0Z9"
-    };
-
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const storage = getStorage(app);
-
-    window.addEventListener("DOMContentLoaded", () => {
-      const form = document.getElementById("pub-form");
-
-      form.addEventListener("submit", async (e) => {
-        e.preventDefault();
-
-        const nom = form.nom_etablissement.value;
-        const email = form.email.value;
-        const telephone = form.telephone.value;
-        const ville = form.ville.value;
-        const description = form.description.value;
-        const duree = form.duree.value;
-        const imageFile = form.images.files[0];
-
-        let imageUrl = "";
-
-        if (imageFile) {
-          const storageRef = ref(storage, "publicites/" + imageFile.name);
-          await uploadBytes(storageRef, imageFile);
-          imageUrl = await getDownloadURL(storageRef);
-        }
-
-        try {
-          await addDoc(collection(db, "hotels"), {
-            nom,
-            email,
-            telephone,
-            ville,
-            description,
-            duree,
-            image: imageUrl
-          });
-
-          // Afficher le message de succès
-          const msg = document.getElementById("success-message");
-          msg.style.display = "block";
-
-          // Réinitialiser le formulaire
-          form.reset();
-
-          // Masquer le message après 5 secondes
-          setTimeout(() => {
-            msg.style.display = "none";
-          }, 5000);
-        } catch (error) {
-          alert("Erreur lors de l'envoi : " + error.message);
-        }
-      });
-    });
-  </script>
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Publicité - Congo Brazza Hôtel</title>
   <style>
+    :root {
+      --main-color: #3498db;
+      --dark-color: #2c3e50;
+      --light-bg: #f5f7fa;
+    }
+
     body {
-      font-family: 'Segoe UI', sans-serif;
       margin: 0;
-      padding: 0;
-      background-color: #f9f9f9;
+      font-family: Arial, sans-serif;
+      background-color: var(--light-bg);
     }
 
     header {
-      background-color: #3498db;
+      background-color: var(--main-color);
       color: white;
       padding: 30px 20px;
       text-align: center;
     }
 
+    nav {
+      background-color: #2980b9;
+      padding: 10px;
+      text-align: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: bold;
+    }
+
     section {
-      padding: 30px 20px;
-      max-width: 800px;
+      max-width: 1200px;
       margin: auto;
-      background-color: white;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      border-radius: 10px;
+      padding: 40px 20px;
     }
 
     h2 {
       text-align: center;
-      color: #3498db;
+      margin-bottom: 30px;
     }
 
-    form {
-      display: flex;
-      flex-direction: column;
-      gap: 15px;
+    .pubs {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 25px;
     }
 
-    input, textarea, select {
-      padding: 10px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 16px;
+    .pub-card {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.2s ease;
     }
 
-    button {
-      padding: 12px;
-      background-color: #3498db;
+    .pub-card:hover {
+      transform: scale(1.03);
+    }
+
+    .pub-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+    }
+
+    .pub-content {
+      padding: 15px;
+    }
+
+    .pub-content h3 {
+      margin-top: 0;
+      color: #2c3e50;
+    }
+
+    .pub-content p {
+      font-size: 15px;
+      color: #555;
+    }
+
+    footer {
+      background-color: var(--dark-color);
       color: white;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-
-    button:hover {
-      background-color: #2980b9;
-    }
-
-    #success-message {
-      display: none;
-      padding: 12px;
-      background-color: #d4edda;
-      color: #155724;
-      border-radius: 5px;
       text-align: center;
-      margin-bottom: 20px;
+      padding: 20px;
+      margin-top: 50px;
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 22px;
+      }
     }
   </style>
 </head>
 <body>
 
   <header>
-    <h1>Faites la promotion de votre hôtel ou maison meublée</h1>
-    <p>Ajoutez votre annonce publicitaire et gagnez en visibilité !</p>
+    <h1>Congo Brazza Hôtel</h1>
+    <p>Plateforme de réservation et de promotion hôtelière</p>
   </header>
 
+  <nav>
+    <a href="index.html">Accueil</a>
+    <a href="service.html">Services</a>
+    <a href="reservation.html">Réservation</a>
+    <a href="ajouter-hotel.html">Ajouter votre hôtel</a>
+    <a href="galerie.html">Galerie</a>
+    <a href="temoignage.html">Témoignages</a>
+    <a href="publicite.html">Publicité</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+
   <section>
-    <h2>Formulaire de publicité</h2>
+    <h2>🔊 Nos Publicités et Offres Spéciales</h2>
+    <div class="pubs">
+      <div class="pub-card">
+        <img src="images/promo1.jpg" alt="Promo hôtel 1">
+        <div class="pub-content">
+          <h3>Offre Week-end - Hôtel Elikya</h3>
+          <p>Réservez 2 nuits et la 3e est offerte ! Valable jusqu'au 30 avril.</p>
+        </div>
+      </div>
 
-    <!-- Message de confirmation -->
-    <div id="success-message">✅ Votre publicité a été envoyée avec succès !</div>
+      <div class="pub-card">
+        <img src="images/promo2.jpg" alt="Promo hôtel 2">
+        <div class="pub-content">
+          <h3>Soirée Live & Dîner - Hôtel Ngouabi</h3>
+          <p>Vivez une ambiance unique tous les samedis à partir de 19h. Entrée gratuite !</p>
+        </div>
+      </div>
 
-    <form id="pub-form">
-      <input type="text" name="nom_etablissement" placeholder="Nom de l'établissement" required>
-      <input type="email" name="email" placeholder="Adresse Email" required>
-      <input type="tel" name="telephone" placeholder="Téléphone">
-      <input type="text" name="ville" placeholder="Ville">
-      <textarea name="description" placeholder="Description de l’offre publicitaire" rows="5"></textarea>
-      <label>Image principale :</label>
-      <input type="file" name="images" accept="image/*" required>
-      <select name="duree">
-        <option value="">Durée souhaitée</option>
-        <option value="7j">1 semaine</option>
-        <option value="30j">1 mois</option>
-        <option value="custom">Autre</option>
-      </select>
-      <button type="submit">Envoyer ma publicité</button>
-    </form>
+      <div class="pub-card">
+        <img src="images/promo3.jpg" alt="Promo hôtel 3">
+        <div class="pub-content">
+          <h3>-15% sur toutes les suites - Hôtel Brazza Palace</h3>
+          <p>Promotion exclusive pour les réservations en ligne via Congo Brazza Hôtel.</p>
+        </div>
+      </div>
+
+      <div class="pub-card">
+        <img src="images/promo4.jpg" alt="Annonce partenaire">
+        <div class="pub-content">
+          <h3>Partenaire à l'honneur : Restaurant Le Délice</h3>
+          <p>Commandez vos repas préférés directement depuis l'hôtel. Livraison express gratuite.</p>
+        </div>
+      </div>
+    </div>
   </section>
+
+  <footer>
+    <p>&copy; 2025 Congo Brazza Hôtel. Tous droits réservés.</p>
+  </footer>
 
 </body>
 </html>
