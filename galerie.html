@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Galerie - Congo Brazza Hôtel</title>
+  <style>
+    :root {
+      --main-color: #3498db;
+      --dark-color: #2c3e50;
+      --light-bg: #f5f7fa;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--light-bg);
+    }
+
+    header {
+      background-color: var(--main-color);
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+    }
+
+    nav {
+      background-color: #2980b9;
+      padding: 10px;
+      text-align: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: bold;
+      display: inline-block;
+      padding: 8px;
+    }
+
+    nav a:hover {
+      background-color: #2471a3;
+      border-radius: 4px;
+    }
+
+    section {
+      padding: 40px 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    h2 {
+      text-align: center;
+      color: var(--dark-color);
+    }
+
+    .intro-text {
+      text-align: center;
+      max-width: 700px;
+      margin: 0 auto 30px;
+      font-size: 1.1em;
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+    }
+
+    .gallery-grid img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .gallery-grid img:hover {
+      transform: scale(1.05);
+    }
+
+    footer {
+      background-color: var(--dark-color);
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 60px;
+    }
+
+    @media (max-width: 600px) {
+      .gallery-grid img {
+        height: 160px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Congo Brazza Hôtel</h1>
+    <p>Galerie photos de nos hôtels partenaires</p>
+  </header>
+
+  <nav>
+    <a href="index.html">Accueil</a>
+    <a href="services.html">Services</a>
+    <a href="reservation.html">Réservation</a>
+    <a href="ajouter-hotel.html">Ajouter votre hôtel</a>
+    <a href="galerie.html">Galerie</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+
+  <section>
+    <h2>Notre Galerie</h2>
+    <p class="intro-text">
+      Découvrez en images les différents hôtels partenaires, leurs chambres, équipements et espaces de détente.
+    </p>
+
+    <div class="gallery-grid">
+      <img src="images/hotel-ext1.jpg" alt="Vue extérieure hôtel">
+      <img src="images/chambre-deluxe.jpg" alt="Chambre Deluxe">
+      <img src="images/reception.jpg" alt="Réception">
+      <img src="images/piscine.jpg" alt="Piscine">
+      <img src="images/restaurant.jpg" alt="Restaurant">
+      <img src="images/suite.jpg" alt="Suite Prestige">
+      <img src="images/evenement.jpg" alt="Événement live">
+      <img src="images/conference.jpg" alt="Salle de conférence">
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Congo Brazza Hôtel. Tous droits réservés.</p>
+  </footer>
+
+</body>
+</html>
