@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hôtel OYO - Brazzaville</title>
+  <title>Bienvenue à l'Hôtel OYO</title>
   <style>
     :root {
       --main-color: #3498db;
@@ -41,12 +41,12 @@
       font-weight: bold;
     }
 
-    .welcome-message {
+    .slogan {
+      background-color: #eaf6ff;
       text-align: center;
-      background-color: #e1f0ff;
-      padding: 10px 0;
-      font-weight: bold;
-      font-size: 1.1em;
+      padding: 15px;
+      font-size: 18px;
+      color: #333;
     }
 
     section {
@@ -55,16 +55,18 @@
       margin: auto;
     }
 
+    /* SLIDER AUTO */
     .slider-container {
+      display: flex;
       overflow: hidden;
+      position: relative;
       width: 100%;
     }
 
     .slider-track {
       display: flex;
-      animation: scroll 25s linear infinite;
+      animation: scroll 30s linear infinite;
       gap: 15px;
-      width: max-content;
     }
 
     .slider-track img {
@@ -78,7 +80,7 @@
 
     @keyframes scroll {
       0% { transform: translateX(0); }
-      100% { transform: translateX(-1750px); }
+      100% { transform: translateX(-100%); }
     }
 
     .services, .chambres {
@@ -89,18 +91,21 @@
     }
 
     .service-card, .chambre {
+      display: block;
       padding: 20px;
       border-radius: 10px;
+      background-color: #eaf6ff;
       box-shadow: 0 0 10px rgba(0,0,0,0.05);
       text-align: center;
+      text-decoration: none;
+      color: inherit;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      cursor: pointer;
     }
 
-    .service-card {
-      background-color: #c8f0f7;
-    }
-
-    .chambre {
-      background-color: #d0ebff;
+    .service-card:hover, .chambre:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.1);
     }
 
     .service-card img {
@@ -132,44 +137,28 @@
       box-shadow: 0 2px 5px rgba(0,0,0,0.1);
     }
 
-    .avis-card p::after {
-      content: " ⭐⭐⭐⭐⭐";
-      color: gold;
-    }
-
     .avis-form {
       margin-top: 20px;
     }
 
     .avis-form form {
       display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      align-items: flex-start;
-      gap: 10px;
+      flex-direction: column;
+      align-items: center;
     }
 
-    .avis-form input {
-      width: 160px;
-      padding: 8px;
-      font-size: 14px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-
+    .avis-form input,
     .avis-form textarea {
-      flex-grow: 1;
-      min-width: 250px;
+      width: 90%;
+      max-width: 400px;
       padding: 8px;
-      font-size: 14px;
+      margin: 5px 0;
       border-radius: 5px;
       border: 1px solid #ccc;
-      height: 70px;
+      font-size: 14px;
     }
 
     .avis-form button {
-      width: 100%;
-      max-width: 180px;
       margin-top: 10px;
       padding: 10px 20px;
       background-color: #27ae60;
@@ -234,15 +223,9 @@
         height: 200px;
       }
 
-      .avis-form form {
-        flex-direction: column;
-        align-items: center;
-      }
-
       .avis-form input,
       .avis-form textarea {
         width: 100%;
-        max-width: 400px;
       }
     }
   </style>
@@ -250,8 +233,7 @@
 <body>
 
   <header>
-    <h1>Hôtel OYO - Brazzaville</h1>
-    <p>Confort moderne et hospitalité africaine</p>
+    <h1>Bienvenue à l'Hôtel OYO</h1>
   </header>
 
   <nav>
@@ -262,9 +244,7 @@
     <a href="#">Contact</a>
   </nav>
 
-  <div class="welcome-message">
-    Bienvenue à l’hôtel OYO
-  </div>
+  <div class="slogan">Bienvenue à l'hôtel OYO à Brazzaville – confort moderne et hospitalité africaine</div>
 
   <!-- SLIDER -->
   <section>
@@ -284,26 +264,26 @@
   <section>
     <h2>Nos Services</h2>
     <div class="services">
-      <div class="service-card">
+      <a href="#map" class="service-card">
         <img src="images/service-petitdej.jpg" alt="Petit-déjeuner">
         <h3>Petit-déjeuner</h3>
         <p>Buffet continental chaque matin</p>
-      </div>
-      <div class="service-card">
+      </a>
+      <a href="#map" class="service-card">
         <img src="images/service-wifi.jpg" alt="Wi-Fi">
         <h3>Wi-Fi gratuit</h3>
         <p>Connexion rapide dans tout l’établissement</p>
-      </div>
-      <div class="service-card">
+      </a>
+      <a href="#map" class="service-card">
         <img src="images/service-piscine.jpg" alt="Piscine">
         <h3>Piscine</h3>
         <p>Détente et rafraîchissement toute la journée</p>
-      </div>
-      <div class="service-card">
+      </a>
+      <a href="#map" class="service-card">
         <img src="images/service-navette.jpg" alt="Navette">
         <h3>Navette aéroport</h3>
         <p>Transport sécurisé vers l’aéroport</p>
-      </div>
+      </a>
     </div>
   </section>
 
@@ -311,27 +291,27 @@
   <section>
     <h2>Tarifs des chambres</h2>
     <div class="chambres">
-      <div class="chambre">
+      <a href="#contact" class="chambre">
         <h3>Chambre Standard</h3>
         <p>À partir de 25 000 FCFA</p>
-      </div>
-      <div class="chambre">
+      </a>
+      <a href="#contact" class="chambre">
         <h3>Chambre Deluxe</h3>
         <p>À partir de 35 000 FCFA</p>
-      </div>
-      <div class="chambre">
+      </a>
+      <a href="#contact" class="chambre">
         <h3>Suite Junior</h3>
         <p>À partir de 50 000 FCFA</p>
-      </div>
-      <div class="chambre">
+      </a>
+      <a href="#contact" class="chambre">
         <h3>Suite Prestige</h3>
         <p>À partir de 80 000 FCFA</p>
-      </div>
+      </a>
     </div>
   </section>
 
   <!-- MAP -->
-  <section>
+  <section id="map">
     <h2>Localisation</h2>
     <iframe src="https://maps.google.com/maps?q=Brazzaville&t=&z=13&ie=UTF8&iwloc=&output=embed" allowfullscreen></iframe>
   </section>
