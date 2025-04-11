@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hôtel OYO - Brazzaville</title>
+  <title>Bienvenue à l'Hôtel OYO</title>
   <style>
     :root {
       --main-color: #3498db;
@@ -67,8 +67,7 @@
       height: 220px;
       object-fit: cover;
       border-radius: 10px;
-      transition: transform 0.3s ease;
-      cursor: pointer;
+      transition: transform 0.3s ease-in-out;
     }
 
     .slider-track img:hover {
@@ -80,28 +79,22 @@
       100% { transform: translateX(-100%); }
     }
 
-    .services, .chambres {
+    .services, .chambres, .plats {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
       margin-top: 30px;
     }
 
-    .service-card, .chambre {
+    .service-card, .chambre, .plat {
       padding: 20px;
       border-radius: 10px;
       background-color: #eaf6ff;
       box-shadow: 0 0 10px rgba(0,0,0,0.05);
       text-align: center;
-      transition: transform 0.2s ease;
-      cursor: pointer;
     }
 
-    .service-card:hover, .chambre:hover {
-      transform: scale(1.03);
-    }
-
-    .service-card img {
+    .service-card img, .chambre img, .plat img {
       width: 100%;
       height: 150px;
       object-fit: cover;
@@ -134,11 +127,16 @@
       margin-top: 20px;
     }
 
+    .avis-form .row {
+      display: flex;
+      gap: 10px;
+    }
+
     .avis-form input,
     .avis-form textarea {
-      width: 48%;
-      padding: 10px;
-      margin: 5px 1%;
+      width: 100%;
+      padding: 8px;
+      margin-top: 10px;
       border-radius: 5px;
       border: 1px solid #ccc;
     }
@@ -150,6 +148,7 @@
       border: none;
       border-radius: 5px;
       cursor: pointer;
+      margin-top: 10px;
     }
 
     .like-form {
@@ -193,26 +192,6 @@
       z-index: 1000;
     }
 
-    .evenements {
-      background-color: #fff5e6;
-      padding: 20px;
-      border-radius: 10px;
-      margin-top: 30px;
-      text-align: center;
-    }
-
-    .reseaux {
-      text-align: center;
-      margin-top: 20px;
-    }
-
-    .reseaux a {
-      margin: 0 10px;
-      text-decoration: none;
-      color: #2980b9;
-      font-weight: bold;
-    }
-
     footer {
       background-color: var(--dark-color);
       color: white;
@@ -226,20 +205,14 @@
         max-width: 100%;
         height: 200px;
       }
-
-      .avis-form input,
-      .avis-form textarea {
-        width: 100%;
-        margin: 10px 0;
-      }
     }
   </style>
 </head>
 <body>
 
   <header>
-    <h1>Hôtel OYO - Brazzaville</h1>
-    <p>Bienvenue à l'hôtel OYO à Brazzaville – confort moderne et hospitalité africaine</p>
+    <h1>Bienvenue à l'Hôtel OYO</h1>
+    <p>Confort moderne et hospitalité africaine à Brazzaville</p>
   </header>
 
   <nav>
@@ -250,6 +223,7 @@
     <a href="#">Contact</a>
   </nav>
 
+  <!-- SLIDER -->
   <section>
     <h2>Galerie de l’hôtel</h2>
     <div class="slider-container">
@@ -263,65 +237,120 @@
     </div>
   </section>
 
+  <!-- SERVICES -->
   <section>
     <h2>Nos Services</h2>
     <div class="services">
-      <div class="service-card"><img src="images/service-petitdej.jpg"><h3>Petit-déjeuner</h3><p>Buffet continental chaque matin</p></div>
-      <div class="service-card"><img src="images/service-wifi.jpg"><h3>Wi-Fi gratuit</h3><p>Connexion rapide</p></div>
-      <div class="service-card"><img src="images/service-piscine.jpg"><h3>Piscine</h3><p>Rafraîchissement toute la journée</p></div>
-      <div class="service-card"><img src="images/service-navette.jpg"><h3>Navette aéroport</h3><p>Transport sécurisé</p></div>
+      <div class="service-card">
+        <img src="images/service-petitdej.jpg" alt="Petit-déjeuner">
+        <h3>Petit-déjeuner</h3>
+        <p>Buffet continental chaque matin</p>
+      </div>
+      <div class="service-card">
+        <img src="images/service-wifi.jpg" alt="Wi-Fi">
+        <h3>Wi-Fi gratuit</h3>
+        <p>Connexion rapide dans tout l’établissement</p>
+      </div>
+      <div class="service-card">
+        <img src="images/service-piscine.jpg" alt="Piscine">
+        <h3>Piscine</h3>
+        <p>Détente et rafraîchissement toute la journée</p>
+      </div>
+      <div class="service-card">
+        <img src="images/service-navette.jpg" alt="Navette">
+        <h3>Navette aéroport</h3>
+        <p>Transport sécurisé vers l’aéroport</p>
+      </div>
     </div>
   </section>
 
+  <!-- TARIFS AVEC IMAGES -->
   <section>
-    <h2>Tarifs des chambres</h2>
+    <h2>Nos chambres</h2>
     <div class="chambres">
-      <div class="chambre"><h3>Chambre Standard</h3><p>25 000 FCFA</p></div>
-      <div class="chambre"><h3>Chambre Deluxe</h3><p>35 000 FCFA</p></div>
-      <div class="chambre"><h3>Suite Junior</h3><p>50 000 FCFA</p></div>
-      <div class="chambre"><h3>Suite Prestige</h3><p>80 000 FCFA</p></div>
+      <div class="chambre">
+        <img src="images/chambre1.jpg" alt="Chambre Standard">
+        <h3>Chambre Standard</h3>
+        <p>À partir de 25 000 FCFA</p>
+      </div>
+      <div class="chambre">
+        <img src="images/chambre2.jpg" alt="Chambre Deluxe">
+        <h3>Chambre Deluxe</h3>
+        <p>À partir de 35 000 FCFA</p>
+      </div>
+      <div class="chambre">
+        <img src="images/chambre3.jpg" alt="Suite Junior">
+        <h3>Suite Junior</h3>
+        <p>À partir de 50 000 FCFA</p>
+      </div>
+      <div class="chambre">
+        <img src="images/chambre4.jpg" alt="Suite Prestige">
+        <h3>Suite Prestige</h3>
+        <p>À partir de 80 000 FCFA</p>
+      </div>
     </div>
   </section>
 
+  <!-- PLATS -->
+  <section>
+    <h2>Nos plats spéciaux</h2>
+    <div class="plats">
+      <div class="plat">
+        <img src="images/plat1.jpg" alt="Goulou Goulou">
+        <h3>Goulou Goulou</h3>
+        <p>Délicieux plat local chaque samedi</p>
+      </div>
+      <div class="plat">
+        <img src="images/plat2.jpg" alt="Mamko">
+        <h3>Mamko</h3>
+        <p>Préparé avec amour chaque week-end</p>
+      </div>
+      <div class="plat">
+        <img src="images/plat3.jpg" alt="Mabokoké">
+        <h3>Mabokoké</h3>
+        <p>Spécialité de la maison le dimanche</p>
+      </div>
+      <div class="plat">
+        <img src="images/plat4.jpg" alt="Poulet Grillé">
+        <h3>Poulet Grillé</h3>
+        <p>Accompagné de banane plantain</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MAP -->
   <section>
     <h2>Localisation</h2>
     <iframe src="https://maps.google.com/maps?q=Brazzaville&t=&z=13&ie=UTF8&iwloc=&output=embed" allowfullscreen></iframe>
   </section>
 
+  <!-- AVIS CLIENTS -->
   <section class="avis-section">
     <h2>Avis des clients</h2>
     <div class="avis-card">
-      <p><strong>Jean :</strong> ⭐⭐⭐⭐ Excellent séjour, très propre.</p>
+      <p><strong>Jean :</strong> ⭐⭐⭐⭐ Excellent séjour, très propre et personnel accueillant.</p>
     </div>
     <div class="avis-card">
       <p><strong>Fatou :</strong> ⭐⭐⭐⭐ J’ai adoré le petit-déjeuner !</p>
     </div>
     <div class="avis-form">
       <form onsubmit="event.preventDefault(); alert('Merci pour votre avis !')">
-        <input type="text" placeholder="Votre nom" required />
+        <div class="row">
+          <input type="text" placeholder="Votre nom" required />
+          <input type="text" placeholder="Votre note ⭐⭐⭐⭐" required />
+        </div>
         <textarea rows="3" placeholder="Votre avis..." required></textarea>
         <button type="submit">Envoyer</button>
       </form>
     </div>
   </section>
 
-  <section class="evenements">
-    <h2>✨ Soirée Live chaque samedi</h2>
-    <p>Préparation Goulou Mamko et Mabokoké chaque samedi et dimanche</p>
-  </section>
-
+  <!-- LIKE HOTEL -->
   <section class="like-form">
     <h2>Vous avez aimé l’hôtel ?</h2>
     <form onsubmit="event.preventDefault(); alert('Merci pour votre like !')">
       <button type="submit">👍 J’aime</button>
     </form>
-  </section>
-
-  <section class="reseaux">
-    <h3>Suivez-nous :</h3>
-    <a href="https://facebook.com/hoteloyo" target="_blank">Facebook</a>
-    <a href="https://instagram.com/hoteloyo" target="_blank">Instagram</a>
-    <a href="https://twitter.com/hoteloyo" target="_blank">Twitter</a>
   </section>
 
   <footer>
