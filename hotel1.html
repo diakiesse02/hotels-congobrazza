@@ -55,7 +55,6 @@
       margin: auto;
     }
 
-    /* SLIDER AUTO */
     .slider-container {
       display: flex;
       overflow: hidden;
@@ -76,6 +75,12 @@
       height: 220px;
       object-fit: cover;
       border-radius: 10px;
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+
+    .slider-track img:hover {
+      transform: scale(1.05);
     }
 
     @keyframes scroll {
@@ -99,12 +104,12 @@
       text-align: center;
       text-decoration: none;
       color: inherit;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
       cursor: pointer;
     }
 
     .service-card:hover, .chambre:hover {
-      transform: translateY(-5px);
+      transform: scale(1.05);
       box-shadow: 0 8px 20px rgba(0,0,0,0.1);
     }
 
@@ -217,6 +222,31 @@
       margin-top: 60px;
     }
 
+    /* ZOOM MODAL */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100vw;
+      height: 100vh;
+      background-color: rgba(0,0,0,0.8);
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal img {
+      max-width: 90%;
+      max-height: 90%;
+      border-radius: 10px;
+      box-shadow: 0 0 20px rgba(255,255,255,0.3);
+    }
+
+    .modal:active {
+      display: none;
+    }
+
     @media (max-width: 600px) {
       .slider-track img {
         max-width: 100%;
@@ -251,11 +281,11 @@
     <h2>Galerie de l’hôtel</h2>
     <div class="slider-container">
       <div class="slider-track">
-        <img src="images/oyo1.jpg" alt="Image 1">
-        <img src="images/oyo2.jpg" alt="Image 2">
-        <img src="images/oyo3.jpg" alt="Image 3">
-        <img src="images/oyo4.jpg" alt="Image 4">
-        <img src="images/oyo5.jpg" alt="Image 5">
+        <img src="images/oyo1.jpg" alt="Image 1" onclick="zoomImage(this)">
+        <img src="images/oyo2.jpg" alt="Image 2" onclick="zoomImage(this)">
+        <img src="images/oyo3.jpg" alt="Image 3" onclick="zoomImage(this)">
+        <img src="images/oyo4.jpg" alt="Image 4" onclick="zoomImage(this)">
+        <img src="images/oyo5.jpg" alt="Image 5" onclick="zoomImage(this)">
       </div>
     </div>
   </section>
@@ -351,6 +381,24 @@
   </a>
 
   <button id="scrollTopBtn" onclick="window.scrollTo({ top: 0, behavior: 'smooth' });">⬆ Haut</button>
+
+  <!-- ZOOM MODAL -->
+  <div class="modal" id="modalZoom" onclick="closeZoom()">
+    <img id="zoomedImage" src="" alt="Zoom">
+  </div>
+
+  <script>
+    function zoomImage(img) {
+      const modal = document.getElementById("modalZoom");
+      const zoomed = document.getElementById("zoomedImage");
+      zoomed.src = img.src;
+      modal.style.display = "flex";
+    }
+
+    function closeZoom() {
+      document.getElementById("modalZoom").style.display = "none";
+    }
+  </script>
 
 </body>
 </html>
