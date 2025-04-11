@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
@@ -47,7 +47,6 @@
       margin: auto;
     }
 
-    /* SLIDER AUTO */
     .slider-container {
       display: flex;
       overflow: hidden;
@@ -230,7 +229,6 @@
     <a href="#">Contact</a>
   </nav>
 
-  <!-- SLIDER -->
   <section>
     <h2>Galerie de l’hôtel</h2>
     <div class="slider-container">
@@ -244,7 +242,6 @@
     </div>
   </section>
 
-  <!-- SERVICES -->
   <section>
     <h2>Nos Services</h2>
     <div class="services">
@@ -271,7 +268,6 @@
     </div>
   </section>
 
-  <!-- PLATS -->
   <section>
     <h2>Nos Plats</h2>
     <div class="plats">
@@ -298,7 +294,6 @@
     </div>
   </section>
 
-  <!-- CHAMBRES -->
   <section>
     <h2>Nos Chambres</h2>
     <div class="chambres">
@@ -325,7 +320,6 @@
     </div>
   </section>
 
-  <!-- AVIS CLIENTS -->
   <section class="avis-section">
     <h2>Avis des clients</h2>
     <div class="avis-card">
@@ -343,33 +337,6 @@
     </div>
   </section>
 
-  <section>
-    <h2>Localisation</h2>
-    <iframe src="https://maps.google.com/maps?q=Brazzaville&t=&z=13&ie=UTF8&iwloc=&output=embed" allowfullscreen></iframe>
-  </section>
-
-  <section class="avis-section">
-    <h2>Avis des clients</h2>
-    <div class="avis-card">
-      <p><strong>Jean :</strong> ⭐⭐⭐⭐ Excellent séjour, très propre.</p>
-    </div>
-    <div class="avis-card">
-      <p><strong>Fatou :</strong> ⭐⭐⭐⭐ J’ai adoré le petit-déjeuner !</p>
-    </div>
-    <div class="avis-form">
-      <form onsubmit="event.preventDefault(); alert('Merci pour votre avis !')">
-        <input type="text" placeholder="Votre nom" required />
-        <textarea rows="3" placeholder="Votre avis..." required></textarea>
-        <button type="submit">Envoyer</button>
-      </form>
-    </div>
-  </section>
-
-  <section class="evenements">
-    <h2>✨ Soirée Live chaque samedi</h2>
-    <p>Préparation Goulou Mamko et Mabokoké chaque samedi et dimanche</p>
-  </section>
-
   <section class="like-form">
     <h2>Vous avez aimé l’hôtel ?</h2>
     <form onsubmit="event.preventDefault(); alert('Merci pour votre like !')">
@@ -377,11 +344,16 @@
     </form>
   </section>
 
-  <section class="reseaux">
-    <h3>Suivez-nous :</h3>
-    <a href="https://facebook.com/hoteloyo" target="_blank">Facebook</a>
-    <a href="https://instagram.com/hoteloyo" target="_blank">Instagram</a>
-    <a href="https://twitter.com/hoteloyo" target="_blank">Twitter</a>
+  <!-- SECTION GOOGLE MAPS -->
+  <section>
+    <h2>📍 Nous localiser</h2>
+    <p>Retrouvez-nous facilement à Brazzaville :</p>
+    <iframe
+      src="https://maps.google.com/maps?q=Hôtel%20OYO%20Brazzaville&t=&z=15&ie=UTF8&iwloc=&output=embed"
+      allowfullscreen
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
   </section>
 
   <footer>
@@ -396,4 +368,3 @@
 
 </body>
 </html>
-
