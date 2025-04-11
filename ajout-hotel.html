@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ajouter votre hôtel - Congo Brazza Hôtel</title>
+  <style>
+    :root {
+      --main-color: #3498db;
+      --dark-color: #2c3e50;
+      --light-bg: #f5f7fa;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: var(--light-bg);
+    }
+
+    header {
+      background-color: var(--main-color);
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+    }
+
+    nav {
+      background-color: #2980b9;
+      padding: 10px;
+      text-align: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: bold;
+    }
+
+    section {
+      padding: 40px 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    form {
+      background-color: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    form input, form textarea, form select {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    form input[type="file"] {
+      padding: 5px;
+    }
+
+    form button {
+      padding: 12px 25px;
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .reasons {
+      margin-top: 50px;
+      background: #eaf6ff;
+      padding: 25px;
+      border-radius: 10px;
+    }
+
+    .reasons ul {
+      padding-left: 20px;
+    }
+
+    footer {
+      background-color: var(--dark-color);
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 60px;
+    }
+
+    @media (max-width: 600px) {
+      form input, form textarea, form select {
+        font-size: 14px;
+      }
+
+      form button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Congo Brazza Hôtel</h1>
+    <p>Ajoutez votre établissement et rejoignez notre réseau !</p>
+  </header>
+
+  <nav>
+    <a href="index.html">Accueil</a>
+    <a href="hotels.html">Hôtels</a>
+    <a href="services.html">Services</a>
+    <a href="reservation.html">Réservation</a>
+    <a href="ajouter-hotel.html">Ajouter Hôtel</a>
+    <a href="contact.html">Contact</a>
+  </nav>
+
+  <section>
+    <h2>Formulaire d'ajout d'hôtel</h2>
+    <form onsubmit="event.preventDefault(); alert('Votre demande a été envoyée avec succès.');">
+      <input type="text" placeholder="Nom de l'hôtel" required>
+      <input type="text" placeholder="Adresse complète" required>
+      <input type="text" placeholder="Ville / Région" required>
+      <input type="tel" placeholder="Téléphone" required>
+      <input type="email" placeholder="E-mail de contact" required>
+      <input type="url" placeholder="Site Web (optionnel)">
+      <input type="number" placeholder="Nombre de chambres" min="1" required>
+      
+      <select required>
+        <option value="">Services proposés (Wi-Fi, Piscine...)</option>
+        <option>Wi-Fi</option>
+        <option>Piscine</option>
+        <option>Navette</option>
+        <option>Petit-déjeuner</option>
+        <option>Climatisation</option>
+      </select>
+
+      <label>Téléversez des photos de votre hôtel :</label>
+      <input type="file" multiple>
+
+      <textarea rows="4" placeholder="Description de l'hôtel" required></textarea>
+
+      <button type="submit">Envoyer</button>
+    </form>
+
+    <div class="reasons">
+      <h3>🎯 Pourquoi rejoindre Congo Brazza Hôtel ?</h3>
+      <ul>
+        <li>Visibilité auprès de milliers de voyageurs</li>
+        <li>Référencement gratuit ou premium</li>
+        <li>Accompagnement pour les réservations</li>
+        <li>Promotion sur nos réseaux sociaux</li>
+      </ul>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Congo Brazza Hôtel. Tous droits réservés.</p>
+  </footer>
+
+</body>
+</html>
