@@ -8,7 +8,7 @@
     body {
       font-family: 'Segoe UI', sans-serif;
       margin: 0;
-      background-color: #f4f8fb;
+      background-color: #f0f8ff;
     }
 
     header {
@@ -18,81 +18,116 @@
       text-align: center;
     }
 
-    h1 {
+    .container {
+      padding: 20px;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    h2 {
+      text-align: center;
       margin-bottom: 10px;
+    }
+
+    .search-summary {
+      text-align: center;
+      margin-bottom: 30px;
+      color: #444;
+    }
+
+    .tri-container {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+
+    .tri-container select {
+      padding: 10px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
     }
 
     .results-container {
       display: flex;
       flex-wrap: wrap;
       gap: 20px;
-      padding: 30px;
       justify-content: center;
     }
 
     .hotel-card {
       background-color: white;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      padding: 15px;
-      width: 300px;
-      text-align: center;
-      transition: transform 0.2s ease;
+      border-radius: 8px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+      width: 280px;
+      transition: transform 0.2s;
     }
 
     .hotel-card:hover {
-      transform: translateY(-5px);
+      transform: scale(1.03);
     }
 
     .hotel-card img {
       width: 100%;
       height: 180px;
       object-fit: cover;
-      border-radius: 8px;
-      margin-bottom: 12px;
     }
 
     .hotel-card h3 {
-      margin-top: 0;
-      color: #2c3e50;
+      margin: 10px;
+      font-size: 20px;
     }
 
     .hotel-card p {
-      margin: 8px 0;
-      color: #555;
+      margin: 5px 10px 10px;
+      font-size: 14px;
     }
 
     .no-results {
       text-align: center;
-      padding: 50px;
-      color: #999;
-      font-size: 20px;
+      font-size: 18px;
+      color: #888;
+      margin-top: 40px;
     }
 
-    a.back-link {
-      display: block;
+    footer {
+      margin-top: 50px;
+      background-color: #2c3e50;
+      color: white;
       text-align: center;
-      margin: 20px;
-      text-decoration: none;
-      color: #3498db;
-      font-weight: bold;
+      padding: 20px 10px;
     }
   </style>
 </head>
 <body>
 
   <header>
-    <h1>Résultats de recherche</h1>
-    <p>Voici les hôtels correspondant à vos critères</p>
+    <h1>Résultats de votre recherche</h1>
   </header>
 
-  <div class="results-container" id="results"></div>
-  <div class="no-results" id="noResults" style="display:none;">Aucun hôtel trouvé.</div>
+  <div class="container">
 
-  <a href="index.html" class="back-link">← Retour à l'accueil</a>
+    <div class="search-summary" id="searchSummary">
+      Chargement des résultats...
+    </div>
+
+    <div class="tri-container">
+      <label for="tri">Trier par :</label>
+      <select id="tri">
+        <option value="default">-- Choisir --</option>
+        <option value="asc">Prix croissant</option>
+        <option value="desc">Prix décroissant</option>
+      </select>
+    </div>
+
+    <div class="results-container" id="results"></div>
+    <div class="no-results" id="noResults" style="display:none;">Aucun hôtel ne correspond à votre recherche.</div>
+  </div>
+
+  <footer>
+    <p>© 2025 Congo Brazza Hôtels. Tous droits réservés.</p>
+  </footer>
 
   <script>
-    // Liste des hôtels simulés avec images
     const hotels = [
       { nom: "Hôtel Résidence Marina", ville: "Brazzaville", prix: 25000, image: "images/marina.jpg" },
       { nom: "Emeraude Palace", ville: "Pointe-Noire", prix: 45000, image: "images/emeraude.jpg" },
@@ -106,15 +141,13 @@
       { nom: "Maison Blanche", ville: "Dolisie", prix: 27000, image: "images/blanche.jpg" }
     ];
 
-    // Récupération des paramètres d'URL
     const params = new URLSearchParams(window.location.search);
     const ville = params.get('ville')?.toLowerCase() || "";
     const prix = params.get('prix');
 
-    // Filtrage
-    const resultats = hotels.filter(hotel => {
+    let resultats = hotels.filter(hotel => {
       const matchVille = ville === "" || hotel.ville.toLowerCase().includes(ville);
-      
+
       let matchPrix = true;
       if (prix === "1") matchPrix = hotel.prix < 30000;
       else if (prix === "2") matchPrix = hotel.prix >= 30000 && hotel.prix <= 70000;
@@ -123,25 +156,44 @@
       return matchVille && matchPrix;
     });
 
-    // Affichage
     const resultsDiv = document.getElementById("results");
     const noResultsDiv = document.getElementById("noResults");
+    const summary = document.getElementById("searchSummary");
 
-    if (resultats.length > 0) {
-      resultats.forEach(hotel => {
-        const card = document.createElement("div");
-        card.className = "hotel-card";
-        card.innerHTML = `
-          <img src="${hotel.image}" alt="${hotel.nom}">
-          <h3>${hotel.nom}</h3>
-          <p><strong>Ville :</strong> ${hotel.ville}</p>
-          <p><strong>Prix :</strong> ${hotel.prix.toLocaleString()} FCFA</p>
-        `;
-        resultsDiv.appendChild(card);
-      });
-    } else {
-      noResultsDiv.style.display = "block";
+    function afficherHotels(liste) {
+      resultsDiv.innerHTML = "";
+      if (liste.length === 0) {
+        noResultsDiv.style.display = "block";
+        summary.textContent = "Aucun résultat trouvé.";
+      } else {
+        noResultsDiv.style.display = "none";
+        summary.textContent = `${liste.length} hôtel(s) trouvé(s) pour "${ville || 'toutes les villes'}"`;
+
+        liste.forEach(hotel => {
+          const card = document.createElement("div");
+          card.className = "hotel-card";
+          card.innerHTML = `
+            <img src="${hotel.image}" alt="${hotel.nom}">
+            <h3>${hotel.nom}</h3>
+            <p><strong>Ville :</strong> ${hotel.ville}</p>
+            <p><strong>Prix :</strong> ${hotel.prix.toLocaleString()} FCFA</p>
+          `;
+          resultsDiv.appendChild(card);
+        });
+      }
     }
+
+    afficherHotels(resultats);
+
+    document.getElementById("tri").addEventListener("change", function () {
+      const tri = this.value;
+      let sorted = [...resultats];
+
+      if (tri === "asc") sorted.sort((a, b) => a.prix - b.prix);
+      else if (tri === "desc") sorted.sort((a, b) => b.prix - a.prix);
+
+      afficherHotels(sorted);
+    });
   </script>
 
 </body>
