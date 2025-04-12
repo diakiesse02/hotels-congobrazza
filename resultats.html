@@ -1,81 +1,132 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Résultats de recherche</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Résultats de recherche - Congo Brazza Hôtels</title>
   <style>
-    body { font-family: Arial, sans-serif; padding: 20px; }
-    .hotel-card {
-      border: 1px solid #ccc;
-      padding: 15px;
-      margin: 15px 0;
-      border-radius: 8px;
-      background: #f9f9f9;
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background-color: #f4f8fb;
     }
-    .hidden { display: none; }
+
+    header {
+      background-color: #3498db;
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    .results-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 30px;
+      justify-content: center;
+    }
+
+    .hotel-card {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      padding: 20px;
+      width: 300px;
+      text-align: center;
+    }
+
+    .hotel-card h3 {
+      margin-top: 0;
+      color: #2c3e50;
+    }
+
+    .hotel-card p {
+      margin: 8px 0;
+      color: #555;
+    }
+
+    .no-results {
+      text-align: center;
+      padding: 50px;
+      color: #999;
+      font-size: 20px;
+    }
+
+    a.back-link {
+      display: block;
+      text-align: center;
+      margin: 20px;
+      text-decoration: none;
+      color: #3498db;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body>
 
-  <h1>Résultats de recherche</h1>
-  <div id="resultats"></div>
+  <header>
+    <h1>Résultats de recherche</h1>
+    <p>Voici les hôtels correspondant à vos critères</p>
+  </header>
+
+  <div class="results-container" id="results"></div>
+  <div class="no-results" id="noResults" style="display:none;">Aucun hôtel trouvé.</div>
+
+  <a href="index.html" class="back-link">← Retour à l'accueil</a>
 
   <script>
-    // Données simulées (tu peux les remplacer par tes vraies données ou AJAX)
+    // Liste des hôtels simulés
     const hotels = [
-      {
-        nom: "Résidence Marina",
-        ville: "Brazzaville",
-        prix: 25000
-      },
-      {
-        nom: "Emeraude Palace",
-        ville: "Pointe-Noire",
-        prix: 45000
-      },
-      {
-        nom: "Hôtel Luxe Royal",
-        ville: "Brazzaville",
-        prix: 75000
-      }
+      { nom: "Hôtel Résidence Marina", ville: "Brazzaville", prix: 25000 },
+      { nom: "Emeraude Palace", ville: "Pointe-Noire", prix: 45000 },
+      { nom: "Hôtel Luxe Royal", ville: "Brazzaville", prix: 75000 },
+      { nom: "Palais Ngwanza", ville: "Dolisie", prix: 30000 },
+      { nom: "Résidence Soleil", ville: "Brazzaville", prix: 28000 },
+      { nom: "Crystal Palace Hôtel", ville: "Pointe-Noire", prix: 72000 },
+      { nom: "Hôtel Central", ville: "Ouesso", prix: 19000 },
+      { nom: "La Véranda", ville: "Brazzaville", prix: 32000 },
+      { nom: "Résidence Océan Bleu", ville: "Pointe-Noire", prix: 85000 },
+      { nom: "Maison Blanche", ville: "Dolisie", prix: 27000 }
     ];
 
-    // Fonction pour récupérer les paramètres de l'URL
-    function getParam(name) {
-      const url = new URL(window.location.href);
-      return url.searchParams.get(name);
-    }
-
-    const villeParam = getParam("ville")?.toLowerCase() || "";
-    const prixParam = getParam("prix"); // "1", "2", ou "3"
+    // Récupération des paramètres d'URL
+    const params = new URLSearchParams(window.location.search);
+    const ville = params.get('ville')?.toLowerCase() || "";
+    const prix = params.get('prix');
 
     // Filtrage
     const resultats = hotels.filter(hotel => {
-      const matchVille = villeParam === "" || hotel.ville.toLowerCase().includes(villeParam);
+      const matchVille = ville === "" || hotel.ville.toLowerCase().includes(ville);
+      
       let matchPrix = true;
-
-      if (prixParam === "1") matchPrix = hotel.prix < 30000;
-      else if (prixParam === "2") matchPrix = hotel.prix >= 30000 && hotel.prix <= 70000;
-      else if (prixParam === "3") matchPrix = hotel.prix > 70000;
+      if (prix === "1") matchPrix = hotel.prix < 30000;
+      else if (prix === "2") matchPrix = hotel.prix >= 30000 && hotel.prix <= 70000;
+      else if (prix === "3") matchPrix = hotel.prix > 70000;
 
       return matchVille && matchPrix;
     });
 
-    const container = document.getElementById("resultats");
+    // Affichage
+    const resultsDiv = document.getElementById("results");
+    const noResultsDiv = document.getElementById("noResults");
 
-    if (resultats.length === 0) {
-      container.innerHTML = "<p>Aucun hôtel trouvé avec ces critères.</p>";
-    } else {
+    if (resultats.length > 0) {
       resultats.forEach(hotel => {
-        const div = document.createElement("div");
-        div.className = "hotel-card";
-        div.innerHTML = `
+        const card = document.createElement("div");
+        card.className = "hotel-card";
+        card.innerHTML = `
           <h3>${hotel.nom}</h3>
-          <p><strong>Ville:</strong> ${hotel.ville}</p>
-          <p><strong>Prix:</strong> ${hotel.prix.toLocaleString()} FCFA</p>
+          <p><strong>Ville :</strong> ${hotel.ville}</p>
+          <p><strong>Prix :</strong> ${hotel.prix.toLocaleString()} FCFA</p>
         `;
-        container.appendChild(div);
+        resultsDiv.appendChild(card);
       });
+    } else {
+      noResultsDiv.style.display = "block";
     }
   </script>
 
