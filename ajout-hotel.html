@@ -5,10 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ajouter votre hôtel - Congo Brazza Hôtel</title>
   <script type="module">
+    // Importation Firebase (version module)
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
 
+    // Configuration Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyBo9JsPem6NqNWL1DHiPQFck5PLJvADRUI",
       authDomain: "congo-reservation.firebaseapp.com",
@@ -19,10 +20,11 @@
       measurementId: "G-E4MZGSVB4H"
     };
 
+    // Initialisation Firebase
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
-    const storage = getStorage(app);
 
+    // Soumission du formulaire
     window.submitHotel = async function(event) {
       event.preventDefault();
 
@@ -33,22 +35,8 @@
       const email = document.getElementById("email").value;
       const site = document.getElementById("site").value;
       const chambres = document.getElementById("chambres").value;
+      const services = document.getElementById("services").value;
       const description = document.getElementById("description").value;
-
-      // Récupérer les services cochés
-      const services = Array.from(document.querySelectorAll('input[name="services"]:checked')).map(cb => cb.value);
-
-      // Upload des images
-      const photoFiles = document.getElementById("photos").files;
-      const photoURLs = [];
-
-      for (let i = 0; i < photoFiles.length; i++) {
-        const file = photoFiles[i];
-        const storageRef = ref(storage, `hotels/${nom}/${file.name}`);
-        const snapshot = await uploadBytes(storageRef, file);
-        const url = await getDownloadURL(snapshot.ref);
-        photoURLs.push(url);
-      }
 
       try {
         await addDoc(collection(db, "hotels"), {
@@ -61,7 +49,6 @@
           chambres,
           services,
           description,
-          photos: photoURLs,
           dateAjout: new Date()
         });
         alert("Hôtel ajouté avec succès !");
@@ -117,17 +104,12 @@
       box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
 
-    form input, form textarea {
+    form input, form textarea, form select {
       width: 100%;
       padding: 12px;
       margin-bottom: 15px;
       border: 1px solid #ccc;
       border-radius: 5px;
-    }
-
-    .services label {
-      display: block;
-      margin-bottom: 8px;
     }
 
     form button {
@@ -174,18 +156,15 @@
       <input type="email" id="email" placeholder="E-mail de contact" required>
       <input type="url" id="site" placeholder="Site Web (optionnel)">
       <input type="number" id="chambres" placeholder="Nombre de chambres" min="1" required>
-
-      <label for="photos">Photos de l'hôtel :</label>
-      <input type="file" id="photos" accept="image/*" multiple required>
-
-      <div class="services">
-        <label>Services proposés :</label>
-        <label><input type="checkbox" name="services" value="Wi-Fi"> Wi-Fi</label>
-        <label><input type="checkbox" name="services" value="Piscine"> Piscine</label>
-        <label><input type="checkbox" name="services" value="Navette"> Navette</label>
-        <label><input type="checkbox" name="services" value="Petit-déjeuner"> Petit-déjeuner</label>
-        <label><input type="checkbox" name="services" value="Climatisation"> Climatisation</label>
-      </div>
+      
+      <select id="services" required>
+        <option value="">Services proposés</option>
+        <option>Wi-Fi</option>
+        <option>Piscine</option>
+        <option>Navette</option>
+        <option>Petit-déjeuner</option>
+        <option>Climatisation</option>
+      </select>
 
       <textarea id="description" rows="4" placeholder="Description de l'hôtel" required></textarea>
 
