@@ -34,9 +34,22 @@
       background-color: white;
       border-radius: 10px;
       box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-      padding: 20px;
+      padding: 15px;
       width: 300px;
       text-align: center;
+      transition: transform 0.2s ease;
+    }
+
+    .hotel-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .hotel-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      border-radius: 8px;
+      margin-bottom: 12px;
     }
 
     .hotel-card h3 {
@@ -79,18 +92,18 @@
   <a href="index.html" class="back-link">← Retour à l'accueil</a>
 
   <script>
-    // Liste des hôtels simulés
+    // Liste des hôtels simulés avec images
     const hotels = [
-      { nom: "Hôtel Résidence Marina", ville: "Brazzaville", prix: 25000 },
-      { nom: "Emeraude Palace", ville: "Pointe-Noire", prix: 45000 },
-      { nom: "Hôtel Luxe Royal", ville: "Brazzaville", prix: 75000 },
-      { nom: "Palais Ngwanza", ville: "Dolisie", prix: 30000 },
-      { nom: "Résidence Soleil", ville: "Brazzaville", prix: 28000 },
-      { nom: "Crystal Palace Hôtel", ville: "Pointe-Noire", prix: 72000 },
-      { nom: "Hôtel Central", ville: "Ouesso", prix: 19000 },
-      { nom: "La Véranda", ville: "Brazzaville", prix: 32000 },
-      { nom: "Résidence Océan Bleu", ville: "Pointe-Noire", prix: 85000 },
-      { nom: "Maison Blanche", ville: "Dolisie", prix: 27000 }
+      { nom: "Hôtel Résidence Marina", ville: "Brazzaville", prix: 25000, image: "images/marina.jpg" },
+      { nom: "Emeraude Palace", ville: "Pointe-Noire", prix: 45000, image: "images/emeraude.jpg" },
+      { nom: "Hôtel Luxe Royal", ville: "Brazzaville", prix: 75000, image: "images/luxe.jpg" },
+      { nom: "Palais Ngwanza", ville: "Dolisie", prix: 30000, image: "images/ngwanza.jpg" },
+      { nom: "Résidence Soleil", ville: "Brazzaville", prix: 28000, image: "images/soleil.jpg" },
+      { nom: "Crystal Palace Hôtel", ville: "Pointe-Noire", prix: 72000, image: "images/crystal.jpg" },
+      { nom: "Hôtel Central", ville: "Ouesso", prix: 19000, image: "images/central.jpg" },
+      { nom: "La Véranda", ville: "Brazzaville", prix: 32000, image: "images/veranda.jpg" },
+      { nom: "Résidence Océan Bleu", ville: "Pointe-Noire", prix: 85000, image: "images/ocean.jpg" },
+      { nom: "Maison Blanche", ville: "Dolisie", prix: 27000, image: "images/blanche.jpg" }
     ];
 
     // Récupération des paramètres d'URL
@@ -119,6 +132,7 @@
         const card = document.createElement("div");
         card.className = "hotel-card";
         card.innerHTML = `
+          <img src="${hotel.image}" alt="${hotel.nom}">
           <h3>${hotel.nom}</h3>
           <p><strong>Ville :</strong> ${hotel.ville}</p>
           <p><strong>Prix :</strong> ${hotel.prix.toLocaleString()} FCFA</p>
