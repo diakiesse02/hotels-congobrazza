@@ -3,112 +3,67 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Ajouter un Hôtel | Congo Brazza Hôtel</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --main-color: #2980b9;
-      --accent-color: #27ae60;
-      --bg-light: #f4f6f8;
-      --white: #ffffff;
-      --gray: #7f8c8d;
-    }
+  <title>Ajouter un hôtel - Congo Brazza Hôtel</title>
 
+  <style>
     body {
-      font-family: 'Inter', sans-serif;
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f0f4f8;
       margin: 0;
-      background-color: var(--bg-light);
-      color: #2c3e50;
+      padding: 0;
     }
 
     header {
-      background-color: var(--main-color);
+      background-color: #3498db;
       color: white;
-      padding: 30px 20px;
+      padding: 30px;
       text-align: center;
     }
 
-    h1 {
-      margin: 0;
-      font-size: 2.2em;
-    }
-
-    main {
-      max-width: 800px;
-      background-color: var(--white);
+    form {
+      background-color: white;
+      max-width: 700px;
       margin: 40px auto;
       padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
     }
 
-    label {
-      font-weight: 600;
-      margin-top: 15px;
-      display: block;
+    form h2 {
+      margin-bottom: 25px;
+      color: #2c3e50;
     }
 
     input, textarea, select {
       width: 100%;
       padding: 12px;
-      margin-top: 8px;
-      margin-bottom: 20px;
+      margin-bottom: 15px;
+      border-radius: 5px;
       border: 1px solid #ccc;
-      border-radius: 6px;
       font-size: 15px;
     }
 
-    .checkbox-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
+    .services label {
+      display: block;
+      margin-bottom: 5px;
     }
 
-    .checkbox-group label {
-      display: flex;
-      align-items: center;
-      font-weight: normal;
+    .services input[type="checkbox"] {
+      margin-right: 8px;
     }
 
     button {
-      background-color: var(--accent-color);
+      background-color: #2ecc71;
       color: white;
       border: none;
-      padding: 14px 24px;
-      font-size: 16px;
-      border-radius: 6px;
+      padding: 12px 20px;
+      border-radius: 5px;
       cursor: pointer;
-      transition: background 0.3s ease;
+      font-size: 16px;
     }
 
     button:hover {
-      background-color: #219150;
-    }
-
-    footer {
-      text-align: center;
-      padding: 20px;
-      background-color: var(--main-color);
-      color: white;
-      margin-top: 60px;
-    }
-
-    .success {
-      background: #dff0d8;
-      color: #3c763d;
-      padding: 12px;
-      border-radius: 6px;
-      margin-bottom: 20px;
-      display: none;
-    }
-
-    .error {
-      background: #f2dede;
-      color: #a94442;
-      padding: 12px;
-      border-radius: 6px;
-      margin-bottom: 20px;
-      display: none;
+      background-color: #27ae60;
     }
   </style>
 </head>
@@ -116,58 +71,38 @@
 
   <header>
     <h1>Ajouter un Hôtel</h1>
+    <p>Formulaire d’ajout dans la base Firebase</p>
   </header>
 
-  <main>
-    <div id="successMessage" class="success">✅ Hôtel ajouté avec succès !</div>
-    <div id="errorMessage" class="error">❌ Une erreur est survenue.</div>
+  <form id="form-hotel" onsubmit="submitHotel(event)">
+    <h2>Informations de l'hôtel</h2>
 
-    <form id="form-hotel" onsubmit="submitHotel(event)">
-      <label>Nom de l'hôtel</label>
-      <input type="text" id="nom" required>
+    <input type="text" id="nom" placeholder="Nom de l'hôtel" required>
+    <input type="text" id="adresse" placeholder="Adresse complète" required>
+    <input type="text" id="ville" placeholder="Ville / Région" required>
+    <input type="tel" id="telephone" placeholder="Téléphone" required>
+    <input type="email" id="email" placeholder="Email de contact" required>
+    <input type="url" id="site" placeholder="Site Web (optionnel)">
+    <input type="number" id="chambres" placeholder="Nombre de chambres" required>
 
-      <label>Adresse complète</label>
-      <input type="text" id="adresse" required>
+    <label for="photos">Photos de l'hôtel :</label>
+    <input type="file" id="photos" accept="image/*" multiple required>
 
-      <label>Ville / Région</label>
-      <input type="text" id="ville" required>
+    <div class="services">
+      <label>Services proposés :</label>
+      <label><input type="checkbox" name="services" value="Wi-Fi"> Wi-Fi</label>
+      <label><input type="checkbox" name="services" value="Piscine"> Piscine</label>
+      <label><input type="checkbox" name="services" value="Navette"> Navette</label>
+      <label><input type="checkbox" name="services" value="Petit-déjeuner"> Petit-déjeuner</label>
+      <label><input type="checkbox" name="services" value="Climatisation"> Climatisation</label>
+    </div>
 
-      <label>Téléphone</label>
-      <input type="tel" id="telephone" required>
+    <textarea id="description" placeholder="Description de l'hôtel" rows="5" required></textarea>
 
-      <label>Email de contact</label>
-      <input type="email" id="email" required>
+    <button type="submit">Ajouter l'hôtel</button>
+  </form>
 
-      <label>Site Web (optionnel)</label>
-      <input type="url" id="site">
-
-      <label>Nombre de chambres</label>
-      <input type="number" id="chambres" min="1" required>
-
-      <label>Services proposés</label>
-      <div class="checkbox-group">
-        <label><input type="checkbox" name="services" value="Wi-Fi"> Wi-Fi</label>
-        <label><input type="checkbox" name="services" value="Piscine"> Piscine</label>
-        <label><input type="checkbox" name="services" value="Navette"> Navette</label>
-        <label><input type="checkbox" name="services" value="Petit-déjeuner"> Petit-déjeuner</label>
-        <label><input type="checkbox" name="services" value="Climatisation"> Climatisation</label>
-      </div>
-
-      <label>Description de l'hôtel</label>
-      <textarea id="description" rows="4" required></textarea>
-
-      <label>Photos</label>
-      <input type="file" id="photos" multiple accept="image/*">
-
-      <button type="submit">Ajouter l'hôtel</button>
-    </form>
-  </main>
-
-  <footer>
-    &copy; 2025 Congo Brazza Hôtel
-  </footer>
-
-  <!-- Firebase -->
+  <!-- Firebase SDK -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -190,46 +125,44 @@
     window.submitHotel = async function(event) {
       event.preventDefault();
 
-      const successBox = document.getElementById("successMessage");
-      const errorBox = document.getElementById("errorMessage");
-      successBox.style.display = "none";
-      errorBox.style.display = "none";
+      const nom = document.getElementById("nom").value;
+      const adresse = document.getElementById("adresse").value;
+      const ville = document.getElementById("ville").value;
+      const telephone = document.getElementById("telephone").value;
+      const email = document.getElementById("email").value;
+      const site = document.getElementById("site").value;
+      const chambres = document.getElementById("chambres").value;
+      const description = document.getElementById("description").value;
+
+      // Services cochés
+      const services = Array.from(document.querySelectorAll('input[name="services"]:checked')).map(cb => cb.value);
+
+      // Upload des photos
+      const photoFiles = document.getElementById("photos").files;
+      const photoURLs = [];
+
+      for (let i = 0; i < photoFiles.length; i++) {
+        const file = photoFiles[i];
+        const storageRef = ref(storage, `hotels/${nom}/${file.name}`);
+        const snapshot = await uploadBytes(storageRef, file);
+        const downloadURL = await getDownloadURL(snapshot.ref);
+        photoURLs.push(downloadURL);
+      }
 
       try {
-        const nom = document.getElementById("nom").value;
-        const adresse = document.getElementById("adresse").value;
-        const ville = document.getElementById("ville").value;
-        const telephone = document.getElementById("telephone").value;
-        const email = document.getElementById("email").value;
-        const site = document.getElementById("site").value;
-        const chambres = document.getElementById("chambres").value;
-        const description = document.getElementById("description").value;
-
-        const services = Array.from(document.querySelectorAll('input[name="services"]:checked')).map(cb => cb.value);
-        const photoFiles = document.getElementById("photos").files;
-        const photoURLs = [];
-
-        for (let i = 0; i < photoFiles.length; i++) {
-          const file = photoFiles[i];
-          const storageRef = ref(storage, `hotels/${nom}/${file.name}`);
-          const snapshot = await uploadBytes(storageRef, file);
-          const downloadURL = await getDownloadURL(snapshot.ref);
-          photoURLs.push(downloadURL);
-        }
-
         await addDoc(collection(db, "hotels"), {
-          nom, adresse, ville, telephone, email, site, chambres,
-          services, description, photos: photoURLs,
+          nom, adresse, ville, telephone, email, site, chambres, services, description,
+          photos: photoURLs,
           dateAjout: new Date()
         });
-
-        successBox.style.display = "block";
+        alert("✅ Hôtel ajouté avec succès !");
         document.getElementById("form-hotel").reset();
       } catch (error) {
-        errorBox.innerText = "❌ Erreur : " + error.message;
-        errorBox.style.display = "block";
+        console.error("Erreur Firebase:", error);
+        alert("❌ Erreur lors de l'ajout : " + error.message);
       }
-    };
+    }
   </script>
+
 </body>
 </html>
