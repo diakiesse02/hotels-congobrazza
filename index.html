@@ -2,10 +2,6 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="vie<!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Accueil - Congo Brazza Hôtels</title>
   <style>
@@ -104,7 +100,15 @@
       }
     }
 
-    form input, form select, form button {
+    /* Formulaire */
+    form {
+      text-align: center;
+      margin: 30px 0;
+    }
+
+    form input,
+    form select,
+    form button {
       padding: 10px;
       margin: 5px;
       border-radius: 5px;
@@ -122,18 +126,31 @@
       background-color: #2471a3;
     }
 
+    /* Résultats */
+    #resultats {
+      max-width: 1000px;
+      margin: auto;
+      padding: 20px;
+      display: grid;
+      gap: 20px;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    }
+
     .hotel {
-      display: flex;
       background: white;
-      margin: 10px 0;
-      border-radius: 8px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
       overflow: hidden;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      transition: transform 0.3s;
+    }
+
+    .hotel:hover {
+      transform: translateY(-5px);
     }
 
     .hotel img {
-      width: 200px;
-      height: 150px;
+      width: 100%;
+      height: 200px;
       object-fit: cover;
     }
 
@@ -236,7 +253,7 @@
 </nav>
 
 <!-- Formulaire de recherche -->
-<form id="searchForm" style="text-align: center; margin: 30px 0;">
+<form id="searchForm">
   <input type="text" id="ville" placeholder="Ville (ex: Brazzaville)">
   <select id="prix">
     <option value="">Prix</option>
@@ -248,8 +265,9 @@
 </form>
 
 <!-- Résultats de recherche -->
-<div id="resultats" style="max-width: 1000px; margin: auto; padding: 20px;"></div>
+<div id="resultats"></div>
 
+<!-- Images en vedette -->
 <section class="hero-images">
   <div class="image-container"><img src="im1.png" alt="Hôtel Résidence Brazza"></div>
   <div class="image-container"><img src="im2.png" alt="Hôtel Émeraude Palace"></div>
@@ -260,11 +278,11 @@
 <footer>
   <p>© 2025 Congo Brazza Hôtels. Tous droits réservés.</p>
   <div class="social-icons">
-    <a href="https://facebook.com" target="_blank">🌐</a>
-    <a href="https://instagram.com" target="_blank">📸</a>
-    <a href="https://twitter.com" target="_blank">🐦</a>
-    <a href="https://youtube.com" target="_blank">▶️</a>
-    <a href="https://linkedin.com" target="_blank">💼</a>
+    <a href="#" title="Facebook">🌐</a>
+    <a href="#" title="Instagram">📸</a>
+    <a href="#" title="Twitter">🐦</a>
+    <a href="#" title="YouTube">▶️</a>
+    <a href="#" title="LinkedIn">💼</a>
   </div>
 </footer>
 
@@ -275,36 +293,11 @@
   }
 
   const hotels = [
-    {
-      nom: "Hôtel Résidence Marina",
-      ville: "Brazzaville",
-      prix: 25000,
-      image: "images/hotel1.jpg"
-    },
-    {
-      nom: "Émeraude Palace",
-      ville: "Pointe-Noire",
-      prix: 50000,
-      image: "images/hotel2.jpg"
-    },
-    {
-      nom: "Résidence Palmier",
-      ville: "Brazzaville",
-      prix: 70000,
-      image: "images/hotel3.jpg"
-    },
-    {
-      nom: "Kintélé Luxe Hôtel",
-      ville: "Brazzaville",
-      prix: 85000,
-      image: "images/hotel4.jpg"
-    },
-    {
-      nom: "Hôtel du Plateau",
-      ville: "Pointe-Noire",
-      prix: 30000,
-      image: "images/hotel5.jpg"
-    }
+    { nom: "Hôtel Résidence Marina", ville: "Brazzaville", prix: 25000, image: "images/hotel1.jpg" },
+    { nom: "Émeraude Palace", ville: "Pointe-Noire", prix: 50000, image: "images/hotel2.jpg" },
+    { nom: "Résidence Palmier", ville: "Brazzaville", prix: 70000, image: "images/hotel3.jpg" },
+    { nom: "Kintélé Luxe Hôtel", ville: "Brazzaville", prix: 85000, image: "images/hotel4.jpg" },
+    { nom: "Hôtel du Plateau", ville: "Pointe-Noire", prix: 30000, image: "images/hotel5.jpg" }
   ];
 
   function filtrerParPrix(prix, hotel) {
@@ -314,313 +307,44 @@
     return true;
   }
 
-  document.getElementById("searchForm").addEventListener("submit", function(e) {
-    e.preventDefault();
-    const ville = document.getElementById("ville").value.toLowerCase().trim();
-    const prix = document.getElementById("prix").value;
-    const resultats = document.getElementById("resultats");
-    resultats.innerHTML = "";
+  document.addEventListener("DOMContentLoaded", function () {
+    document.getElementById("searchForm").addEventListener("submit", function (e) {
+      e.preventDefault();
+      const villeInput = document.getElementById("ville").value.toLowerCase().trim();
+      const prixInput = document.getElementById("prix").value;
+      const resultats = document.getElementById("resultats");
+      resultats.innerHTML = "";
 
-    let villeCorrigee = ville;
-    if (ville === "brazza") villeCorrigee = "brazzaville";
-    if (["pn", "point noire", "point-noire"].includes(ville)) villeCorrigee = "pointe-noire";
+      let villeCorrigee = villeInput;
+      if (villeInput === "brazza") villeCorrigee = "brazzaville";
+      if (["pn", "point noire", "point-noire"].includes(villeInput)) villeCorrigee = "pointe-noire";
 
-    const resultatFiltres = hotels.filter(hotel => {
-      const correspondVille = villeCorrigee === "" || hotel.ville.toLowerCase().includes(villeCorrigee);
-      const correspondPrix = filtrerParPrix(prix, hotel);
-      return correspondVille && correspondPrix;
-    });
-
-    if (resultatFiltres.length === 0) {
-      resultats.innerHTML = `<div style="text-align:center; font-size:18px; color:gray;">Aucun hôtel trouvé pour vos critères.</div>`;
-    } else {
-      resultatFiltres.forEach(hotel => {
-        const hotelDiv = document.createElement("div");
-        hotelDiv.className = "hotel";
-        hotelDiv.innerHTML = `
-          <img src="${hotel.image}" alt="${hotel.nom}">
-          <div class="hotel-info">
-            <h2>${hotel.nom}</h2>
-            <p><strong>Ville:</strong> ${hotel.ville}</p>
-            <p><strong>Prix:</strong> ${hotel.prix.toLocaleString()} FCFA / nuit</p>
-          </div>
-        `;
-        resultats.appendChild(hotelDiv);
+      const resultatFiltres = hotels.filter(hotel => {
+        const correspondVille = villeCorrigee === "" || hotel.ville.toLowerCase().includes(villeCorrigee);
+        const correspondPrix = filtrerParPrix(prixInput, hotel);
+        return correspondVille && correspondPrix;
       });
-    }
+
+      if (resultatFiltres.length === 0) {
+        resultats.innerHTML = `<div style="text-align:center; font-size:18px; color:gray;">Aucun hôtel trouvé pour vos critères.</div>`;
+      } else {
+        resultatFiltres.forEach(hotel => {
+          const hotelDiv = document.createElement("div");
+          hotelDiv.className = "hotel";
+          hotelDiv.innerHTML = `
+            <img src="${hotel.image}" alt="${hotel.nom}">
+            <div class="hotel-info">
+              <h2>${hotel.nom}</h2>
+              <p><strong>Ville:</strong> ${hotel.ville}</p>
+              <p><strong>Prix:</strong> ${hotel.prix.toLocaleString()} FCFA / nuit</p>
+            </div>
+          `;
+          resultats.appendChild(hotelDiv);
+        });
+      }
+    });
   });
 </script>
-
-</body>
-</html>
-wport" content="width=device-width, initial-scale=1.0"/>
-  <title>Accueil - Congo Brazza Hôtels</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      background-color: #e6f0fa;
-    }
-
-    header {
-      background-color: #3498db;
-      color: white;
-      padding: 40px 20px;
-    }
-
-    .header-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 40px;
-    }
-
-    .logo {
-      width: 120px;
-      height: auto;
-    }
-
-    .header-text h1 {
-      margin: 0;
-      font-size: 32px;
-      text-align: center;
-    }
-
-    .header-text p {
-      margin: 10px 0 0;
-      text-align: center;
-    }
-
-    /* MENU */
-    nav {
-      background-color: #2980b9;
-      text-align: center;
-      position: relative;
-    }
-
-    nav ul {
-      list-style: none;
-      margin: 0;
-      padding: 10px;
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
-
-    nav ul li a {
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .menu-toggle {
-      display: none;
-      font-size: 28px;
-      color: white;
-      background: none;
-      border: none;
-      position: absolute;
-      top: 10px;
-      right: 20px;
-    }
-
-    @media (max-width: 768px) {
-      .menu-toggle {
-        display: block;
-      }
-
-      nav ul {
-        display: none;
-        flex-direction: column;
-        background-color: #2980b9;
-        width: 100%;
-      }
-
-      nav ul.show {
-        display: flex;
-      }
-
-      nav ul li {
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-      }
-
-      nav ul li a {
-        padding: 10px;
-        display: block;
-      }
-    }
-
-    .search-section {
-      padding: 30px 20px;
-      text-align: center;
-    }
-
-    .search-section input,
-    .search-section select,
-    .search-section button {
-      padding: 10px;
-      margin: 5px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-
-    .search-section button {
-      background-color: #3498db;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-
-    .search-section button:hover {
-      background-color: #2471a3;
-    }
-
-    .hero-images {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 20px;
-      padding: 30px 20px;
-    }
-
-    .image-container {
-      overflow: hidden;
-      border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-    }
-
-    .image-container img {
-      display: block;
-      width: 600px;
-      height: auto;
-      transition: transform 0.4s ease;
-    }
-
-    .image-container:hover img {
-      transform: scale(1.05);
-    }
-
-    .voir-plus-btn {
-      display: block;
-      margin: 20px auto;
-      background-color: #3498db;
-      color: white;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
-      text-decoration: none;
-      text-align: center;
-    }
-
-    footer {
-      background-color: #2c3e50;
-      color: white;
-      text-align: center;
-      padding: 30px 10px;
-    }
-
-    .social-icons {
-      margin-top: 15px;
-    }
-
-    .social-icons a {
-      display: inline-block;
-      margin: 0 8px;
-      color: white;
-      font-size: 20px;
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-
-    .social-icons a:hover {
-      color: #3498db;
-    }
-  </style>
-</head>
-<body>
-
-  <header>
-    <div class="header-container">
-      <img src="logo.png" alt="Logo Hôtel Congo" class="logo">
-      <div class="header-text">
-        <h1>Bienvenue sur Congo Brazza Hôtels</h1>
-        <p>Découvrez les meilleurs hôtels au Congo sur toutes les villes et faites votre réservation</p>
-      </div>
-      <button class="menu-toggle" onclick="toggleMenu()">☰</button>
-    </div>
-  </header>
-
-  <nav>
-    <ul id="main-menu">
-      <li><a href="index.html">Accueil</a></li>
-      <li><a href="hotels.html">Liste des hôtels</a></li>
-      <li><a href="meubles.html">Maisons meublées</a></li>
-      <li><a href="services.html">Services</a></li>
-      <li><a href="reservation.html">Réservation</a></li>
-      <li><a href="ajout-hotel.html">Ajouter votre hôtel</a></li>
-      <li><a href="galerie.html">Galerie</a></li>
-      <li><a href="temoignages.html">Témoignages</a></li>
-      <li><a href="publicite.html">Publicité</a></li>
-      <li><a href="about.html">À propos</a></li>
-      <li><a href="contact.html">Contact</a></li>
-      <li><a href="blog.html">Blog</a></li>
-      <li><a href="faq.html">FAQ</a></li>
-    </ul>
-  </nav>
-
- <form action="resultats.html" method="get" class="search-form" style="text-align: center; margin: 30px 0;">
-  <input type="text" name="ville" placeholder="Ville (ex: Brazzaville)" style="padding:10px; border-radius:5px; border:1px solid #ccc; margin:5px;">
-  <select name="prix" style="padding:10px; border-radius:5px; border:1px solid #ccc; margin:5px;">
-    <option value="">Prix</option>
-    <option value="1">Moins de 30 000 FCFA</option>
-    <option value="2">30 000 à 70 000 FCFA</option>
-    <option value="3">Plus de 70 000 FCFA</option>
-  </select>
-  <button type="submit" style="padding:10px 20px; background:#3498db; color:white; border:none; border-radius:5px; cursor:pointer;">Rechercher</button>
-</form>
-
-
-  <section class="hero-images">
-    <div class="image-container"><img src="im1.png" alt="Hôtel Résidence Brazza"></div>
-    <div class="image-container"><img src="im2.png" alt="Hôtel Émeraude Palace"></div>
-  </section>
-
-  <a href="hotels.html" class="voir-plus-btn">Voir plus d'hôtels</a>
-
-  <footer>
-    <p>© 2025 Congo Brazza Hôtels. Tous droits réservés.</p>
-    <div class="social-icons">
-      <a href="https://facebook.com" target="_blank" title="Facebook">🌐</a>
-      <a href="https://instagram.com" target="_blank" title="Instagram">📸</a>
-      <a href="https://twitter.com" target="_blank" title="Twitter">🐦</a>
-      <a href="https://youtube.com" target="_blank" title="YouTube">▶️</a>
-      <a href="https://linkedin.com" target="_blank" title="LinkedIn">💼</a>
-    </div>
-  </footer>
-
-  <script>
-    function toggleMenu() {
-      const menu = document.getElementById("main-menu");
-      menu.classList.toggle("show");
-    }
-
-    document.getElementById("recherche-btn").addEventListener("click", function () {
-      const ville = document.getElementById("ville").value.trim();
-      const categorie = document.getElementById("categorie").value;
-      const prix = document.getElementById("prix").value;
-
-      if (!ville && !categorie && !prix) {
-        alert("Veuillez entrer un critère de recherche.");
-        return;
-      }
-
-      const query = `resultats.html?ville=${encodeURIComponent(ville)}&categorie=${categorie}&prix=${prix}`;
-      window.location.href = query;
-    });
-  </script>
 
 </body>
 </html>
