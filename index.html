@@ -253,9 +253,9 @@
 </nav>
 
 <!-- Formulaire de recherche -->
-<form id="searchForm">
-  <input type="text" id="ville" placeholder="Ville (ex: Brazzaville)">
-  <select id="prix">
+<form action="resultats.html" method="get" style="text-align: center; margin: 30px 0;">
+  <input type="text" name="ville" placeholder="Ville (ex: Brazzaville)">
+  <select name="prix">
     <option value="">Prix</option>
     <option value="1">Moins de 30 000 FCFA</option>
     <option value="2">30 000 à 70 000 FCFA</option>
@@ -263,6 +263,7 @@
   </select>
   <button type="submit">Rechercher</button>
 </form>
+
 
 <!-- Résultats de recherche -->
 <div id="resultats"></div>
