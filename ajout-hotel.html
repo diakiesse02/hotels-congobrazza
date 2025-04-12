@@ -3,14 +3,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ajouter votre hôtel - Congo Brazza Hôtel</title>
-
-  <!-- Firebase SDKs -->
+  <title>Test Upload Image Firebase</title>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
     import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
 
+    // Configuration Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyBo9JsPem6NqNWL1DHiPQFck5PLJvADRUI",
       authDomain: "congo-reservation.firebaseapp.com",
@@ -22,174 +20,32 @@
     };
 
     const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
     const storage = getStorage(app);
 
-    // Soumission du formulaire
-    window.submitHotel = async function(event) {
-      event.preventDefault();
-
-      const nom = document.getElementById("nom").value;
-      const adresse = document.getElementById("adresse").value;
-      const ville = document.getElementById("ville").value;
-      const telephone = document.getElementById("telephone").value;
-      const email = document.getElementById("email").value;
-      const site = document.getElementById("site").value;
-      const chambres = document.getElementById("chambres").value;
-      const description = document.getElementById("description").value;
-
-      const services = Array.from(document.querySelectorAll('input[name="services"]:checked')).map(cb => cb.value);
-      const imageFiles = document.getElementById("images").files;
-      let imageUrls = [];
-
-      // Upload des images
-      for (let i = 0; i < imageFiles.length; i++) {
-        const imageRef = ref(storage, `hotels/${Date.now()}_${imageFiles[i].name}`);
-        await uploadBytes(imageRef, imageFiles[i]);
-        const url = await getDownloadURL(imageRef);
-        imageUrls.push(url);
+    window.uploadImage = async function(event) {
+      const file = document.getElementById("image").files[0];
+      if (!file) {
+        alert("Sélectionnez une image.");
+        return;
       }
 
+      const storageRef = ref(storage, `test-images/${Date.now()}_${file.name}`);
       try {
-        await addDoc(collection(db, "hotels"), {
-          nom,
-          adresse,
-          ville,
-          telephone,
-          email,
-          site,
-          chambres,
-          services,
-          description,
-          images: imageUrls,
-          dateAjout: new Date()
-        });
-        alert("Hôtel ajouté avec succès !");
-        document.getElementById("form-hotel").reset();
-      } catch (e) {
-        alert("Erreur lors de l'enregistrement : " + e.message);
+        const snapshot = await uploadBytes(storageRef, file);
+        const downloadURL = await getDownloadURL(snapshot.ref);
+        console.log("Image uploaded ! URL :", downloadURL);
+        document.getElementById("result").innerHTML = `<p>Image téléversée !</p><img src="${downloadURL}" width="200" />`;
+      } catch (error) {
+        console.error("Erreur Upload :", error.message);
+        alert("Erreur : " + error.message);
       }
     }
   </script>
-
-  <style>
-    body {
-      margin: 0;
-      font-family: Arial, sans-serif;
-      background: #f5f7fa;
-    }
-    header {
-      background-color: #3498db;
-      color: white;
-      padding: 30px 20px;
-      text-align: center;
-    }
-    nav {
-      background-color: #2980b9;
-      padding: 10px;
-      text-align: center;
-    }
-    nav a {
-      color: white;
-      text-decoration: none;
-      margin: 0 10px;
-      font-weight: bold;
-    }
-    section {
-      padding: 40px 20px;
-      max-width: 900px;
-      margin: auto;
-    }
-    h2 {
-      text-align: center;
-      margin-bottom: 30px;
-    }
-    form {
-      background-color: white;
-      padding: 25px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    form input, form textarea, form select {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 15px;
-      border: 1px solid #ccc;
-      border-radius: 5px;
-    }
-    .checkbox-group {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 15px;
-    }
-    .checkbox-group label {
-      display: flex;
-      align-items: center;
-      gap: 5px;
-    }
-    form button {
-      padding: 12px 25px;
-      background-color: #27ae60;
-      color: white;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    footer {
-      background-color: #2c3e50;
-      color: white;
-      text-align: center;
-      padding: 20px;
-      margin-top: 60px;
-    }
-  </style>
 </head>
 <body>
-
-  <header>
-    <h1>Ajouter un hôtel</h1>
-    <p>Rejoignez le réseau Congo Brazza Hôtel</p>
-  </header>
-
-  <nav>
-    <a href="index.html">Accueil</a>
-    <a href="hotels.html">Hôtels</a>
-    <a href="reservation.html">Réservation</a>
-    <a href="ajouter-hotel.html">Ajouter Hôtel</a>
-    <a href="admin.html">Admin</a>
-  </nav>
-
-  <section>
-    <h2>Formulaire d'ajout d'hôtel</h2>
-    <form id="form-hotel" onsubmit="submitHotel(event)">
-      <input type="text" id="nom" placeholder="Nom de l'hôtel" required>
-      <input type="text" id="adresse" placeholder="Adresse complète" required>
-      <input type="text" id="ville" placeholder="Ville / Région" required>
-      <input type="tel" id="telephone" placeholder="Téléphone" required>
-      <input type="email" id="email" placeholder="E-mail de contact" required>
-      <input type="url" id="site" placeholder="Site Web (optionnel)">
-      <input type="number" id="chambres" placeholder="Nombre de chambres" min="1" required>
-
-      <div class="checkbox-group">
-        <label><input type="checkbox" name="services" value="Wi-Fi"> Wi-Fi</label>
-        <label><input type="checkbox" name="services" value="Piscine"> Piscine</label>
-        <label><input type="checkbox" name="services" value="Navette"> Navette</label>
-        <label><input type="checkbox" name="services" value="Petit-déjeuner"> Petit-déjeuner</label>
-        <label><input type="checkbox" name="services" value="Climatisation"> Climatisation</label>
-      </div>
-
-      <input type="file" id="images" multiple accept="image/*">
-
-      <textarea id="description" rows="4" placeholder="Description de l'hôtel" required></textarea>
-      <button type="submit">Envoyer</button>
-    </form>
-  </section>
-
-  <footer>
-    <p>&copy; 2025 Congo Brazza Hôtel. Tous droits réservés.</p>
-  </footer>
-
+  <h1>Test Upload Image Firebase</h1>
+  <input type="file" id="image" accept="image/*">
+  <button onclick="uploadImage()">Uploader</button>
+  <div id="result"></div>
 </body>
 </html>
