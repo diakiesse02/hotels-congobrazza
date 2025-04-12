@@ -100,32 +100,26 @@
       }
     }
 
-    section {
-      padding: 20px;
-    }
-
     h2 {
-      color: #2c3e50;
-      margin-bottom: 20px;
       text-align: center;
+      color: #2c3e50;
+      margin-top: 30px;
     }
 
     .container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
+      padding: 20px;
     }
 
     .hotel-card {
-      background-color: white;
-      border-radius: 8px;
+      background-color: #ffffff;
+      border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
       overflow: hidden;
-      transition: transform 0.3s ease;
-    }
-
-    .hotel-card:hover {
-      transform: scale(1.02);
+      display: flex;
+      flex-direction: column;
     }
 
     .hotel-card img {
@@ -136,15 +130,16 @@
 
     .hotel-card-content {
       padding: 15px;
+      flex-grow: 1;
     }
 
     .hotel-card-content h3 {
       margin: 0 0 10px;
-      color: #3498db;
+      font-size: 18px;
     }
 
     .hotel-card-content p {
-      margin: 0 0 10px;
+      margin: 0 0 15px;
       color: #555;
     }
 
@@ -152,9 +147,9 @@
       display: inline-block;
       background-color: #3498db;
       color: white;
-      padding: 8px 16px;
+      padding: 10px 20px;
+      border-radius: 6px;
       text-decoration: none;
-      border-radius: 4px;
       font-size: 14px;
     }
 
@@ -218,39 +213,125 @@
     </ul>
   </nav>
 
-  <!-- Hôtels Brazzaville -->
-  <section>
-    <h2>Hôtels à Brazzaville</h2>
-    <div class="container">
-      <!-- 4 hôtels de Brazzaville ici -->
-      <!-- ... copier-coller tes .hotel-card comme tu veux -->
+  <!-- Section Brazzaville -->
+  <h2>Brazzaville</h2>
+  <div class="container">
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,brazzaville1" alt="Hotel">
+      <div class="hotel-card-content">
+        <h3>Hôtel Résidence Marina</h3>
+        <p>Centre-ville, Wi-Fi, piscine</p>
+        <a href="hotel1.html" class="btn">Voir plus</a>
+      </div>
     </div>
-  </section>
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,brazzaville2" alt="Hotel">
+      <div class="hotel-card-content">
+        <h3>Grand Hôtel de Kintele</h3>
+        <p>5 étoiles, parking sécurisé</p>
+        <a href="#" class="btn">Voir plus</a>
+      </div>
+    </div>
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,brazzaville3" alt="Hotel">
+      <div class="hotel-card-content">
+        <h3>Olympic Palace</h3>
+        <p>Restaurant, salle de sport</p>
+        <a href="#" class="btn">Voir plus</a>
+      </div>
+    </div>
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,brazzaville4" alt="Hotel">
+      <div class="hotel-card-content">
+        <h3>Ledger Plaza</h3>
+        <p>Proche aéroport, luxueux</p>
+        <a href="#" class="btn">Voir plus</a>
+      </div>
+    </div>
+  </div>
 
-  <!-- Hôtels Pointe-Noire -->
-  <section>
-    <h2>Hôtels à Pointe-Noire</h2>
-    <div class="container">
-      <!-- 4 hôtels de Pointe-Noire ici -->
+  <!-- Section Pointe-Noire -->
+  <h2>Pointe-Noire</h2>
+  <div class="container">
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,pointe-noire1" alt="Hotel">
+      <div class="hotel-card-content">
+        <h3>Hôtel Océan Palace</h3>
+        <p>Vue sur mer, piscine</p>
+        <a href="#" class="btn">Voir plus</a>
+      </div>
     </div>
-  </section>
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,pointe-noire2" alt="Hotel">
+      <div class="hotel-card-content">
+        <h3>Hôtel Elais</h3>
+        <p>Moderne, centre-ville</p>
+        <a href="#" class="btn">Voir plus</a>
+      </div>
+    </div>
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,pointe-noire3" alt="Hotel">
+      <div class="hotel-card-content">
+        <h3>Résidence Tropicana</h3>
+        <p>Ambiance relax</p>
+        <a href="#" class="btn">Voir plus</a>
+      </div>
+    </div>
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,pointe-noire4" alt="Hotel">
+      <div class="hotel-card-content">
+        <h3>Hotel Palm Beach</h3>
+        <p>Restaurant, plage privée</p>
+        <a href="#" class="btn">Voir plus</a>
+      </div>
+    </div>
+  </div>
 
-  <!-- Hôtels Dolisie -->
-  <section>
-    <h2>Hôtels à Dolisie</h2>
-    <div class="container">
-      <!-- 4 hôtels de Dolisie ici -->
+  <!-- Section Dolisie -->
+  <h2>Dolisie</h2>
+  <div class="container">
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,dolisie1" alt="Hotel">
+      <div class="hotel-card-content">
+        <h3>Hotel La Paix</h3>
+        <p>Centre-ville, économique</p>
+        <a href="#" class="btn">Voir plus</a>
+      </div>
     </div>
-  </section>
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,dolisie2" alt="Hotel">
+      <div class="hotel-card-content">
+        <h3>Hôtel de la Gare</h3>
+        <p>Proche transport</p>
+        <a href="#" class="btn">Voir plus</a>
+      </div>
+    </div>
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,dolisie3" alt="Hotel">
+      <div class="hotel-card-content">
+        <h3>Résidence Les Pins</h3>
+        <p>Confort et calme</p>
+        <a href="#" class="btn">Voir plus</a>
+      </div>
+    </div>
+    <div class="hotel-card">
+      <img src="https://source.unsplash.com/400x300/?hotel,dolisie4" alt="Hotel">
+      <div class="hotel-card-content">
+        <h3>Hotel du Marché</h3>
+        <p>Proche commerces</p>
+        <a href="#" class="btn">Voir plus</a>
+      </div>
+    </div>
+  </div>
 
   <footer>
     <p>© 2025 Congo Brazza Hôtels. Tous droits réservés.</p>
     <div class="social-icons">
-      <a href="#">🌐</a>
-      <a href="#">📸</a>
-      <a href="#">🐦</a>
-      <a href="#">▶️</a>
-      <a href="#">🎵</a>
+      <a href="https://facebook.com" target="_blank" title="Facebook">🌐</a>
+      <a href="https://instagram.com" target="_blank" title="Instagram">📸</a>
+      <a href="https://twitter.com" target="_blank" title="Twitter">🐦</a>
+      <a href="https://youtube.com" target="_blank" title="YouTube">▶️</a>
+      <a href="https://tiktok.com" target="_blank" title="TikTok">🎵</a>
     </div>
   </footer>
 
