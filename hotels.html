@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Accueil - Congo Brazza Hôtels</title>
+  <title>Liste des Hôtels - Congo Brazza Hôtels</title>
   <style>
     body {
       font-family: 'Segoe UI', sans-serif;
@@ -41,7 +41,6 @@
       text-align: center;
     }
 
-    /* MENU */
     nav {
       background-color: #2980b9;
       text-align: center;
@@ -101,67 +100,66 @@
       }
     }
 
-    .search-section {
-      padding: 30px 20px;
+    section {
+      padding: 20px;
+    }
+
+    h2 {
+      color: #2c3e50;
+      margin-bottom: 20px;
       text-align: center;
     }
 
-    .search-section input,
-    .search-section select,
-    .search-section button {
-      padding: 10px;
-      margin: 5px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-    }
-
-    .search-section button {
-      background-color: #3498db;
-      color: white;
-      border: none;
-      cursor: pointer;
-    }
-
-    .search-section button:hover {
-      background-color: #2471a3;
-    }
-
-    .hero-images {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
+    .container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 20px;
-      padding: 30px 20px;
     }
 
-    .image-container {
-      overflow: hidden;
-      border-radius: 10px;
+    .hotel-card {
+      background-color: white;
+      border-radius: 8px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease;
     }
 
-    .image-container img {
-      display: block;
-      width: 600px;
-      height: auto;
-      transition: transform 0.4s ease;
+    .hotel-card:hover {
+      transform: scale(1.02);
     }
 
-    .image-container:hover img {
-      transform: scale(1.05);
+    .hotel-card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
     }
 
-    .voir-plus-btn {
-      display: block;
-      margin: 20px auto;
+    .hotel-card-content {
+      padding: 15px;
+    }
+
+    .hotel-card-content h3 {
+      margin: 0 0 10px;
+      color: #3498db;
+    }
+
+    .hotel-card-content p {
+      margin: 0 0 10px;
+      color: #555;
+    }
+
+    .btn {
+      display: inline-block;
       background-color: #3498db;
       color: white;
-      padding: 12px 24px;
-      border: none;
-      border-radius: 8px;
-      font-size: 16px;
+      padding: 8px 16px;
       text-decoration: none;
-      text-align: center;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .btn:hover {
+      background-color: #2471a3;
     }
 
     footer {
@@ -220,137 +218,45 @@
     </ul>
   </nav>
 
-  <!-- Brazzaville -->
+  <!-- Hôtels Brazzaville -->
   <section>
-    <h2>Brazzaville</h2>
+    <h2>Hôtels à Brazzaville</h2>
     <div class="container">
-      <div class="hotel-card">
-        <img src="https://source.unsplash.com/400x300/?hotel,brazzaville1" alt="Hotel">
-        <div class="hotel-card-content">
-          <h3>Hôtel Résidence Marina</h3>
-          <p>Centre-ville, Wi-Fi, piscine</p>
-          <a href="hotel1.html" class="btn">Voir plus</a>
-        </div>
-      </div>
-      <div class="hotel-card">
-        <img src="https://source.unsplash.com/400x300/?hotel,brazzaville2" alt="Hotel">
-        <div class="hotel-card-content">
-          <h3>Grand Hôtel de Kintele</h3>
-          <p>5 étoiles, parking sécurisé</p>
-          <a href="#" class="btn">Voir plus</a>
-        </div>
-      </div>
-      <div class="hotel-card">
-        <img src="https://source.unsplash.com/400x300/?hotel,brazzaville3" alt="Hotel">
-        <div class="hotel-card-content">
-          <h3>Olympic Palace</h3>
-          <p>Restaurant, salle de sport</p>
-          <a href="#" class="btn">Voir plus</a>
-        </div>
-      </div>
-      <div class="hotel-card">
-        <img src="https://source.unsplash.com/400x300/?hotel,brazzaville4" alt="Hotel">
-        <div class="hotel-card-content">
-          <h3>Ledger Plaza</h3>
-          <p>Proche aéroport, luxueux</p>
-          <a href="#" class="btn">Voir plus</a>
-        </div>
-      </div>
+      <!-- 4 hôtels de Brazzaville ici -->
+      <!-- ... copier-coller tes .hotel-card comme tu veux -->
     </div>
   </section>
 
-  <!-- Pointe-Noire -->
+  <!-- Hôtels Pointe-Noire -->
   <section>
-    <h2>Pointe-Noire</h2>
+    <h2>Hôtels à Pointe-Noire</h2>
     <div class="container">
-      <div class="hotel-card">
-        <img src="https://source.unsplash.com/400x300/?hotel,pointe-noire1" alt="Hotel">
-        <div class="hotel-card-content">
-          <h3>Hôtel Océan Palace</h3>
-          <p>Vue sur mer, piscine</p>
-          <a href="#" class="btn">Voir plus</a>
-        </div>
-      </div>
-      <div class="hotel-card">
-        <img src="https://source.unsplash.com/400x300/?hotel,pointe-noire2" alt="Hotel">
-        <div class="hotel-card-content">
-          <h3>Hôtel Elais</h3>
-          <p>Moderne, centre-ville</p>
-          <a href="#" class="btn">Voir plus</a>
-        </div>
-      </div>
-      <div class="hotel-card">
-        <img src="https://source.unsplash.com/400x300/?hotel,pointe-noire3" alt="Hotel">
-        <div class="hotel-card-content">
-          <h3>Résidence Tropicana</h3>
-          <p>Ambiance relax</p>
-          <a href="#" class="btn">Voir plus</a>
-        </div>
-      </div>
-      <div class="hotel-card">
-        <img src="https://source.unsplash.com/400x300/?hotel,pointe-noire4" alt="Hotel">
-        <div class="hotel-card-content">
-          <h3>Hotel Palm Beach</h3>
-          <p>Restaurant, plage privée</p>
-          <a href="#" class="btn">Voir plus</a>
-        </div>
-      </div>
+      <!-- 4 hôtels de Pointe-Noire ici -->
     </div>
   </section>
 
-  <!-- Dolisie -->
+  <!-- Hôtels Dolisie -->
   <section>
-    <h2>Dolisie</h2>
+    <h2>Hôtels à Dolisie</h2>
     <div class="container">
-      <div class="hotel-card">
-        <img src="https://source.unsplash.com/400x300/?hotel,dolisie1" alt="Hotel">
-        <div class="hotel-card-content">
-          <h3>Hotel La Paix</h3>
-          <p>Centre-ville, économique</p>
-          <a href="#" class="btn">Voir plus</a>
-        </div>
-      </div>
-      <div class="hotel-card">
-        <img src="https://source.unsplash.com/400x300/?hotel,dolisie2" alt="Hotel">
-        <div class="hotel-card-content">
-          <h3>Hôtel de la Gare</h3>
-          <p>Proche transport</p>
-          <a href="#" class="btn">Voir plus</a>
-        </div>
-      </div>
-      <div class="hotel-card">
-        <img src="https://source.unsplash.com/400x300/?hotel,dolisie3" alt="Hotel">
-        <div class="hotel-card-content">
-          <h3>Résidence Les Pins</h3>
-          <p>Confort et calme</p>
-          <a href="#" class="btn">Voir plus</a>
-        </div>
-      </div>
-      <div class="hotel-card">
-        <img src="https://source.unsplash.com/400x300/?hotel,dolisie4" alt="Hotel">
-        <div class="hotel-card-content">
-          <h3>Hotel du Marché</h3>
-          <p>Proche commerces</p>
-          <a href="#" class="btn">Voir plus</a>
-        </div>
-      </div>
+      <!-- 4 hôtels de Dolisie ici -->
     </div>
   </section>
 
   <footer>
-    <p>© 2025 Brazzaville Hotels. Tous droits réservés.</p>
+    <p>© 2025 Congo Brazza Hôtels. Tous droits réservés.</p>
     <div class="social-icons">
-      <a href="https://facebook.com" target="_blank" title="Facebook">🌐</a>
-      <a href="https://instagram.com" target="_blank" title="Instagram">📸</a>
-      <a href="https://twitter.com" target="_blank" title="Twitter">🐦</a>
-      <a href="https://youtube.com" target="_blank" title="YouTube">▶️</a>
-      <a href="https://tiktok.com" target="_blank" title="TikTok">🎵</a>
+      <a href="#">🌐</a>
+      <a href="#">📸</a>
+      <a href="#">🐦</a>
+      <a href="#">▶️</a>
+      <a href="#">🎵</a>
     </div>
   </footer>
 
   <script>
     function toggleMenu() {
-      const menu = document.getElementById("menu-list");
+      const menu = document.getElementById("main-menu");
       menu.classList.toggle("show");
     }
   </script>
