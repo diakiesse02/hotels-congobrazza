@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Formulaire de réservation – Congo Brazza Hôtel</title>
+  <title>Réservation – Congo Brazza Hôtel</title>
   <style>
     body {
       margin: 0;
@@ -118,16 +118,16 @@
 
   <section>
     <h2>Réservez votre séjour</h2>
-    <form id="formReservation">
-      <label for="hotel">Choisissez l'hôtel :</label>
-      <select id="hotel" name="hotel" required>
+    <form id="reservationForm">
+      <label>Choisissez l'hôtel :</label>
+      <select name="hotel" required>
         <option>Hôtel OYO - Brazzaville</option>
         <option>Hôtel OYO - Pointe-Noire</option>
         <option>Hôtel Le Prestige</option>
       </select>
 
-      <label for="type">Type de chambre :</label>
-      <select id="type" name="type" required>
+      <label>Type de chambre :</label>
+      <select name="type" required>
         <option>Chambre Standard</option>
         <option>Chambre Deluxe</option>
         <option>Suite Junior</option>
@@ -135,22 +135,22 @@
       </select>
 
       <label>Date d'arrivée :</label>
-      <input type="date" name="date_arrivee" id="date_arrivee" required>
+      <input type="date" name="date_arrivee" required>
 
       <label>Date de départ :</label>
-      <input type="date" name="date_depart" id="date_depart" required>
+      <input type="date" name="date_depart" required>
 
       <label>Nom complet :</label>
-      <input type="text" name="nom" id="nom" placeholder="Votre nom" required>
+      <input type="text" name="nom" placeholder="Votre nom" required>
 
       <label>Téléphone :</label>
-      <input type="tel" name="telephone" id="telephone" placeholder="Votre téléphone" required>
+      <input type="tel" name="telephone" placeholder="Votre téléphone" required>
 
-      <label>Adresse e-mail :</label>
-      <input type="email" name="email" id="email" placeholder="Votre e-mail" required>
+      <label>Email :</label>
+      <input type="email" name="email" placeholder="Votre e-mail" required>
 
       <label>Message ou demande spéciale :</label>
-      <textarea name="message" id="message" rows="4" placeholder="Écrivez un message (optionnel)"></textarea>
+      <textarea name="message" rows="4" placeholder="Votre message (optionnel)"></textarea>
 
       <button type="submit">Réserver maintenant</button>
     </form>
@@ -165,35 +165,52 @@
     <p>&copy; 2025 Congo Brazza Hôtel. Tous droits réservés.</p>
   </footer>
 
-  <script>
-    document.getElementById("formReservation").addEventListener("submit", function (e) {
+  <!-- Firebase SDK -->
+  <script type="module">
+    // Import Firebase functions
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+    // Firebase configuration
+    const firebaseConfig = {
+      apiKey: "AIzaSyBo9JsPem6NqNWL1DHiPQFck5PLJvADRUI",
+      authDomain: "congo-reservation.firebaseapp.com",
+      projectId: "congo-reservation",
+      storageBucket: "congo-reservation.appspot.com",
+      messagingSenderId: "54528039217",
+      appId: "1:54528039217:web:8158927e3b22c8a24a3810",
+      measurementId: "G-E4MZGSVB4H"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Form submit handler
+    document.getElementById("reservationForm").addEventListener("submit", async function (e) {
       e.preventDefault();
 
-      const hotel = document.getElementById("hotel").value;
-      const type = document.getElementById("type").value;
-      const dateArrivee = document.getElementById("date_arrivee").value;
-      const dateDepart = document.getElementById("date_depart").value;
-      const nom = document.getElementById("nom").value;
-      const tel = document.getElementById("telephone").value;
-      const email = document.getElementById("email").value;
-      const msg = document.getElementById("message").value;
+      const form = e.target;
+      const reservationData = {
+        hotel: form.hotel.value,
+        type: form.type.value,
+        date_arrivee: form.date_arrivee.value,
+        date_depart: form.date_depart.value,
+        nom: form.nom.value,
+        telephone: form.telephone.value,
+        email: form.email.value,
+        message: form.message.value,
+        date_reservation: serverTimestamp()
+      };
 
-      const message = `Nouvelle réservation :
-🏨 Hôtel : ${hotel}
-🛏️ Type de chambre : ${type}
-📅 Arrivée : ${dateArrivee}
-📅 Départ : ${dateDepart}
-👤 Nom : ${nom}
-📞 Téléphone : ${tel}
-📧 Email : ${email}
-📝 Message : ${msg || "Aucun"}`;
-
-      alert("Votre demande de réservation a été générée avec succès !");
-      console.log(message);
-
-      const numeroWhatsApp = "242061234567"; // ton numéro ici
-      const lien = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(message)}`;
-      window.open(lien, "_blank");
+      try {
+        await addDoc(collection(db, "reservations"), reservationData);
+        alert("Réservation envoyée avec succès !");
+        form.reset();
+      } catch (error) {
+        console.error("Erreur d'envoi :", error);
+        alert("Erreur lors de la réservation.");
+      }
     });
   </script>
 
