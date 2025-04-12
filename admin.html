@@ -2,53 +2,44 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin – Réservations</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Panneau Admin – Congo Brazza Hôtel</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
+      font-family: Arial, sans-serif;
       margin: 0;
-      background: #f4f7fa;
-      padding: 0;
-    }
-
-    header {
-      background-color: #2c3e50;
-      color: white;
-      text-align: center;
+      background-color: #f4f4f4;
       padding: 20px;
     }
 
-    h1 {
-      margin: 0;
-      font-size: 26px;
-    }
-
-    .login-box, .admin-panel {
-      max-width: 600px;
-      margin: 50px auto;
-      background: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    h2 {
       text-align: center;
     }
 
+    .login-container, .admin-panel {
+      max-width: 900px;
+      margin: 50px auto;
+      background-color: white;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
     input[type="password"] {
-      width: 80%;
-      padding: 10px;
-      margin: 15px 0;
+      padding: 12px;
+      font-size: 16px;
+      width: 100%;
+      margin-bottom: 15px;
       border-radius: 5px;
       border: 1px solid #ccc;
-      font-size: 16px;
     }
 
     button {
-      padding: 10px 20px;
+      padding: 12px 20px;
       font-size: 16px;
+      border: none;
       background-color: #3498db;
       color: white;
-      border: none;
       border-radius: 5px;
       cursor: pointer;
     }
@@ -60,13 +51,13 @@
     table {
       width: 100%;
       border-collapse: collapse;
-      margin-top: 30px;
+      margin-top: 20px;
     }
 
     th, td {
-      padding: 10px;
       border: 1px solid #ddd;
-      font-size: 14px;
+      padding: 10px;
+      text-align: left;
     }
 
     th {
@@ -82,112 +73,114 @@
     #logoutBtn:hover {
       background-color: #c0392b;
     }
+
+    .hidden {
+      display: none;
+    }
   </style>
 </head>
 <body>
 
-<header>
-  <h1>Panel Admin - Réservations</h1>
-</header>
+  <!-- Formulaire de connexion admin -->
+  <div class="login-container" id="loginContainer">
+    <h2>🔐 Connexion Admin</h2>
+    <input type="password" id="adminPassword" placeholder="Mot de passe admin" />
+    <button onclick="checkPassword()">Se connecter</button>
+  </div>
 
-<!-- Connexion -->
-<div class="login-box" id="loginBox">
-  <h2>🔐 Accès sécurisé</h2>
-  <p>Entrez le mot de passe pour accéder aux réservations :</p>
-  <input type="password" id="adminPassword" placeholder="Mot de passe..." />
-  <br/>
-  <button id="loginBtn">Connexion</button>
-</div>
+  <!-- Panneau admin avec tableau des réservations -->
+  <div class="admin-panel hidden" id="adminPanel">
+    <h2>📋 Liste des Réservations</h2>
 
-<!-- Tableau des réservations -->
-<div class="admin-panel" id="adminPanel" style="display: none;">
-  <h2>📋 Liste des Réservations</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Hôtel</th>
-        <th>Type</th>
-        <th>Nom</th>
-        <th>Téléphone</th>
-        <th>Email</th>
-        <th>Arrivée</th>
-        <th>Départ</th>
-        <th>Message</th>
-      </tr>
-    </thead>
-    <tbody id="reservationsTable">
-      <!-- Réservations affichées ici -->
-    </tbody>
-  </table>
-  <button id="logoutBtn">Déconnexion</button>
-</div>
+    <button onclick="loadReservations()">🔁 Actualiser les réservations</button>
 
-<!-- Firebase SDK -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-  import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+    <table>
+      <thead>
+        <tr>
+          <th>Hôtel</th>
+          <th>Type</th>
+          <th>Nom</th>
+          <th>Téléphone</th>
+          <th>Email</th>
+          <th>Arrivée</th>
+          <th>Départ</th>
+          <th>Message</th>
+        </tr>
+      </thead>
+      <tbody id="reservationsTable">
+        <!-- Les réservations seront insérées ici -->
+      </tbody>
+    </table>
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyBo9JsPem6NqNWL1DHiPQFck5PLJvADRUI",
-    authDomain: "congo-reservation.firebaseapp.com",
-    projectId: "congo-reservation",
-    storageBucket: "congo-reservation.appspot.com",
-    messagingSenderId: "54528039217",
-    appId: "1:54528039217:web:8158927e3b22c8a24a3810",
-    measurementId: "G-E4MZGSVB4H"
-  };
+    <button id="logoutBtn">🚪 Déconnexion</button>
+  </div>
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+  <!-- Firebase SDK + Script -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-app.js";
+    import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore.js";
 
-  const correctPassword = "admin123";
+    const firebaseConfig = {
+      apiKey: "AIzaSyBo9JsPem6NqNWL1DHiPQFck5PLJvADRUI",
+      authDomain: "congo-reservation.firebaseapp.com",
+      projectId: "congo-reservation",
+      storageBucket: "congo-reservation.appspot.com",
+      messagingSenderId: "54528039217",
+      appId: "1:54528039217:web:8158927e3b22c8a24a3810",
+      measurementId: "G-E4MZGSVB4H"
+    };
 
-  const loginBox = document.getElementById("loginBox");
-  const adminPanel = document.getElementById("adminPanel");
-  const loginBtn = document.getElementById("loginBtn");
-  const logoutBtn = document.getElementById("logoutBtn");
-  const tableBody = document.getElementById("reservationsTable");
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-  loginBtn.addEventListener("click", () => {
-    const input = document.getElementById("adminPassword").value;
-    if (input === correctPassword) {
-      loginBox.style.display = "none";
-      adminPanel.style.display = "block";
-      loadReservations();
-    } else {
-      alert("❌ Mot de passe incorrect !");
-    }
-  });
+    const loginContainer = document.getElementById("loginContainer");
+    const adminPanel = document.getElementById("adminPanel");
+    const tableBody = document.getElementById("reservationsTable");
+    const logoutBtn = document.getElementById("logoutBtn");
 
-  logoutBtn.addEventListener("click", () => {
-    adminPanel.style.display = "none";
-    loginBox.style.display = "block";
-    document.getElementById("adminPassword").value = "";
-    tableBody.innerHTML = "";
-  });
+    const ADMIN_PASSWORD = "admin123"; // ← change ce mot de passe comme tu veux
 
-  async function loadReservations() {
-    const q = query(collection(db, "reservations"), orderBy("date_arrivee", "desc"));
-    const snapshot = await getDocs(q);
+    window.checkPassword = function () {
+      const input = document.getElementById("adminPassword").value;
+      if (input === ADMIN_PASSWORD) {
+        loginContainer.classList.add("hidden");
+        adminPanel.classList.remove("hidden");
+        loadReservations();
+      } else {
+        alert("Mot de passe incorrect !");
+      }
+    };
 
-    tableBody.innerHTML = "";
-    snapshot.forEach(doc => {
-      const data = doc.data();
-      const row = document.createElement("tr");
-      row.innerHTML = `
-        <td>${data.hotel}</td>
-        <td>${data.type}</td>
-        <td>${data.nom}</td>
-        <td>${data.telephone}</td>
-        <td>${data.email}</td>
-        <td>${data.date_arrivee}</td>
-        <td>${data.date_depart}</td>
-        <td>${data.message || "-"}</td>
-      `;
-      tableBody.appendChild(row);
+    logoutBtn.addEventListener("click", () => {
+      loginContainer.classList.remove("hidden");
+      adminPanel.classList.add("hidden");
+      tableBody.innerHTML = "";
+      document.getElementById("adminPassword").value = "";
     });
-  }
-</script>
+
+    window.loadReservations = async function () {
+      const q = query(collection(db, "reservations"), orderBy("date_arrivee", "desc"));
+      const snapshot = await getDocs(q);
+
+      tableBody.innerHTML = "";
+
+      snapshot.forEach(doc => {
+        const data = doc.data();
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${data.hotel}</td>
+          <td>${data.type}</td>
+          <td>${data.nom}</td>
+          <td>${data.telephone}</td>
+          <td>${data.email}</td>
+          <td>${data.date_arrivee}</td>
+          <td>${data.date_depart}</td>
+          <td>${data.message || "-"}</td>
+        `;
+        tableBody.appendChild(row);
+      });
+    };
+  </script>
 
 </body>
 </html>
