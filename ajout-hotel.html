@@ -2,107 +2,8 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Ajouter un hôtel - Congo Brazza Hôtel</title>
-
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f0f4f8;
-      margin: 0;
-      padding: 0;
-    }
-
-    header {
-      background-color: #3498db;
-      color: white;
-      padding: 30px;
-      text-align: center;
-    }
-
-    form {
-      background-color: white;
-      max-width: 700px;
-      margin: 40px auto;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-
-    form h2 {
-      margin-bottom: 25px;
-      color: #2c3e50;
-    }
-
-    input, textarea, select {
-      width: 100%;
-      padding: 12px;
-      margin-bottom: 15px;
-      border-radius: 5px;
-      border: 1px solid #ccc;
-      font-size: 15px;
-    }
-
-    .services label {
-      display: block;
-      margin-bottom: 5px;
-    }
-
-    .services input[type="checkbox"] {
-      margin-right: 8px;
-    }
-
-    button {
-      background-color: #2ecc71;
-      color: white;
-      border: none;
-      padding: 12px 20px;
-      border-radius: 5px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-
-    button:hover {
-      background-color: #27ae60;
-    }
-  </style>
-</head>
-<body>
-
-  <header>
-    <h1>Ajouter un Hôtel</h1>
-    <p>Formulaire d’ajout dans la base Firebase</p>
-  </header>
-
-  <form id="form-hotel" onsubmit="submitHotel(event)">
-    <h2>Informations de l'hôtel</h2>
-
-    <input type="text" id="nom" placeholder="Nom de l'hôtel" required>
-    <input type="text" id="adresse" placeholder="Adresse complète" required>
-    <input type="text" id="ville" placeholder="Ville / Région" required>
-    <input type="tel" id="telephone" placeholder="Téléphone" required>
-    <input type="email" id="email" placeholder="Email de contact" required>
-    <input type="url" id="site" placeholder="Site Web (optionnel)">
-    <input type="number" id="chambres" placeholder="Nombre de chambres" required>
-
-    <label for="photos">Photos de l'hôtel :</label>
-    <input type="file" id="photos" accept="image/*" multiple required>
-
-    <div class="services">
-      <label>Services proposés :</label>
-      <label><input type="checkbox" name="services" value="Wi-Fi"> Wi-Fi</label>
-      <label><input type="checkbox" name="services" value="Piscine"> Piscine</label>
-      <label><input type="checkbox" name="services" value="Navette"> Navette</label>
-      <label><input type="checkbox" name="services" value="Petit-déjeuner"> Petit-déjeuner</label>
-      <label><input type="checkbox" name="services" value="Climatisation"> Climatisation</label>
-    </div>
-
-    <textarea id="description" placeholder="Description de l'hôtel" rows="5" required></textarea>
-
-    <button type="submit">Ajouter l'hôtel</button>
-  </form>
-
-  <!-- Firebase SDK -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ajouter votre hôtel - Congo Brazza Hôtel</title>
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
@@ -134,10 +35,10 @@
       const chambres = document.getElementById("chambres").value;
       const description = document.getElementById("description").value;
 
-      // Services cochés
+      // Récupérer les services cochés
       const services = Array.from(document.querySelectorAll('input[name="services"]:checked')).map(cb => cb.value);
 
-      // Upload des photos
+      // Upload des images
       const photoFiles = document.getElementById("photos").files;
       const photoURLs = [];
 
@@ -145,24 +46,156 @@
         const file = photoFiles[i];
         const storageRef = ref(storage, `hotels/${nom}/${file.name}`);
         const snapshot = await uploadBytes(storageRef, file);
-        const downloadURL = await getDownloadURL(snapshot.ref);
-        photoURLs.push(downloadURL);
+        const url = await getDownloadURL(snapshot.ref);
+        photoURLs.push(url);
       }
 
       try {
         await addDoc(collection(db, "hotels"), {
-          nom, adresse, ville, telephone, email, site, chambres, services, description,
+          nom,
+          adresse,
+          ville,
+          telephone,
+          email,
+          site,
+          chambres,
+          services,
+          description,
           photos: photoURLs,
           dateAjout: new Date()
         });
-        alert("✅ Hôtel ajouté avec succès !");
+        alert("Hôtel ajouté avec succès !");
         document.getElementById("form-hotel").reset();
-      } catch (error) {
-        console.error("Erreur Firebase:", error);
-        alert("❌ Erreur lors de l'ajout : " + error.message);
+      } catch (e) {
+        alert("Erreur lors de l'enregistrement : " + e.message);
       }
     }
   </script>
+
+  <style>
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background: #f5f7fa;
+    }
+
+    header {
+      background-color: #3498db;
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+    }
+
+    nav {
+      background-color: #2980b9;
+      padding: 10px;
+      text-align: center;
+    }
+
+    nav a {
+      color: white;
+      text-decoration: none;
+      margin: 0 10px;
+      font-weight: bold;
+    }
+
+    section {
+      padding: 40px 20px;
+      max-width: 900px;
+      margin: auto;
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    form {
+      background-color: white;
+      padding: 25px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+
+    form input, form textarea {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+
+    .services label {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    form button {
+      padding: 12px 25px;
+      background-color: #27ae60;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    footer {
+      background-color: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      margin-top: 60px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Ajouter un hôtel</h1>
+    <p>Rejoignez le réseau Congo Brazza Hôtel</p>
+  </header>
+
+  <nav>
+    <a href="index.html">Accueil</a>
+    <a href="hotels.html">Hôtels</a>
+    <a href="reservation.html">Réservation</a>
+    <a href="ajouter-hotel.html">Ajouter Hôtel</a>
+    <a href="admin.html">Admin</a>
+  </nav>
+
+  <section>
+    <h2>Formulaire d'ajout d'hôtel</h2>
+    <form id="form-hotel" onsubmit="submitHotel(event)">
+      <input type="text" id="nom" placeholder="Nom de l'hôtel" required>
+      <input type="text" id="adresse" placeholder="Adresse complète" required>
+      <input type="text" id="ville" placeholder="Ville / Région" required>
+      <input type="tel" id="telephone" placeholder="Téléphone" required>
+      <input type="email" id="email" placeholder="E-mail de contact" required>
+      <input type="url" id="site" placeholder="Site Web (optionnel)">
+      <input type="number" id="chambres" placeholder="Nombre de chambres" min="1" required>
+
+      <label for="photos">Photos de l'hôtel :</label>
+      <input type="file" id="photos" accept="image/*" multiple required>
+
+      <div class="services">
+        <label>Services proposés :</label>
+        <label><input type="checkbox" name="services" value="Wi-Fi"> Wi-Fi</label>
+        <label><input type="checkbox" name="services" value="Piscine"> Piscine</label>
+        <label><input type="checkbox" name="services" value="Navette"> Navette</label>
+        <label><input type="checkbox" name="services" value="Petit-déjeuner"> Petit-déjeuner</label>
+        <label><input type="checkbox" name="services" value="Climatisation"> Climatisation</label>
+      </div>
+
+      <textarea id="description" rows="4" placeholder="Description de l'hôtel" required></textarea>
+
+      <button type="submit">Envoyer</button>
+    </form>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Congo Brazza Hôtel. Tous droits réservés.</p>
+  </footer>
 
 </body>
 </html>
