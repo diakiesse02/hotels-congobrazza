@@ -3,15 +3,113 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Ajouter Hôtel - Congo Brazza Hôtel</title>
+  <title>Ajouter un Hôtel | Congo Brazza Hôtel</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    body { font-family: Arial, sans-serif; background: #f5f7fa; margin: 0; padding: 0; }
-    header, footer { background-color: #3498db; color: white; padding: 20px; text-align: center; }
-    section { max-width: 800px; margin: 30px auto; background: white; padding: 20px; border-radius: 10px; }
-    input, textarea, select { width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #ccc; }
-    label { font-weight: bold; }
-    button { background-color: #27ae60; color: white; padding: 12px 20px; border: none; border-radius: 5px; cursor: pointer; }
-    .services label { display: block; margin: 5px 0; }
+    :root {
+      --main-color: #2980b9;
+      --accent-color: #27ae60;
+      --bg-light: #f4f6f8;
+      --white: #ffffff;
+      --gray: #7f8c8d;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      margin: 0;
+      background-color: var(--bg-light);
+      color: #2c3e50;
+    }
+
+    header {
+      background-color: var(--main-color);
+      color: white;
+      padding: 30px 20px;
+      text-align: center;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 2.2em;
+    }
+
+    main {
+      max-width: 800px;
+      background-color: var(--white);
+      margin: 40px auto;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+    }
+
+    label {
+      font-weight: 600;
+      margin-top: 15px;
+      display: block;
+    }
+
+    input, textarea, select {
+      width: 100%;
+      padding: 12px;
+      margin-top: 8px;
+      margin-bottom: 20px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 15px;
+    }
+
+    .checkbox-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+    }
+
+    .checkbox-group label {
+      display: flex;
+      align-items: center;
+      font-weight: normal;
+    }
+
+    button {
+      background-color: var(--accent-color);
+      color: white;
+      border: none;
+      padding: 14px 24px;
+      font-size: 16px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #219150;
+    }
+
+    footer {
+      text-align: center;
+      padding: 20px;
+      background-color: var(--main-color);
+      color: white;
+      margin-top: 60px;
+    }
+
+    .success {
+      background: #dff0d8;
+      color: #3c763d;
+      padding: 12px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      display: none;
+    }
+
+    .error {
+      background: #f2dede;
+      color: #a94442;
+      padding: 12px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -20,31 +118,34 @@
     <h1>Ajouter un Hôtel</h1>
   </header>
 
-  <section>
+  <main>
+    <div id="successMessage" class="success">✅ Hôtel ajouté avec succès !</div>
+    <div id="errorMessage" class="error">❌ Une erreur est survenue.</div>
+
     <form id="form-hotel" onsubmit="submitHotel(event)">
-      <label>Nom de l'hôtel :</label>
+      <label>Nom de l'hôtel</label>
       <input type="text" id="nom" required>
 
-      <label>Adresse :</label>
+      <label>Adresse complète</label>
       <input type="text" id="adresse" required>
 
-      <label>Ville / Région :</label>
+      <label>Ville / Région</label>
       <input type="text" id="ville" required>
 
-      <label>Téléphone :</label>
+      <label>Téléphone</label>
       <input type="tel" id="telephone" required>
 
-      <label>Email :</label>
+      <label>Email de contact</label>
       <input type="email" id="email" required>
 
-      <label>Site web (facultatif) :</label>
+      <label>Site Web (optionnel)</label>
       <input type="url" id="site">
 
-      <label>Nombre de chambres :</label>
+      <label>Nombre de chambres</label>
       <input type="number" id="chambres" min="1" required>
 
-      <label>Services proposés :</label>
-      <div class="services">
+      <label>Services proposés</label>
+      <div class="checkbox-group">
         <label><input type="checkbox" name="services" value="Wi-Fi"> Wi-Fi</label>
         <label><input type="checkbox" name="services" value="Piscine"> Piscine</label>
         <label><input type="checkbox" name="services" value="Navette"> Navette</label>
@@ -52,27 +153,26 @@
         <label><input type="checkbox" name="services" value="Climatisation"> Climatisation</label>
       </div>
 
-      <label>Description :</label>
+      <label>Description de l'hôtel</label>
       <textarea id="description" rows="4" required></textarea>
 
-      <label>Photos :</label>
+      <label>Photos</label>
       <input type="file" id="photos" multiple accept="image/*">
 
       <button type="submit">Ajouter l'hôtel</button>
     </form>
-  </section>
+  </main>
 
   <footer>
-    <p>&copy; 2025 Congo Brazza Hôtel</p>
+    &copy; 2025 Congo Brazza Hôtel
   </footer>
 
-  <!-- Firebase SDKs -->
+  <!-- Firebase -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
     import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
 
-    // 🔐 Configuration Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyBo9JsPem6NqNWL1DHiPQFck5PLJvADRUI",
       authDomain: "congo-reservation.firebaseapp.com",
@@ -87,53 +187,49 @@
     const db = getFirestore(app);
     const storage = getStorage(app);
 
-    // Fonction de soumission du formulaire
     window.submitHotel = async function(event) {
       event.preventDefault();
 
-      const nom = document.getElementById("nom").value;
-      const adresse = document.getElementById("adresse").value;
-      const ville = document.getElementById("ville").value;
-      const telephone = document.getElementById("telephone").value;
-      const email = document.getElementById("email").value;
-      const site = document.getElementById("site").value;
-      const chambres = document.getElementById("chambres").value;
-      const description = document.getElementById("description").value;
-
-      const services = Array.from(document.querySelectorAll('input[name="services"]:checked')).map(cb => cb.value);
-      const photoFiles = document.getElementById("photos").files;
-      const photoURLs = [];
-
-      // 📷 Upload photos
-      for (let i = 0; i < photoFiles.length; i++) {
-        const file = photoFiles[i];
-        const storageRef = ref(storage, `hotels/${nom}/${file.name}`);
-        const snapshot = await uploadBytes(storageRef, file);
-        const downloadURL = await getDownloadURL(snapshot.ref);
-        photoURLs.push(downloadURL);
-      }
+      const successBox = document.getElementById("successMessage");
+      const errorBox = document.getElementById("errorMessage");
+      successBox.style.display = "none";
+      errorBox.style.display = "none";
 
       try {
+        const nom = document.getElementById("nom").value;
+        const adresse = document.getElementById("adresse").value;
+        const ville = document.getElementById("ville").value;
+        const telephone = document.getElementById("telephone").value;
+        const email = document.getElementById("email").value;
+        const site = document.getElementById("site").value;
+        const chambres = document.getElementById("chambres").value;
+        const description = document.getElementById("description").value;
+
+        const services = Array.from(document.querySelectorAll('input[name="services"]:checked')).map(cb => cb.value);
+        const photoFiles = document.getElementById("photos").files;
+        const photoURLs = [];
+
+        for (let i = 0; i < photoFiles.length; i++) {
+          const file = photoFiles[i];
+          const storageRef = ref(storage, `hotels/${nom}/${file.name}`);
+          const snapshot = await uploadBytes(storageRef, file);
+          const downloadURL = await getDownloadURL(snapshot.ref);
+          photoURLs.push(downloadURL);
+        }
+
         await addDoc(collection(db, "hotels"), {
-          nom,
-          adresse,
-          ville,
-          telephone,
-          email,
-          site,
-          chambres,
-          description,
-          services,
-          photos: photoURLs,
+          nom, adresse, ville, telephone, email, site, chambres,
+          services, description, photos: photoURLs,
           dateAjout: new Date()
         });
 
-        alert("✅ Hôtel ajouté avec succès !");
+        successBox.style.display = "block";
         document.getElementById("form-hotel").reset();
-      } catch (e) {
-        alert("❌ Erreur lors de l'enregistrement : " + e.message);
+      } catch (error) {
+        errorBox.innerText = "❌ Erreur : " + error.message;
+        errorBox.style.display = "block";
       }
-    }
+    };
   </script>
 </body>
 </html>
