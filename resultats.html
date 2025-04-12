@@ -2,340 +2,79 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Résultats - Congo Brazza Hôtels</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Résultats de recherche</title>
   <style>
-    * { box-sizing: border-box; }
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      margin: 0;
-      background-color: #e6f0fa;
-    }
-
-    header {
-      background-color: #3498db;
-      color: white;
-      padding: 40px 20px;
-    }
-
-    .header-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 30px;
-      text-align: center;
-    }
-
-    .logo {
-      width: 100px;
-    }
-
-    .header-text h1 {
-      margin: 0;
-      font-size: 26px;
-    }
-
-    nav {
-      background-color: #2980b9;
-    }
-
-    nav ul {
-      list-style: none;
-      padding: 0;
-      margin: 0;
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-    }
-
-    nav li {
-      margin: 10px;
-    }
-
-    nav a {
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-      padding: 10px 15px;
-      display: block;
-    }
-
-    .menu-toggle {
-      display: none;
-    }
-
-    @media (max-width: 768px) {
-      nav ul {
-        flex-direction: column;
-        display: none;
-        background-color: #2980b9;
-        width: 100%;
-      }
-
-      nav ul.show {
-        display: flex;
-      }
-
-      .menu-toggle {
-        display: block;
-        background-color: #fff;
-        color: #2980b9;
-        font-size: 22px;
-        padding: 10px;
-        border: none;
-        position: absolute;
-        top: 15px;
-        right: 15px;
-        border-radius: 5px;
-        z-index: 999;
-      }
-
-      .header-container {
-        flex-direction: column;
-      }
-    }
-
-    .resultats {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 20px;
-      padding: 30px;
-    }
-
-    .carte {
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
-      width: 300px;
-    }
-
-    .carte img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
-    }
-
-    .carte .infos {
-      padding: 15px;
-    }
-
-    .carte .infos h3 {
-      margin: 0 0 10px;
-    }
-
-    .carte .infos p {
-      margin: 5px 0;
-    }
-
-    .carte .btns {
-      padding: 0 15px 15px;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .btn-whatsapp,
-    .btn-map {
-      text-align: center;
-      padding: 10px;
-      border-radius: 6px;
-      text-decoration: none;
-      color: white;
-      font-weight: bold;
-    }
-
-    .btn-whatsapp {
-      background-color: #25d366;
-    }
-
-    .btn-map {
-      background-color: #e74c3c;
-    }
-
-    .calendar-section,
-    .avis-section {
-      max-width: 800px;
-      margin: 40px auto;
-      padding: 20px;
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    }
-
-    .avis-section form {
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-    }
-
-    .avis-section textarea {
-      height: 80px;
-    }
-
-    button,
-    input,
-    textarea {
-      border-radius: 5px;
+    body { font-family: Arial, sans-serif; padding: 20px; }
+    .hotel-card {
       border: 1px solid #ccc;
-      padding: 10px;
-    }
-
-    .retour-btn {
-      display: block;
-      margin: 20px auto;
-      background-color: #3498db;
-      color: white;
-      padding: 10px 20px;
-      border: none;
+      padding: 15px;
+      margin: 15px 0;
       border-radius: 8px;
-      font-size: 16px;
-      text-align: center;
-      text-decoration: none;
+      background: #f9f9f9;
     }
-
-    footer {
-      background-color: #2c3e50;
-      color: white;
-      text-align: center;
-      padding: 30px 10px;
-      margin-top: 30px;
-    }
-
-    .social-icons a {
-      margin: 0 8px;
-      color: white;
-      font-size: 20px;
-      text-decoration: none;
-    }
+    .hidden { display: none; }
   </style>
 </head>
 <body>
 
-  <button class="menu-toggle" onclick="document.querySelector('nav ul').classList.toggle('show')">☰</button>
-
-  <header>
-    <div class="header-container">
-      <img src="logo.png" alt="Logo Hôtel Congo" class="logo">
-      <div class="header-text">
-        <h1>Bienvenue sur Congo Brazza Hôtels</h1>
-      </div>
-    </div>
-  </header>
-
-  <nav>
-    <ul>
-      <li><a href="index.html">Accueil</a></li>
-      <li><a href="hotels.html">Liste des hôtels</a></li>
-      <li><a href="meubles.html">Maisons meublées</a></li>
-      <li><a href="services.html">Services</a></li>
-      <li><a href="reservation.html">Réservation</a></li>
-      <li><a href="ajout-hotel.html">Ajouter votre hôtel</a></li>
-      <li><a href="galerie.html">Galerie</a></li>
-      <li><a href="temoignages.html">Témoignages</a></li>
-      <li><a href="publicite.html">Publicité</a></li>
-      <li><a href="about.html">À propos</a></li>
-      <li><a href="contact.html">Contact</a></li>
-      <li><a href="blog.html">Blog</a></li>
-      <li><a href="faq.html">FAQ</a></li>
-    </ul>
-  </nav>
-
-  <div class="resultats" id="resultats-container">
-    <!-- Résultats ici -->
-  </div>
-
-  <a href="hotels.html" class="retour-btn">Retour à la liste des hôtels</a>
-
-  <section class="calendar-section">
-    <h2>Choisissez vos dates de séjour</h2>
-    <label>Arrivée : <input type="date" name="arrivee"></label>
-    <label>Départ : <input type="date" name="depart"></label>
-  </section>
-
-  <section class="avis-section">
-    <h2>Laissez un avis</h2>
-    <form>
-      <input type="text" placeholder="Votre nom" required>
-      <textarea placeholder="Votre avis..." required></textarea>
-      <button type="submit">Envoyer</button>
-    </form>
-  </section>
-
-  <footer>
-    <p>© 2025 Congo Brazza Hôtels. Tous droits réservés.</p>
-    <div class="social-icons">
-      <a href="https://facebook.com" target="_blank">🌐</a>
-      <a href="https://instagram.com" target="_blank">📸</a>
-      <a href="https://twitter.com" target="_blank">🐦</a>
-      <a href="https://youtube.com" target="_blank">▶️</a>
-      <a href="https://linkedin.com" target="_blank">💼</a>
-    </div>
-  </footer>
+  <h1>Résultats de recherche</h1>
+  <div id="resultats"></div>
 
   <script>
+    // Données simulées (tu peux les remplacer par tes vraies données ou AJAX)
     const hotels = [
       {
-        nom: "Résidence Brazza",
+        nom: "Résidence Marina",
         ville: "Brazzaville",
-        prix: 25000,
-        image: "chambre1.png",
-        tel: "242064200001"
+        prix: 25000
       },
       {
-        nom: "Émeraude Palace",
-        ville: "Brazzaville",
-        prix: 60000,
-        image: "chambre2.png",
-        tel: "242064200002"
-      },
-      {
-        nom: "Palace Maya",
+        nom: "Emeraude Palace",
         ville: "Pointe-Noire",
-        prix: 80000,
-        image: "chambre3.png",
-        tel: "242064200003"
+        prix: 45000
+      },
+      {
+        nom: "Hôtel Luxe Royal",
+        ville: "Brazzaville",
+        prix: 75000
       }
     ];
 
-    const params = new URLSearchParams(window.location.search);
-    const ville = params.get("ville")?.toLowerCase();
-    const prix = params.get("prix");
+    // Fonction pour récupérer les paramètres de l'URL
+    function getParam(name) {
+      const url = new URL(window.location.href);
+      return url.searchParams.get(name);
+    }
 
-    const container = document.getElementById("resultats-container");
+    const villeParam = getParam("ville")?.toLowerCase() || "";
+    const prixParam = getParam("prix"); // "1", "2", ou "3"
 
+    // Filtrage
     const resultats = hotels.filter(hotel => {
-      const matchVille = !ville || hotel.ville.toLowerCase().includes(ville);
-      const matchPrix = !prix || (
-        (prix === "1" && hotel.prix < 30000) ||
-        (prix === "2" && hotel.prix >= 30000 && hotel.prix <= 70000) ||
-        (prix === "3" && hotel.prix > 70000)
-      );
+      const matchVille = villeParam === "" || hotel.ville.toLowerCase().includes(villeParam);
+      let matchPrix = true;
+
+      if (prixParam === "1") matchPrix = hotel.prix < 30000;
+      else if (prixParam === "2") matchPrix = hotel.prix >= 30000 && hotel.prix <= 70000;
+      else if (prixParam === "3") matchPrix = hotel.prix > 70000;
+
       return matchVille && matchPrix;
     });
 
+    const container = document.getElementById("resultats");
+
     if (resultats.length === 0) {
-      container.innerHTML = "<p>Aucun hôtel trouvé pour votre recherche.</p>";
+      container.innerHTML = "<p>Aucun hôtel trouvé avec ces critères.</p>";
     } else {
       resultats.forEach(hotel => {
-        const whatsappLink = `https://wa.me/${hotel.tel}?text=Bonjour%20je%20souhaite%20réserver%20à%20${encodeURIComponent(hotel.nom)}`;
-        const googleMapsLink = `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(hotel.ville)}`;
-        container.innerHTML += `
-          <div class="carte">
-            <img src="${hotel.image}" alt="${hotel.nom}">
-            <div class="infos">
-              <h3>${hotel.nom}</h3>
-              <p>Ville : ${hotel.ville}</p>
-              <p>Prix : ${hotel.prix.toLocaleString()} FCFA</p>
-            </div>
-            <div class="btns">
-              <a href="${whatsappLink}" class="btn-whatsapp" target="_blank">Réserver via WhatsApp</a>
-              <a href="${googleMapsLink}" class="btn-map" target="_blank">Voir sur Google Maps</a>
-            </div>
-          </div>
+        const div = document.createElement("div");
+        div.className = "hotel-card";
+        div.innerHTML = `
+          <h3>${hotel.nom}</h3>
+          <p><strong>Ville:</strong> ${hotel.ville}</p>
+          <p><strong>Prix:</strong> ${hotel.prix.toLocaleString()} FCFA</p>
         `;
+        container.appendChild(div);
       });
     }
   </script>
