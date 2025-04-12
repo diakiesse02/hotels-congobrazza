@@ -118,7 +118,7 @@
 
   <section>
     <h2>Réservez votre séjour</h2>
-    <form onsubmit="event.preventDefault(); alert('Réservation envoyée ! Nous vous contacterons bientôt.');">
+    <form id="formReservation">
       <label for="hotel">Choisissez l'hôtel :</label>
       <select id="hotel" name="hotel" required>
         <option>Hôtel OYO - Brazzaville</option>
@@ -135,22 +135,22 @@
       </select>
 
       <label>Date d'arrivée :</label>
-      <input type="date" name="date_arrivee" required>
+      <input type="date" name="date_arrivee" id="date_arrivee" required>
 
       <label>Date de départ :</label>
-      <input type="date" name="date_depart" required>
+      <input type="date" name="date_depart" id="date_depart" required>
 
       <label>Nom complet :</label>
-      <input type="text" name="nom" placeholder="Votre nom" required>
+      <input type="text" name="nom" id="nom" placeholder="Votre nom" required>
 
       <label>Téléphone :</label>
-      <input type="tel" name="telephone" placeholder="Votre téléphone" required>
+      <input type="tel" name="telephone" id="telephone" placeholder="Votre téléphone" required>
 
       <label>Adresse e-mail :</label>
-      <input type="email" name="email" placeholder="Votre e-mail" required>
+      <input type="email" name="email" id="email" placeholder="Votre e-mail" required>
 
       <label>Message ou demande spéciale :</label>
-      <textarea name="message" rows="4" placeholder="Écrivez un message (optionnel)"></textarea>
+      <textarea name="message" id="message" rows="4" placeholder="Écrivez un message (optionnel)"></textarea>
 
       <button type="submit">Réserver maintenant</button>
     </form>
@@ -164,6 +164,38 @@
   <footer>
     <p>&copy; 2025 Congo Brazza Hôtel. Tous droits réservés.</p>
   </footer>
+
+  <script>
+    document.getElementById("formReservation").addEventListener("submit", function (e) {
+      e.preventDefault();
+
+      const hotel = document.getElementById("hotel").value;
+      const type = document.getElementById("type").value;
+      const dateArrivee = document.getElementById("date_arrivee").value;
+      const dateDepart = document.getElementById("date_depart").value;
+      const nom = document.getElementById("nom").value;
+      const tel = document.getElementById("telephone").value;
+      const email = document.getElementById("email").value;
+      const msg = document.getElementById("message").value;
+
+      const message = `Nouvelle réservation :
+🏨 Hôtel : ${hotel}
+🛏️ Type de chambre : ${type}
+📅 Arrivée : ${dateArrivee}
+📅 Départ : ${dateDepart}
+👤 Nom : ${nom}
+📞 Téléphone : ${tel}
+📧 Email : ${email}
+📝 Message : ${msg || "Aucun"}`;
+
+      alert("Votre demande de réservation a été générée avec succès !");
+      console.log(message);
+
+      const numeroWhatsApp = "242061234567"; // ton numéro ici
+      const lien = `https://wa.me/${numeroWhatsApp}?text=${encodeURIComponent(message)}`;
+      window.open(lien, "_blank");
+    });
+  </script>
 
 </body>
 </html>
