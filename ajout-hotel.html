@@ -4,21 +4,70 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Ajouter votre hôtel - Congo Brazza Hôtel</title>
-  <style>
-    :root {
-      --main-color: #3498db;
-      --dark-color: #2c3e50;
-      --light-bg: #f5f7fa;
-    }
+  <script type="module">
+    // Importation Firebase (version module)
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
+    // Configuration Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyBo9JsPem6NqNWL1DHiPQFck5PLJvADRUI",
+      authDomain: "congo-reservation.firebaseapp.com",
+      projectId: "congo-reservation",
+      storageBucket: "congo-reservation.appspot.com",
+      messagingSenderId: "54528039217",
+      appId: "1:54528039217:web:8158927e3b22c8a24a3810",
+      measurementId: "G-E4MZGSVB4H"
+    };
+
+    // Initialisation Firebase
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // Soumission du formulaire
+    window.submitHotel = async function(event) {
+      event.preventDefault();
+
+      const nom = document.getElementById("nom").value;
+      const adresse = document.getElementById("adresse").value;
+      const ville = document.getElementById("ville").value;
+      const telephone = document.getElementById("telephone").value;
+      const email = document.getElementById("email").value;
+      const site = document.getElementById("site").value;
+      const chambres = document.getElementById("chambres").value;
+      const services = document.getElementById("services").value;
+      const description = document.getElementById("description").value;
+
+      try {
+        await addDoc(collection(db, "hotels"), {
+          nom,
+          adresse,
+          ville,
+          telephone,
+          email,
+          site,
+          chambres,
+          services,
+          description,
+          dateAjout: new Date()
+        });
+        alert("Hôtel ajouté avec succès !");
+        document.getElementById("form-hotel").reset();
+      } catch (e) {
+        alert("Erreur lors de l'enregistrement : " + e.message);
+      }
+    }
+  </script>
+
+  <style>
     body {
       margin: 0;
       font-family: Arial, sans-serif;
-      background: var(--light-bg);
+      background: #f5f7fa;
     }
 
     header {
-      background-color: var(--main-color);
+      background-color: #3498db;
       color: white;
       padding: 30px 20px;
       text-align: center;
@@ -63,10 +112,6 @@
       border-radius: 5px;
     }
 
-    form input[type="file"] {
-      padding: 5px;
-    }
-
     form button {
       padding: 12px 25px;
       background-color: #27ae60;
@@ -77,65 +122,43 @@
       font-size: 16px;
     }
 
-    .reasons {
-      margin-top: 50px;
-      background: #eaf6ff;
-      padding: 25px;
-      border-radius: 10px;
-    }
-
-    .reasons ul {
-      padding-left: 20px;
-    }
-
     footer {
-      background-color: var(--dark-color);
+      background-color: #2c3e50;
       color: white;
       text-align: center;
       padding: 20px;
       margin-top: 60px;
-    }
-
-    @media (max-width: 600px) {
-      form input, form textarea, form select {
-        font-size: 14px;
-      }
-
-      form button {
-        width: 100%;
-      }
     }
   </style>
 </head>
 <body>
 
   <header>
-    <h1>Congo Brazza Hôtel</h1>
-    <p>Ajoutez votre établissement et rejoignez notre réseau !</p>
+    <h1>Ajouter un hôtel</h1>
+    <p>Rejoignez le réseau Congo Brazza Hôtel</p>
   </header>
 
   <nav>
     <a href="index.html">Accueil</a>
     <a href="hotels.html">Hôtels</a>
-    <a href="services.html">Services</a>
     <a href="reservation.html">Réservation</a>
     <a href="ajouter-hotel.html">Ajouter Hôtel</a>
-    <a href="contact.html">Contact</a>
+    <a href="admin.html">Admin</a>
   </nav>
 
   <section>
     <h2>Formulaire d'ajout d'hôtel</h2>
-    <form onsubmit="event.preventDefault(); alert('Votre demande a été envoyée avec succès.');">
-      <input type="text" placeholder="Nom de l'hôtel" required>
-      <input type="text" placeholder="Adresse complète" required>
-      <input type="text" placeholder="Ville / Région" required>
-      <input type="tel" placeholder="Téléphone" required>
-      <input type="email" placeholder="E-mail de contact" required>
-      <input type="url" placeholder="Site Web (optionnel)">
-      <input type="number" placeholder="Nombre de chambres" min="1" required>
+    <form id="form-hotel" onsubmit="submitHotel(event)">
+      <input type="text" id="nom" placeholder="Nom de l'hôtel" required>
+      <input type="text" id="adresse" placeholder="Adresse complète" required>
+      <input type="text" id="ville" placeholder="Ville / Région" required>
+      <input type="tel" id="telephone" placeholder="Téléphone" required>
+      <input type="email" id="email" placeholder="E-mail de contact" required>
+      <input type="url" id="site" placeholder="Site Web (optionnel)">
+      <input type="number" id="chambres" placeholder="Nombre de chambres" min="1" required>
       
-      <select required>
-        <option value="">Services proposés (Wi-Fi, Piscine...)</option>
+      <select id="services" required>
+        <option value="">Services proposés</option>
         <option>Wi-Fi</option>
         <option>Piscine</option>
         <option>Navette</option>
@@ -143,23 +166,10 @@
         <option>Climatisation</option>
       </select>
 
-      <label>Téléversez des photos de votre hôtel :</label>
-      <input type="file" multiple>
-
-      <textarea rows="4" placeholder="Description de l'hôtel" required></textarea>
+      <textarea id="description" rows="4" placeholder="Description de l'hôtel" required></textarea>
 
       <button type="submit">Envoyer</button>
     </form>
-
-    <div class="reasons">
-      <h3>🎯 Pourquoi rejoindre Congo Brazza Hôtel ?</h3>
-      <ul>
-        <li>Visibilité auprès de milliers de voyageurs</li>
-        <li>Référencement gratuit ou premium</li>
-        <li>Accompagnement pour les réservations</li>
-        <li>Promotion sur nos réseaux sociaux</li>
-      </ul>
-    </div>
   </section>
 
   <footer>
