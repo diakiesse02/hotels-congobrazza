@@ -2,101 +2,126 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>Admin - Publicités</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin – Réservations</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f4f4f4;
+      font-family: Arial, sans-serif;
+      background-color: #f7f9fc;
+      margin: 0;
       padding: 20px;
     }
 
     h1 {
       text-align: center;
-      color: #3498db;
-    }
-
-    .card {
-      background: white;
-      border-radius: 10px;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-      padding: 20px;
-      margin-bottom: 20px;
-    }
-
-    .card h2 {
-      margin: 0;
       color: #2c3e50;
     }
 
-    .card p {
-      margin: 5px 0;
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 30px;
     }
 
-    .images {
-      margin-top: 10px;
-      display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
+    th, td {
+      padding: 12px 15px;
+      border: 1px solid #ccc;
+      text-align: left;
     }
 
-    .images img {
-      width: 150px;
-      border-radius: 6px;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    th {
+      background-color: #3498db;
+      color: white;
+    }
+
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    .refresh-btn {
+      display: block;
+      margin: 20px auto;
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #2ecc71;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .refresh-btn:hover {
+      background-color: #27ae60;
     }
   </style>
 </head>
 <body>
 
-  <h1>Liste des Publicités Soumises</h1>
-  <div id="publicites-container"></div>
+  <h1>📋 Liste des Réservations</h1>
+  <button class="refresh-btn" onclick="loadReservations()">🔄 Rafraîchir</button>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Hôtel</th>
+        <th>Chambre</th>
+        <th>Nom</th>
+        <th>Téléphone</th>
+        <th>Email</th>
+        <th>Arrivée</th>
+        <th>Départ</th>
+        <th>Message</th>
+      </tr>
+    </thead>
+    <tbody id="reservationsTable">
+      <!-- Données injectées ici -->
+    </tbody>
+  </table>
 
   <!-- Firebase SDK -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-    import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
     const firebaseConfig = {
-      apiKey: "TON_API_KEY",
-      authDomain: "TON_DOMAINE.firebaseapp.com",
-      projectId: "TON_PROJECT_ID",
-      storageBucket: "TON_BUCKET.appspot.com",
-      messagingSenderId: "TON_SENDER_ID",
-      appId: "TON_APP_ID"
+      apiKey: "AIzaSyBo9JsPem6NqNWL1DHiPQFck5PLJvADRUI",
+      authDomain: "congo-reservation.firebaseapp.com",
+      projectId: "congo-reservation",
+      storageBucket: "congo-reservation.appspot.com",
+      messagingSenderId: "54528039217",
+      appId: "1:54528039217:web:8158927e3b22c8a24a3810",
+      measurementId: "G-E4MZGSVB4H"
     };
 
     const app = initializeApp(firebaseConfig);
     const db = getFirestore(app);
 
-    const container = document.getElementById('publicites-container');
+    async function loadReservations() {
+      const table = document.getElementById("reservationsTable");
+      table.innerHTML = "";
 
-    async function chargerPublicites() {
-      const querySnapshot = await getDocs(collection(db, "publicites"));
+      const q = query(collection(db, "reservations"), orderBy("date_reservation", "desc"));
+      const querySnapshot = await getDocs(q);
 
       querySnapshot.forEach((doc) => {
         const data = doc.data();
 
-        const div = document.createElement('div');
-        div.className = 'card';
-
-        div.innerHTML = `
-          <h2>${data.nom}</h2>
-          <p><strong>Email:</strong> ${data.email}</p>
-          <p><strong>Téléphone:</strong> ${data.telephone}</p>
-          <p><strong>Ville:</strong> ${data.ville}</p>
-          <p><strong>Description:</strong> ${data.description}</p>
-          <p><strong>Durée:</strong> ${data.duree}</p>
-          <div class="images">
-            ${data.images?.map(url => `<img src="${url}" alt="Image de l'établissement">`).join('')}
-          </div>
+        const row = document.createElement("tr");
+        row.innerHTML = `
+          <td>${data.hotel}</td>
+          <td>${data.type}</td>
+          <td>${data.nom}</td>
+          <td>${data.telephone}</td>
+          <td>${data.email}</td>
+          <td>${data.date_arrivee}</td>
+          <td>${data.date_depart}</td>
+          <td>${data.message || "-"}</td>
         `;
-
-        container.appendChild(div);
+        table.appendChild(row);
       });
     }
 
-    chargerPublicites();
+    window.onload = loadReservations;
   </script>
-
 </body>
 </html>
