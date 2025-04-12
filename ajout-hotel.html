@@ -1,55 +1,139 @@
-import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ajouter Hôtel - Congo Brazza Hôtel</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f5f7fa; margin: 0; padding: 0; }
+    header, footer { background-color: #3498db; color: white; padding: 20px; text-align: center; }
+    section { max-width: 800px; margin: 30px auto; background: white; padding: 20px; border-radius: 10px; }
+    input, textarea, select { width: 100%; padding: 10px; margin: 10px 0; border-radius: 5px; border: 1px solid #ccc; }
+    label { font-weight: bold; }
+    button { background-color: #27ae60; color: white; padding: 12px 20px; border: none; border-radius: 5px; cursor: pointer; }
+    .services label { display: block; margin: 5px 0; }
+  </style>
+</head>
+<body>
 
-// Initialisation Firebase
-const storage = getStorage(app);
+  <header>
+    <h1>Ajouter un Hôtel</h1>
+  </header>
 
-// Fonction de soumission
-window.submitHotel = async function(event) {
-  event.preventDefault();
+  <section>
+    <form id="form-hotel" onsubmit="submitHotel(event)">
+      <label>Nom de l'hôtel :</label>
+      <input type="text" id="nom" required>
 
-  const nom = document.getElementById("nom").value;
-  const adresse = document.getElementById("adresse").value;
-  const ville = document.getElementById("ville").value;
-  const telephone = document.getElementById("telephone").value;
-  const email = document.getElementById("email").value;
-  const site = document.getElementById("site").value;
-  const chambres = document.getElementById("chambres").value;
-  const description = document.getElementById("description").value;
+      <label>Adresse :</label>
+      <input type="text" id="adresse" required>
 
-  // Récupérer les services cochés
-  const services = Array.from(document.querySelectorAll('input[name="services"]:checked')).map(cb => cb.value);
+      <label>Ville / Région :</label>
+      <input type="text" id="ville" required>
 
-  // Récupérer les fichiers photo
-  const photoFiles = document.getElementById("photos").files;
-  const photoURLs = [];
+      <label>Téléphone :</label>
+      <input type="tel" id="telephone" required>
 
-  // Upload des images et récupération des URLs
-  for (let i = 0; i < photoFiles.length; i++) {
-    const file = photoFiles[i];
-    const storageRef = ref(storage, `hotels/${nom}/${file.name}`);
-    const snapshot = await uploadBytes(storageRef, file);
-    const downloadURL = await getDownloadURL(snapshot.ref);
-    photoURLs.push(downloadURL);
-  }
+      <label>Email :</label>
+      <input type="email" id="email" required>
 
-  try {
-    await addDoc(collection(db, "hotels"), {
-      nom,
-      adresse,
-      ville,
-      telephone,
-      email,
-      site,
-      chambres,
-      services,
-      description,
-      photos: photoURLs,
-      dateAjout: new Date()
-    });
+      <label>Site web (facultatif) :</label>
+      <input type="url" id="site">
 
-    alert("Hôtel ajouté avec succès !");
-    document.getElementById("form-hotel").reset();
-  } catch (e) {
-    alert("Erreur lors de l'enregistrement : " + e.message);
-  }
-}
+      <label>Nombre de chambres :</label>
+      <input type="number" id="chambres" min="1" required>
+
+      <label>Services proposés :</label>
+      <div class="services">
+        <label><input type="checkbox" name="services" value="Wi-Fi"> Wi-Fi</label>
+        <label><input type="checkbox" name="services" value="Piscine"> Piscine</label>
+        <label><input type="checkbox" name="services" value="Navette"> Navette</label>
+        <label><input type="checkbox" name="services" value="Petit-déjeuner"> Petit-déjeuner</label>
+        <label><input type="checkbox" name="services" value="Climatisation"> Climatisation</label>
+      </div>
+
+      <label>Description :</label>
+      <textarea id="description" rows="4" required></textarea>
+
+      <label>Photos :</label>
+      <input type="file" id="photos" multiple accept="image/*">
+
+      <button type="submit">Ajouter l'hôtel</button>
+    </form>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 Congo Brazza Hôtel</p>
+  </footer>
+
+  <!-- Firebase SDKs -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+
+    // 🔐 Configuration Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyBo9JsPem6NqNWL1DHiPQFck5PLJvADRUI",
+      authDomain: "congo-reservation.firebaseapp.com",
+      projectId: "congo-reservation",
+      storageBucket: "congo-reservation.appspot.com",
+      messagingSenderId: "54528039217",
+      appId: "1:54528039217:web:8158927e3b22c8a24a3810",
+      measurementId: "G-E4MZGSVB4H"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const storage = getStorage(app);
+
+    // Fonction de soumission du formulaire
+    window.submitHotel = async function(event) {
+      event.preventDefault();
+
+      const nom = document.getElementById("nom").value;
+      const adresse = document.getElementById("adresse").value;
+      const ville = document.getElementById("ville").value;
+      const telephone = document.getElementById("telephone").value;
+      const email = document.getElementById("email").value;
+      const site = document.getElementById("site").value;
+      const chambres = document.getElementById("chambres").value;
+      const description = document.getElementById("description").value;
+
+      const services = Array.from(document.querySelectorAll('input[name="services"]:checked')).map(cb => cb.value);
+      const photoFiles = document.getElementById("photos").files;
+      const photoURLs = [];
+
+      // 📷 Upload photos
+      for (let i = 0; i < photoFiles.length; i++) {
+        const file = photoFiles[i];
+        const storageRef = ref(storage, `hotels/${nom}/${file.name}`);
+        const snapshot = await uploadBytes(storageRef, file);
+        const downloadURL = await getDownloadURL(snapshot.ref);
+        photoURLs.push(downloadURL);
+      }
+
+      try {
+        await addDoc(collection(db, "hotels"), {
+          nom,
+          adresse,
+          ville,
+          telephone,
+          email,
+          site,
+          chambres,
+          description,
+          services,
+          photos: photoURLs,
+          dateAjout: new Date()
+        });
+
+        alert("✅ Hôtel ajouté avec succès !");
+        document.getElementById("form-hotel").reset();
+      } catch (e) {
+        alert("❌ Erreur lors de l'enregistrement : " + e.message);
+      }
+    }
+  </script>
+</body>
+</html>
