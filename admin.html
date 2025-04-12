@@ -6,40 +6,49 @@
   <title>Admin – Réservations</title>
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f2f6fc;
-      padding: 30px;
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background: #f4f7fa;
+      padding: 0;
+    }
+
+    header {
+      background-color: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 20px;
     }
 
     h1 {
-      text-align: center;
-      color: #2c3e50;
+      margin: 0;
+      font-size: 26px;
     }
 
     .login-box, .admin-panel {
-      max-width: 800px;
+      max-width: 600px;
       margin: 50px auto;
+      background: white;
       padding: 30px;
-      background-color: white;
       border-radius: 10px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      text-align: center;
     }
 
     input[type="password"] {
+      width: 80%;
       padding: 10px;
-      width: 100%;
-      margin-top: 10px;
+      margin: 15px 0;
       border-radius: 5px;
       border: 1px solid #ccc;
+      font-size: 16px;
     }
 
     button {
-      margin-top: 20px;
-      padding: 12px 20px;
+      padding: 10px 20px;
+      font-size: 16px;
       background-color: #3498db;
       color: white;
       border: none;
-      font-size: 16px;
       border-radius: 5px;
       cursor: pointer;
     }
@@ -55,9 +64,9 @@
     }
 
     th, td {
-      padding: 12px;
-      border: 1px solid #ccc;
-      text-align: left;
+      padding: 10px;
+      border: 1px solid #ddd;
+      font-size: 14px;
     }
 
     th {
@@ -65,104 +74,120 @@
       color: white;
     }
 
-    tr:nth-child(even) {
-      background-color: #f9f9f9;
+    #logoutBtn {
+      margin-top: 20px;
+      background-color: #e74c3c;
     }
 
-    .refresh-btn {
-      margin-top: 20px;
-      padding: 10px 20px;
-      background-color: #2ecc71;
+    #logoutBtn:hover {
+      background-color: #c0392b;
     }
   </style>
 </head>
 <body>
 
-  <div class="login-box" id="loginBox">
-    <h1>🔐 Accès Admin</h1>
-    <p>Entrez le mot de passe pour accéder à la gestion des réservations :</p>
-    <input type="password" id="adminPassword" placeholder="Mot de passe..." />
-    <button onclick="checkPassword()">Connexion</button>
-  </div>
+<header>
+  <h1>Panel Admin - Réservations</h1>
+</header>
 
-  <div class="admin-panel" id="adminPanel" style="display:none;">
-    <h1>📋 Réservations – Admin</h1>
-    <button class="refresh-btn" onclick="loadReservations()">🔄 Rafraîchir</button>
+<!-- Connexion -->
+<div class="login-box" id="loginBox">
+  <h2>🔐 Accès sécurisé</h2>
+  <p>Entrez le mot de passe pour accéder aux réservations :</p>
+  <input type="password" id="adminPassword" placeholder="Mot de passe..." />
+  <br/>
+  <button id="loginBtn">Connexion</button>
+</div>
 
-    <table>
-      <thead>
-        <tr>
-          <th>Hôtel</th>
-          <th>Chambre</th>
-          <th>Nom</th>
-          <th>Téléphone</th>
-          <th>Email</th>
-          <th>Arrivée</th>
-          <th>Départ</th>
-          <th>Message</th>
-        </tr>
-      </thead>
-      <tbody id="reservationsTable">
-        <!-- Données injectées ici -->
-      </tbody>
-    </table>
-  </div>
+<!-- Tableau des réservations -->
+<div class="admin-panel" id="adminPanel" style="display: none;">
+  <h2>📋 Liste des Réservations</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>Hôtel</th>
+        <th>Type</th>
+        <th>Nom</th>
+        <th>Téléphone</th>
+        <th>Email</th>
+        <th>Arrivée</th>
+        <th>Départ</th>
+        <th>Message</th>
+      </tr>
+    </thead>
+    <tbody id="reservationsTable">
+      <!-- Réservations affichées ici -->
+    </tbody>
+  </table>
+  <button id="logoutBtn">Déconnexion</button>
+</div>
 
-  <!-- Firebase SDK -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
-    import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+<!-- Firebase SDK -->
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+  import { getFirestore, collection, getDocs, query, orderBy } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyBo9JsPem6NqNWL1DHiPQFck5PLJvADRUI",
-      authDomain: "congo-reservation.firebaseapp.com",
-      projectId: "congo-reservation",
-      storageBucket: "congo-reservation.appspot.com",
-      messagingSenderId: "54528039217",
-      appId: "1:54528039217:web:8158927e3b22c8a24a3810",
-      measurementId: "G-E4MZGSVB4H"
-    };
+  const firebaseConfig = {
+    apiKey: "AIzaSyBo9JsPem6NqNWL1DHiPQFck5PLJvADRUI",
+    authDomain: "congo-reservation.firebaseapp.com",
+    projectId: "congo-reservation",
+    storageBucket: "congo-reservation.appspot.com",
+    messagingSenderId: "54528039217",
+    appId: "1:54528039217:web:8158927e3b22c8a24a3810",
+    measurementId: "G-E4MZGSVB4H"
+  };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
 
-    async function loadReservations() {
-      const table = document.getElementById("reservationsTable");
-      table.innerHTML = "";
+  const correctPassword = "admin123";
 
-      const q = query(collection(db, "reservations"), orderBy("date_reservation", "desc"));
-      const snapshot = await getDocs(q);
+  const loginBox = document.getElementById("loginBox");
+  const adminPanel = document.getElementById("adminPanel");
+  const loginBtn = document.getElementById("loginBtn");
+  const logoutBtn = document.getElementById("logoutBtn");
+  const tableBody = document.getElementById("reservationsTable");
 
-      snapshot.forEach(doc => {
-        const data = doc.data();
-        const row = document.createElement("tr");
-        row.innerHTML = `
-          <td>${data.hotel}</td>
-          <td>${data.type}</td>
-          <td>${data.nom}</td>
-          <td>${data.telephone}</td>
-          <td>${data.email}</td>
-          <td>${data.date_arrivee}</td>
-          <td>${data.date_depart}</td>
-          <td>${data.message || "-"}</td>
-        `;
-        table.appendChild(row);
-      });
+  loginBtn.addEventListener("click", () => {
+    const input = document.getElementById("adminPassword").value;
+    if (input === correctPassword) {
+      loginBox.style.display = "none";
+      adminPanel.style.display = "block";
+      loadReservations();
+    } else {
+      alert("❌ Mot de passe incorrect !");
     }
+  });
 
-    // 🔐 Mot de passe d'accès (modifie ici)
-    const correctPassword = "admin123";
+  logoutBtn.addEventListener("click", () => {
+    adminPanel.style.display = "none";
+    loginBox.style.display = "block";
+    document.getElementById("adminPassword").value = "";
+    tableBody.innerHTML = "";
+  });
 
-    function checkPassword() {
-      const input = document.getElementById("adminPassword").value;
-      if (input === correctPassword) {
-        document.getElementById("loginBox").style.display = "none";
-        document.getElementById("adminPanel").style.display = "block";
-        loadReservations();
-      } else {
-        alert("Mot de passe incorrect.");
-      }
-    }
-  </script>
+  async function loadReservations() {
+    const q = query(collection(db, "reservations"), orderBy("date_arrivee", "desc"));
+    const snapshot = await getDocs(q);
+
+    tableBody.innerHTML = "";
+    snapshot.forEach(doc => {
+      const data = doc.data();
+      const row = document.createElement("tr");
+      row.innerHTML = `
+        <td>${data.hotel}</td>
+        <td>${data.type}</td>
+        <td>${data.nom}</td>
+        <td>${data.telephone}</td>
+        <td>${data.email}</td>
+        <td>${data.date_arrivee}</td>
+        <td>${data.date_depart}</td>
+        <td>${data.message || "-"}</td>
+      `;
+      tableBody.appendChild(row);
+    });
+  }
+</script>
+
 </body>
 </html>
