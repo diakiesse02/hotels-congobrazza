@@ -8,44 +8,47 @@
 </head>
 <body class="bg-gray-100 text-gray-800">
 
-  <div class="max-w-5xl mx-auto py-10 px-4">
-    <h1 class="text-3xl font-bold mb-6 text-center">📋 Ajouter un Hôtel</h1>
+  <div class="max-w-6xl mx-auto py-10 px-4">
+    <h1 class="text-4xl font-bold mb-8 text-center text-blue-700">📋 Ajouter un Hôtel</h1>
 
-    <form id="hotelForm" class="bg-white p-6 rounded shadow-md space-y-4">
+    <form id="hotelForm" class="bg-white p-8 rounded-xl shadow space-y-6">
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <input name="nom" placeholder="Nom de l’hôtel" required class="border p-2 rounded" />
-        <input name="adresse" placeholder="Adresse" required class="border p-2 rounded" />
-        <input name="ville" placeholder="Ville" required class="border p-2 rounded" />
-        <input name="telephone" placeholder="Téléphone" required class="border p-2 rounded" />
-        <input name="email" placeholder="Email" required class="border p-2 rounded" />
-        <input name="siteweb" placeholder="Site web (facultatif)" class="border p-2 rounded" />
-        <input name="chambres" type="number" placeholder="Nombre de chambres" required class="border p-2 rounded" />
+        <input name="nom" placeholder="Nom de l’hôtel" required class="border p-3 rounded-lg" />
+        <input name="adresse" placeholder="Adresse" required class="border p-3 rounded-lg" />
+        <input name="ville" placeholder="Ville" required class="border p-3 rounded-lg" />
+        <input name="telephone" placeholder="Téléphone" required class="border p-3 rounded-lg" />
+        <input name="email" placeholder="Email" required class="border p-3 rounded-lg" />
+        <input name="siteweb" placeholder="Site web (facultatif)" class="border p-3 rounded-lg" />
+        <input name="chambres" type="number" placeholder="Nombre de chambres" required class="border p-3 rounded-lg" />
       </div>
 
       <div>
-        <label class="block font-semibold mb-1">Services :</label>
-        <div class="grid grid-cols-2 gap-2">
-          <label><input type="checkbox" name="services" value="Wifi" /> Wifi</label>
-          <label><input type="checkbox" name="services" value="Piscine" /> Piscine</label>
-          <label><input type="checkbox" name="services" value="Restaurant" /> Restaurant</label>
-          <label><input type="checkbox" name="services" value="Parking" /> Parking</label>
+        <label class="block font-semibold mb-2">Services disponibles :</label>
+        <div class="grid grid-cols-2 gap-2 text-sm">
+          <label><input type="checkbox" name="services" value="Wifi" class="mr-2"> Wifi</label>
+          <label><input type="checkbox" name="services" value="Piscine" class="mr-2"> Piscine</label>
+          <label><input type="checkbox" name="services" value="Restaurant" class="mr-2"> Restaurant</label>
+          <label><input type="checkbox" name="services" value="Parking" class="mr-2"> Parking</label>
         </div>
       </div>
 
       <div>
-        <label class="block font-semibold mb-1">Image de l'hôtel :</label>
-        <input type="file" id="imageInput" accept="image/*" class="p-2 border rounded w-full" required />
+        <label class="block font-semibold mb-2">Images de l'hôtel :</label>
+        <input type="file" id="imageInput" accept="image/*" multiple class="p-3 border rounded-lg w-full bg-white" required />
+        <p class="text-sm text-gray-500 mt-1">Vous pouvez sélectionner plusieurs images</p>
       </div>
 
-      <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded w-full">
+      <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg w-full font-bold text-lg">
         ➕ Ajouter Hôtel
       </button>
     </form>
 
+    <div id="loading" class="hidden text-center text-blue-600 mt-4">⏳ Envoi en cours...</div>
+
     <hr class="my-10">
 
-    <h2 class="text-2xl font-bold mb-4">🏨 Liste des hôtels enregistrés</h2>
-    <div id="hotelList" class="grid md:grid-cols-2 gap-6"></div>
+    <h2 class="text-2xl font-bold mb-6 text-center">🏨 Liste des hôtels enregistrés</h2>
+    <div id="hotelList" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
   </div>
 
   <!-- Firebase -->
@@ -72,29 +75,36 @@
     const form = document.getElementById("hotelForm");
     const imageInput = document.getElementById("imageInput");
     const hotelList = document.getElementById("hotelList");
+    const loading = document.getElementById("loading");
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const file = imageInput.files[0];
-      if (!file) return alert("Veuillez sélectionner une image.");
+      const files = imageInput.files;
+      if (!files.length) return alert("Veuillez sélectionner au moins une image.");
 
-      // Upload vers Cloudinary
-      const formData = new FormData();
-      formData.append("file", file);
-      formData.append("upload_preset", UPLOAD_PRESET);
+      loading.classList.remove("hidden");
 
-      const cloudRes = await axios.post(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/upload`, formData);
-      const imageUrl = cloudRes.data.secure_url;
+      // Upload multiple images
+      const urls = [];
+      for (const file of files) {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", UPLOAD_PRESET);
+
+        const cloudRes = await axios.post(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/upload`, formData);
+        urls.push(cloudRes.data.secure_url);
+      }
 
       // Données du formulaire
       const data = Object.fromEntries(new FormData(form));
       const services = [...form.querySelectorAll("input[name='services']:checked")].map(s => s.value);
       data.services = services;
-      data.imageUrl = imageUrl;
+      data.images = urls;
 
       await addDoc(collection(db, "hotels"), data);
       form.reset();
+      loading.classList.add("hidden");
       alert("✅ Hôtel ajouté !");
       loadHotels();
     });
@@ -105,10 +115,12 @@
       const snapshot = await getDocs(collection(db, "hotels"));
       snapshot.forEach(doc => {
         const d = doc.data();
+        const imageGallery = d.images?.map(url => `<img src="${url}" class="w-full h-40 object-cover rounded mb-2">`).join("") || "";
+
         hotelList.innerHTML += `
-          <div class="bg-white rounded shadow p-4">
-            <img src="${d.imageUrl}" class="w-full h-48 object-cover rounded mb-2">
-            <h3 class="text-xl font-bold">${d.nom}</h3>
+          <div class="bg-white rounded-xl shadow p-4">
+            ${imageGallery}
+            <h3 class="text-xl font-bold text-blue-700">${d.nom}</h3>
             <p><strong>Ville :</strong> ${d.ville}</p>
             <p><strong>Adresse :</strong> ${d.adresse}</p>
             <p><strong>Téléphone :</strong> ${d.telephone}</p>
