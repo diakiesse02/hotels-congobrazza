@@ -1,136 +1,121 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Admin Hôtels</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background-color: #f2f2f2;
-      margin: 0;
-      padding: 0;
-    }
-    .login-container, .admin-container {
-      max-width: 600px;
-      margin: 60px auto;
-      background-color: white;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.1);
-    }
-    h2 {
-      text-align: center;
-      margin-bottom: 20px;
-    }
-    input[type="password"] {
-      width: 100%;
-      padding: 10px;
-      margin-bottom: 15px;
-    }
-    button {
-      padding: 10px 20px;
-      margin: 5px;
-      cursor: pointer;
-    }
-    .hotel {
-      border: 1px solid #ccc;
-      padding: 15px;
-      margin: 10px 0;
-      border-radius: 5px;
-      background-color: #f9f9f9;
-    }
-    .actions {
-      margin-top: 10px;
-    }
-  </style>
+  <meta charset="UTF-8">
+  <title>Admin | Gestion des Hôtels</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
-<body>
+<body class="bg-gray-100 text-gray-800">
 
-<div class="login-container" id="loginDiv">
-  <h2>Connexion Admin</h2>
-  <input type="password" id="adminPassword" placeholder="Mot de passe admin">
-  <button onclick="loginAdmin()">Connexion</button>
-  <p id="loginError" style="color:red; display:none;">Mot de passe incorrect</p>
-</div>
+  <!-- Auth Section -->
+  <div id="authSection" class="min-h-screen flex items-center justify-center">
+    <div class="bg-white p-6 rounded shadow max-w-sm w-full">
+      <h1 class="text-2xl font-bold mb-4 text-center">🔐 Connexion Admin</h1>
+      <input type="password" id="adminPassword" placeholder="Mot de passe admin"
+             class="w-full border p-2 rounded mb-4 outline-none focus:ring-2 focus:ring-blue-400" />
+      <button onclick="login()" class="bg-blue-600 text-white px-4 py-2 rounded w-full hover:bg-blue-700">Se connecter</button>
+    </div>
+  </div>
 
-<div class="admin-container" id="adminDiv" style="display:none;">
-  <h2>Liste des Hôtels</h2>
-  <div id="hotelList"></div>
-</div>
+  <!-- Admin Dashboard -->
+  <div id="adminSection" class="hidden max-w-6xl mx-auto py-10 px-4">
+    <h1 class="text-3xl font-bold mb-6 text-center">📊 Hôtels en attente / validés</h1>
+    <div id="adminHotelList" class="grid md:grid-cols-2 gap-6"></div>
+  </div>
 
-<!-- Firebase -->
-<script type="module">
-  // Import Firebase
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-  import { getFirestore, collection, getDocs, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+  <!-- Firebase -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import {
+      getFirestore, collection, getDocs, deleteDoc, doc, updateDoc
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyBo9JsPem6NqNWL1DHiPQFck5PLJvADRUI",
-    authDomain: "congo-reservation.firebaseapp.com",
-    projectId: "congo-reservation",
-    storageBucket: "congo-reservation.appspot.com",
-    messagingSenderId: "54528039217",
-    appId: "1:54528039217:web:8158927e3b22c8a24a3810"
-  };
+    const firebaseConfig = {
+      apiKey: "AIzaSyBo9JsPem6NqNWL1DHiPQFck5PLJvADRUI",
+      authDomain: "congo-reservation.firebaseapp.com",
+      projectId: "congo-reservation",
+      storageBucket: "congo-reservation.appspot.com",
+      messagingSenderId: "54528039217",
+      appId: "1:54528039217:web:8158927e3b22c8a24a3810"
+    };
 
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
 
-  // Auth très simple
-  function loginAdmin() {
-    const password = document.getElementById("adminPassword").value;
-    if (password === "admin") {
-      document.getElementById("loginDiv").style.display = "none";
-      document.getElementById("adminDiv").style.display = "block";
-      fetchHotels();
-    } else {
-      document.getElementById("loginError").style.display = "block";
+    const adminPassword = "admin123"; // 🔒 À sécuriser plus tard
+    const authSection = document.getElementById("authSection");
+    const adminSection = document.getElementById("adminSection");
+    const adminHotelList = document.getElementById("adminHotelList");
+
+    window.login = function () {
+      const pass = document.getElementById("adminPassword").value.trim();
+      if (pass === adminPassword) {
+        authSection.classList.add("hidden");
+        adminSection.classList.remove("hidden");
+        loadHotels();
+      } else {
+        alert("⛔ Mot de passe incorrect !");
+      }
+    };
+
+    async function loadHotels() {
+      adminHotelList.innerHTML = "<p class='text-center'>Chargement en cours...</p>";
+      const snapshot = await getDocs(collection(db, "hotels"));
+      adminHotelList.innerHTML = "";
+
+      snapshot.forEach(docSnap => {
+        const d = docSnap.data();
+        const id = docSnap.id;
+        const isValid = d.validé === true;
+        const isOnline = d.publie === true;
+        const image = d.imageUrl || "https://via.placeholder.com/400x200?text=Aucune+image";
+
+        adminHotelList.innerHTML += `
+          <div class="bg-white rounded shadow p-4 relative">
+            <img src="${image}" alt="Image Hôtel" class="w-full h-48 object-cover rounded mb-2">
+            <h3 class="text-xl font-bold">${d.nom || "Nom inconnu"}</h3>
+            <p><strong>Ville :</strong> ${d.ville || "N/A"}</p>
+            <p><strong>Email :</strong> ${d.email || "N/A"}</p>
+            <p class="mt-2"><strong>Status :</strong>
+              <span class="text-sm px-2 py-1 rounded ${isValid ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">
+                ${isValid ? '✅ Validé' : '🕓 En attente'}
+              </span>
+              <span class="text-sm px-2 py-1 rounded ${isOnline ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'}">
+                ${isOnline ? '🌐 Publié' : '🚫 Hors ligne'}
+              </span>
+            </p>
+            <div class="mt-4 space-x-2">
+              <button onclick="validateHotel('${id}')" class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">Valider</button>
+              <button onclick="togglePublish('${id}', ${isOnline})" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
+                ${isOnline ? 'Dépublier' : 'Publier'}
+              </button>
+              <button onclick="deleteHotel('${id}')" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">Supprimer</button>
+            </div>
+          </div>
+        `;
+      });
     }
-  }
 
-  // Récupérer les hôtels
-  async function fetchHotels() {
-    const hotelsRef = collection(db, "hotels");
-    const snapshot = await getDocs(hotelsRef);
-    const hotelList = document.getElementById("hotelList");
-    hotelList.innerHTML = "";
+    window.validateHotel = async function (id) {
+      await updateDoc(doc(db, "hotels", id), { validé: true });
+      alert("✅ Hôtel validé !");
+      loadHotels();
+    };
 
-    snapshot.forEach(docSnap => {
-      const data = docSnap.data();
-      const div = document.createElement("div");
-      div.className = "hotel";
-      div.innerHTML = `
-        <strong>Nom:</strong> ${data.nom}<br>
-        <strong>Adresse:</strong> ${data.adresse}<br>
-        <strong>Téléphone:</strong> ${data.telephone}<br>
-        <strong>Services:</strong> ${data.services}<br>
-        <img src="${data.imageUrl}" width="100" /><br>
-        <div class="actions">
-          <button onclick="validerHotel('${docSnap.id}')">Valider</button>
-          <button onclick="supprimerHotel('${docSnap.id}')">Supprimer</button>
-        </div>
-      `;
-      hotelList.appendChild(div);
-    });
-  }
+    window.togglePublish = async function (id, isCurrentlyPublished) {
+      await updateDoc(doc(db, "hotels", id), { publie: !isCurrentlyPublished });
+      alert(`🌐 Hôtel ${!isCurrentlyPublished ? "publié" : "dépublié"} !`);
+      loadHotels();
+    };
 
-  // Supprimer un hôtel
-  async function supprimerHotel(id) {
-    if (confirm("Supprimer cet hôtel ?")) {
-      await deleteDoc(doc(db, "hotels", id));
-      fetchHotels();
-    }
-  }
-
-  // Valider (ajoute une clé validé:true)
-  async function validerHotel(id) {
-    await updateDoc(doc(db, "hotels", id), {
-      valide: true
-    });
-    alert("Hôtel validé !");
-  }
-</script>
-
+    window.deleteHotel = async function (id) {
+      if (confirm("⚠️ Supprimer cet hôtel ?")) {
+        await deleteDoc(doc(db, "hotels", id));
+        alert("🗑 Supprimé !");
+        loadHotels();
+      }
+    };
+  </script>
 </body>
 </html>
