@@ -2,95 +2,163 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>Admin - Liste des Hôtels</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admin Hôtels</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 30px; }
-    h2 { color: #333; }
-    .hotel { border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; }
-    .images img { width: 100px; margin-right: 5px; }
-    #logout { margin-bottom: 20px; }
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+      background: #f3f3f3;
+    }
+
+    .login-section, .admin-panel {
+      max-width: 800px;
+      margin: auto;
+      background: #fff;
+      padding: 20px;
+      border-radius: 10px;
+    }
+
+    .hotel-card {
+      border: 1px solid #ddd;
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 8px;
+      background: #fafafa;
+    }
+
+    .hotel-card img {
+      width: 100px;
+      height: 70px;
+      object-fit: cover;
+      margin-right: 10px;
+      border-radius: 5px;
+    }
+
+    .hotel-images {
+      display: flex;
+      flex-wrap: wrap;
+      margin-top: 10px;
+    }
+
+    button {
+      margin-right: 10px;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+
+    .validate-btn {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .delete-btn {
+      background-color: #f44336;
+      color: white;
+    }
+
+    .logout-btn {
+      float: right;
+      background-color: #999;
+      color: white;
+    }
   </style>
 </head>
 <body>
 
-  <h2>Liste des Hôtels (Admin)</h2>
+<div class="login-section" id="loginSection">
+  <h2>Connexion Admin</h2>
+  <input type="password" id="adminPassword" placeholder="Mot de passe admin" />
+  <button onclick="checkPassword()">Connexion</button>
+</div>
 
-  <div id="auth">
-    <button id="login">Se connecter avec Google</button>
-    <button id="logout" style="display:none;">Se déconnecter</button>
-    <p id="userEmail"></p>
-  </div>
+<div class="admin-panel" id="adminPanel" style="display: none;">
+  <h2>📋 Liste des Hôtels</h2>
+  <button class="logout-btn" onclick="logout()">Déconnexion</button>
+  <div id="hotelsContainer"></div>
+</div>
 
-  <div id="hotelList"></div>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
+  import { getFirestore, collection, getDocs, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
 
-  <script type="module">
-    import {
-      initializeApp
-    } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
-    import {
-      getFirestore, collection, getDocs
-    } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js";
-    import {
-      getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut
-    } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-auth.js";
+  const firebaseConfig = {
+    apiKey: "AIzaSyBo9JsPem6NqNWL1DHiPQFck5PLJvADRUI",
+    authDomain: "congo-reservation.firebaseapp.com",
+    projectId: "congo-reservation",
+    storageBucket: "congo-reservation.appspot.com",
+    messagingSenderId: "54528039217",
+    appId: "1:54528039217:web:8158927e3b22c8a24a3810",
+    measurementId: "G-E4MZGSVB4H"
+  };
 
-    // 🔐 Firebase config
-    const firebaseConfig = {
-      apiKey: "AIzaSyBo9JsPem6NqNWL1DHiPQFck5PLJvADRUI",
-      authDomain: "congo-reservation.firebaseapp.com",
-      projectId: "congo-reservation",
-      storageBucket: "congo-reservation.appspot.com",
-      messagingSenderId: "54528039217",
-      appId: "1:54528039217:web:8158927e3b22c8a24a3810",
-      measurementId: "G-E4MZGSVB4H"
-    };
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const auth = getAuth(app);
-    const provider = new GoogleAuthProvider();
+  const hotelsContainer = document.getElementById("hotelsContainer");
 
-    const loginBtn = document.getElementById("login");
-    const logoutBtn = document.getElementById("logout");
-    const hotelList = document.getElementById("hotelList");
-    const userEmail = document.getElementById("userEmail");
+  async function loadHotels() {
+    hotelsContainer.innerHTML = '';
+    const querySnapshot = await getDocs(collection(db, "hotels"));
+    querySnapshot.forEach((docSnap) => {
+      const data = docSnap.data();
+      const div = document.createElement("div");
+      div.className = "hotel-card";
 
-    loginBtn.onclick = () => signInWithPopup(auth, provider);
-    logoutBtn.onclick = () => signOut(auth);
-
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        userEmail.textContent = "Connecté : " + user.email;
-        loginBtn.style.display = "none";
-        logoutBtn.style.display = "inline";
-
-        const querySnapshot = await getDocs(collection(db, "hotels"));
-        querySnapshot.forEach((doc) => {
-          const data = doc.data();
-          const div = document.createElement("div");
-          div.className = "hotel";
-          div.innerHTML = `
-            <h3>${data.nom}</h3>
-            <p><strong>Adresse :</strong> ${data.adresse}</p>
-            <p><strong>Téléphone :</strong> ${data.telephone}</p>
-            ${data.site ? `<p><strong>Site Web :</strong> <a href="${data.site}" target="_blank">${data.site}</a></p>` : ''}
-            <p><strong>Services :</strong> ${data.services?.join(", ")}</p>
-            <p><strong>Auteur :</strong> ${data.auteur || 'Anonyme'}</p>
-            <div class="images">
-              ${(data.images || []).map(url => `<img src="${url}" alt="Image hôtel" />`).join("")}
-            </div>
-          `;
-          hotelList.appendChild(div);
-        });
-
-      } else {
-        hotelList.innerHTML = "<p>Vous devez être connecté pour voir les hôtels.</p>";
-        loginBtn.style.display = "inline";
-        logoutBtn.style.display = "none";
-        userEmail.textContent = "";
-      }
+      div.innerHTML = `
+        <h3>${data.nom} (${data.ville})</h3>
+        <p><strong>Adresse :</strong> ${data.adresse}</p>
+        <p><strong>Prix :</strong> ${data.prix} FCFA</p>
+        <p><strong>Contact :</strong> ${data.contact}</p>
+        ${data.siteweb ? `<p><strong>Site web :</strong> <a href="${data.siteweb}" target="_blank">${data.siteweb}</a></p>` : ""}
+        <p><strong>Services :</strong> ${data.services ? data.services.join(", ") : "Non spécifié"}</p>
+        <div class="hotel-images">
+          ${data.images.map(url => `<img src="${url}" />`).join("")}
+        </div>
+        <br>
+        <button class="validate-btn" onclick="validateHotel('${docSnap.id}')">Valider</button>
+        <button class="delete-btn" onclick="deleteHotel('${docSnap.id}')">Supprimer</button>
+      `;
+      hotelsContainer.appendChild(div);
     });
-  </script>
+  }
+
+  async function validateHotel(id) {
+    const ref = doc(db, "hotels", id);
+    await updateDoc(ref, { status: "validé" });
+    alert("Hôtel validé !");
+    loadHotels();
+  }
+
+  async function deleteHotel(id) {
+    if (confirm("Supprimer cet hôtel ?")) {
+      await deleteDoc(doc(db, "hotels", id));
+      alert("Hôtel supprimé.");
+      loadHotels();
+    }
+  }
+
+  window.validateHotel = validateHotel;
+  window.deleteHotel = deleteHotel;
+
+  // === Auth admin ===
+  function checkPassword() {
+    const input = document.getElementById("adminPassword").value;
+    if (input === "admin123") {
+      document.getElementById("loginSection").style.display = "none";
+      document.getElementById("adminPanel").style.display = "block";
+      loadHotels();
+    } else {
+      alert("Mot de passe incorrect !");
+    }
+  }
+
+  window.logout = function () {
+    location.reload();
+  };
+</script>
 
 </body>
 </html>
