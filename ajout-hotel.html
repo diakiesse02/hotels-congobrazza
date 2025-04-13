@@ -3,80 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <title>Ajouter un hôtel</title>
-  <script type="module">
-    // 🔥 Importation Firebase
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
-
-    // 🔑 Configuration Firebase
-    const firebaseConfig = {
-      apiKey: "AIzaSyBo9JsPem6NqNWL1DHiPQFck5PLJvADRUI",
-      authDomain: "congo-reservation.firebaseapp.com",
-      projectId: "congo-reservation",
-      storageBucket: "congo-reservation.appspot.com", // ✅ attention à .appspot.com
-      messagingSenderId: "54528039217",
-      appId: "1:54528039217:web:8158927e3b22c8a24a3810",
-      measurementId: "G-E4MZGSVB4H"
-    };
-
-    // ✅ Initialisation Firebase
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const storage = getStorage(app);
-
-    // ✅ Fonction de soumission du formulaire
-    window.submitHotel = async function(event) {
-      event.preventDefault();
-
-      const nom = document.getElementById("nom").value;
-      const adresse = document.getElementById("adresse").value;
-      const ville = document.getElementById("ville").value;
-      const telephone = document.getElementById("telephone").value;
-      const email = document.getElementById("email").value;
-      const site = document.getElementById("site").value;
-      const chambres = document.getElementById("chambres").value;
-      const services = document.getElementById("services").value;
-      const description = document.getElementById("description").value;
-      const imagesInput = document.getElementById("images");
-
-      const imageURLs = [];
-
-      // ✅ Upload des images dans Firebase Storage
-      for (let i = 0; i < imagesInput.files.length; i++) {
-        const file = imagesInput.files[i];
-        const storageRef = ref(storage, 'hotel_images/' + Date.now() + '_' + file.name);
-        const snapshot = await uploadBytes(storageRef, file);
-        const downloadURL = await getDownloadURL(snapshot.ref);
-        imageURLs.push(downloadURL);
-      }
-
-      // ✅ Enregistrement dans Firestore
-      try {
-        await addDoc(collection(db, "hotels"), {
-          nom,
-          adresse,
-          ville,
-          telephone,
-          email,
-          site,
-          chambres,
-          services,
-          description,
-          images: imageURLs,
-          dateAjout: new Date()
-        });
-        alert("Hôtel ajouté avec succès !");
-        document.getElementById("form-hotel").reset();
-      } catch (e) {
-        alert("Erreur : " + e.message);
-      }
-    }
-  </script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js"></script>
 </head>
 <body>
   <h1>Ajouter un hôtel</h1>
-  <form id="form-hotel" onsubmit="submitHotel(event)">
+  <form id="form-hotel">
     <input type="text" id="nom" placeholder="Nom de l'hôtel" required><br>
     <input type="text" id="adresse" placeholder="Adresse" required><br>
     <input type="text" id="ville" placeholder="Ville" required><br>
@@ -101,5 +34,64 @@
 
     <button type="submit">Envoyer</button>
   </form>
+
+  <script>
+    // Initialisation Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyBo9JsPem6NqNWL1DHiPQFck5PLJvADRUI",
+      authDomain: "congo-reservation.firebaseapp.com",
+      projectId: "congo-reservation",
+      storageBucket: "congo-reservation.appspot.com",
+      messagingSenderId: "54528039217",
+      appId: "1:54528039217:web:8158927e3b22c8a24a3810",
+      measurementId: "G-E4MZGSVB4H"
+    };
+
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
+    const storage = firebase.storage();
+
+    document.getElementById("form-hotel").addEventListener("submit", async function (e) {
+      e.preventDefault();
+
+      const nom = document.getElementById("nom").value;
+      const adresse = document.getElementById("adresse").value;
+      const ville = document.getElementById("ville").value;
+      const telephone = document.getElementById("telephone").value;
+      const email = document.getElementById("email").value;
+      const site = document.getElementById("site").value;
+      const chambres = document.getElementById("chambres").value;
+      const services = document.getElementById("services").value;
+      const description = document.getElementById("description").value;
+      const imagesInput = document.getElementById("images");
+
+      const imageURLs = [];
+
+      for (let i = 0; i < imagesInput.files.length; i++) {
+        const file = imagesInput.files[i];
+        const storageRef = storage.ref("hotel_images/" + Date.now() + "_" + file.name);
+        const snapshot = await storageRef.put(file);
+        const downloadURL = await snapshot.ref.getDownloadURL();
+        imageURLs.push(downloadURL);
+      }
+
+      await db.collection("hotels").add({
+        nom,
+        adresse,
+        ville,
+        telephone,
+        email,
+        site,
+        chambres,
+        services,
+        description,
+        images: imageURLs,
+        dateAjout: new Date()
+      });
+
+      alert("Hôtel ajouté avec succès !");
+      document.getElementById("form-hotel").reset();
+    });
+  </script>
 </body>
 </html>
