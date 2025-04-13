@@ -3,24 +3,37 @@
 <head>
   <meta charset="UTF-8" />
   <title>Ajouter un Hôtel</title>
+  <style>
+    body { font-family: Arial; max-width: 600px; margin: auto; }
+    img { max-width: 100px; margin: 5px; }
+    label { font-weight: bold; display: block; margin-top: 10px; }
+  </style>
 </head>
 <body>
+
   <h2>Ajouter un Hôtel</h2>
-  
+
   <div id="userInfo"></div>
   <button id="login">Se connecter avec Google</button>
   <button id="logout" style="display:none;">Se déconnecter</button>
 
   <form id="hotelForm" style="display:none;">
-    <input type="text" id="nom" placeholder="Nom de l'hôtel" required><br>
-    <input type="text" id="adresse" placeholder="Adresse" required><br>
-    <input type="text" id="telephone" placeholder="Téléphone" required><br>
-    <input type="url" id="site" placeholder="Site Web (facultatif)"><br>
+    <label for="nom">Nom de l'hôtel</label>
+    <input type="text" id="nom" required><br>
 
-    <label>Services :</label><br>
+    <label for="adresse">Adresse</label>
+    <input type="text" id="adresse" required><br>
+
+    <label for="telephone">Téléphone</label>
+    <input type="text" id="telephone" required><br>
+
+    <label for="site">Site web (facultatif)</label>
+    <input type="url" id="site"><br>
+
+    <label>Services :</label>
     <input type="checkbox" value="WiFi" name="services"> WiFi
     <input type="checkbox" value="Piscine" name="services"> Piscine
-    <input type="checkbox" value="Parking" name="services"> Parking<br><br>
+    <input type="checkbox" value="Parking" name="services"> Parking<br>
 
     <label>Images :</label>
     <input type="file" id="images" multiple required><br><br>
@@ -28,11 +41,34 @@
     <button type="submit">Envoyer</button>
   </form>
 
+  <div id="previewImages"></div>
+
   <script type="module">
     import {
-      db, auth, provider, signInWithPopup, onAuthStateChanged, signOut,
-      collection, addDoc
-    } from './firebase.js';
+      initializeApp
+    } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
+    import {
+      getFirestore, collection, addDoc
+    } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js";
+    import {
+      getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut
+    } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-auth.js";
+
+    // Configuration Firebase
+    const firebaseConfig = {
+      apiKey: "AIzaSyBo9JsPem6NqNWL1DHiPQFck5PLJvADRUI",
+      authDomain: "congo-reservation.firebaseapp.com",
+      projectId: "congo-reservation",
+      storageBucket: "congo-reservation.appspot.com",
+      messagingSenderId: "54528039217",
+      appId: "1:54528039217:web:8158927e3b22c8a24a3810",
+      measurementId: "G-E4MZGSVB4H"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
 
     const loginBtn = document.getElementById('login');
     const logoutBtn = document.getElementById('logout');
@@ -56,7 +92,7 @@
       }
     });
 
-    hotelForm.onsubmit = async (e) => {
+    document.getElementById('hotelForm').onsubmit = async (e) => {
       e.preventDefault();
 
       const nom = document.getElementById('nom').value;
@@ -66,8 +102,8 @@
       const services = Array.from(document.querySelectorAll('input[name="services"]:checked')).map(cb => cb.value);
       const files = document.getElementById('images').files;
 
-      const cloudName = "TON_CLOUD_NAME";
-      const unsignedPreset = "TON_UNSIGNED_PRESET";
+      const cloudName = "dnemkgkyy";
+      const unsignedPreset = "unsigned_upload";
       const imageUrls = [];
 
       for (let file of files) {
@@ -79,19 +115,40 @@
           method: "POST",
           body: formData
         });
+
         const data = await res.json();
         imageUrls.push(data.secure_url);
       }
 
       await addDoc(collection(db, "hotels"), {
-        nom, adresse, telephone, site, services, images: imageUrls,
+        nom,
+        adresse,
+        telephone,
+        site,
+        services,
+        images: imageUrls,
         auteur: auth.currentUser.email,
         date: new Date().toISOString()
       });
 
-      alert("Hôtel soumis avec succès !");
-      hotelForm.reset();
+      alert("Hôtel ajouté avec succès !");
+      document.getElementById('hotelForm').reset();
+      document.getElementById('previewImages').innerHTML = '';
     };
+
+    document.getElementById('images').addEventListener('change', (e) => {
+      const preview = document.getElementById('previewImages');
+      preview.innerHTML = '';
+      for (const file of e.target.files) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          const img = document.createElement('img');
+          img.src = reader.result;
+          preview.appendChild(img);
+        };
+        reader.readAsDataURL(file);
+      }
+    });
   </script>
 </body>
 </html>
