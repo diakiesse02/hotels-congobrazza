@@ -1,51 +1,105 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Test Upload Image Firebase</title>
+  <meta charset="UTF-8">
+  <title>Ajouter un hôtel</title>
   <script type="module">
+    // 🔥 Importation Firebase
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
     import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
 
-    // Configuration Firebase
+    // 🔑 Configuration Firebase
     const firebaseConfig = {
       apiKey: "AIzaSyBo9JsPem6NqNWL1DHiPQFck5PLJvADRUI",
       authDomain: "congo-reservation.firebaseapp.com",
       projectId: "congo-reservation",
-      storageBucket: "congo-reservation.appspot.com",
+      storageBucket: "congo-reservation.appspot.com", // ✅ attention à .appspot.com
       messagingSenderId: "54528039217",
       appId: "1:54528039217:web:8158927e3b22c8a24a3810",
       measurementId: "G-E4MZGSVB4H"
     };
 
+    // ✅ Initialisation Firebase
     const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
     const storage = getStorage(app);
 
-    window.uploadImage = async function(event) {
-      const file = document.getElementById("image").files[0];
-      if (!file) {
-        alert("Sélectionnez une image.");
-        return;
-      }
+    // ✅ Fonction de soumission du formulaire
+    window.submitHotel = async function(event) {
+      event.preventDefault();
 
-      const storageRef = ref(storage, `test-images/${Date.now()}_${file.name}`);
-      try {
+      const nom = document.getElementById("nom").value;
+      const adresse = document.getElementById("adresse").value;
+      const ville = document.getElementById("ville").value;
+      const telephone = document.getElementById("telephone").value;
+      const email = document.getElementById("email").value;
+      const site = document.getElementById("site").value;
+      const chambres = document.getElementById("chambres").value;
+      const services = document.getElementById("services").value;
+      const description = document.getElementById("description").value;
+      const imagesInput = document.getElementById("images");
+
+      const imageURLs = [];
+
+      // ✅ Upload des images dans Firebase Storage
+      for (let i = 0; i < imagesInput.files.length; i++) {
+        const file = imagesInput.files[i];
+        const storageRef = ref(storage, 'hotel_images/' + Date.now() + '_' + file.name);
         const snapshot = await uploadBytes(storageRef, file);
         const downloadURL = await getDownloadURL(snapshot.ref);
-        console.log("Image uploaded ! URL :", downloadURL);
-        document.getElementById("result").innerHTML = `<p>Image téléversée !</p><img src="${downloadURL}" width="200" />`;
-      } catch (error) {
-        console.error("Erreur Upload :", error.message);
-        alert("Erreur : " + error.message);
+        imageURLs.push(downloadURL);
+      }
+
+      // ✅ Enregistrement dans Firestore
+      try {
+        await addDoc(collection(db, "hotels"), {
+          nom,
+          adresse,
+          ville,
+          telephone,
+          email,
+          site,
+          chambres,
+          services,
+          description,
+          images: imageURLs,
+          dateAjout: new Date()
+        });
+        alert("Hôtel ajouté avec succès !");
+        document.getElementById("form-hotel").reset();
+      } catch (e) {
+        alert("Erreur : " + e.message);
       }
     }
   </script>
 </head>
 <body>
-  <h1>Test Upload Image Firebase</h1>
-  <input type="file" id="image" accept="image/*">
-  <button onclick="uploadImage()">Uploader</button>
-  <div id="result"></div>
+  <h1>Ajouter un hôtel</h1>
+  <form id="form-hotel" onsubmit="submitHotel(event)">
+    <input type="text" id="nom" placeholder="Nom de l'hôtel" required><br>
+    <input type="text" id="adresse" placeholder="Adresse" required><br>
+    <input type="text" id="ville" placeholder="Ville" required><br>
+    <input type="tel" id="telephone" placeholder="Téléphone" required><br>
+    <input type="email" id="email" placeholder="Email" required><br>
+    <input type="url" id="site" placeholder="Site Web"><br>
+    <input type="number" id="chambres" placeholder="Nombre de chambres" required><br>
+
+    <select id="services" required>
+      <option value="">Choisir un service</option>
+      <option>Wi-Fi</option>
+      <option>Piscine</option>
+      <option>Navette</option>
+      <option>Petit-déjeuner</option>
+      <option>Climatisation</option>
+    </select><br>
+
+    <textarea id="description" placeholder="Description" required></textarea><br>
+
+    <label>Ajouter des images :</label><br>
+    <input type="file" id="images" accept="image/*" multiple required><br><br>
+
+    <button type="submit">Envoyer</button>
+  </form>
 </body>
 </html>
