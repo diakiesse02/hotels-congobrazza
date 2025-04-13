@@ -1,118 +1,97 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Admin | Gestion des Hôtels</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <meta charset="UTF-8" />
+  <title>Ajouter un Hôtel</title>
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body>
+  <h2>Ajouter un Hôtel</h2>
+  
+  <div id="userInfo"></div>
+  <button id="login">Se connecter avec Google</button>
+  <button id="logout" style="display:none;">Se déconnecter</button>
 
-  <div id="authSection" class="min-h-screen flex items-center justify-center">
-    <div class="bg-white p-6 rounded shadow max-w-sm w-full">
-      <h1 class="text-2xl font-bold mb-4 text-center">🔐 Connexion Admin</h1>
-      <input type="password" id="adminPassword" placeholder="Mot de passe admin"
-             class="w-full border p-2 rounded mb-4" />
-      <button onclick="login()" class="bg-blue-600 text-white px-4 py-2 rounded w-full hover:bg-blue-700">Se connecter</button>
-    </div>
-  </div>
+  <form id="hotelForm" style="display:none;">
+    <input type="text" id="nom" placeholder="Nom de l'hôtel" required><br>
+    <input type="text" id="adresse" placeholder="Adresse" required><br>
+    <input type="text" id="telephone" placeholder="Téléphone" required><br>
+    <input type="url" id="site" placeholder="Site Web (facultatif)"><br>
 
-  <div id="adminSection" class="hidden max-w-6xl mx-auto py-10 px-4">
-    <h1 class="text-3xl font-bold mb-6 text-center">📊 Hôtels en attente / validés</h1>
-    <div id="adminHotelList" class="grid md:grid-cols-2 gap-6"></div>
-  </div>
+    <label>Services :</label><br>
+    <input type="checkbox" value="WiFi" name="services"> WiFi
+    <input type="checkbox" value="Piscine" name="services"> Piscine
+    <input type="checkbox" value="Parking" name="services"> Parking<br><br>
 
-  <!-- Firebase -->
+    <label>Images :</label>
+    <input type="file" id="images" multiple required><br><br>
+
+    <button type="submit">Envoyer</button>
+  </form>
+
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
     import {
-      getFirestore, collection, getDocs, deleteDoc, doc, updateDoc
-    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+      db, auth, provider, signInWithPopup, onAuthStateChanged, signOut,
+      collection, addDoc
+    } from './firebase.js';
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyBo9JsPem6NqNWL1DHiPQFck5PLJvADRUI",
-      authDomain: "congo-reservation.firebaseapp.com",
-      projectId: "congo-reservation",
-      storageBucket: "congo-reservation.appspot.com",
-      messagingSenderId: "54528039217",
-      appId: "1:54528039217:web:8158927e3b22c8a24a3810"
-    };
+    const loginBtn = document.getElementById('login');
+    const logoutBtn = document.getElementById('logout');
+    const userInfo = document.getElementById('userInfo');
+    const hotelForm = document.getElementById('hotelForm');
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+    loginBtn.onclick = () => signInWithPopup(auth, provider);
+    logoutBtn.onclick = () => signOut(auth);
 
-    const adminPassword = "admin123"; // À sécuriser plus tard
-    const authSection = document.getElementById("authSection");
-    const adminSection = document.getElementById("adminSection");
-    const adminHotelList = document.getElementById("adminHotelList");
-
-    window.login = function () {
-      const pass = document.getElementById("adminPassword").value;
-      if (pass === adminPassword) {
-        authSection.classList.add("hidden");
-        adminSection.classList.remove("hidden");
-        loadHotels();
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        userInfo.innerText = `Connecté : ${user.email}`;
+        loginBtn.style.display = 'none';
+        logoutBtn.style.display = 'inline';
+        hotelForm.style.display = 'block';
       } else {
-        alert("⛔ Mot de passe incorrect !");
+        userInfo.innerText = '';
+        loginBtn.style.display = 'inline';
+        logoutBtn.style.display = 'none';
+        hotelForm.style.display = 'none';
       }
-    }
+    });
 
-    async function loadHotels() {
-      adminHotelList.innerHTML = "Chargement...";
-      const snapshot = await getDocs(collection(db, "hotels"));
-      adminHotelList.innerHTML = "";
+    hotelForm.onsubmit = async (e) => {
+      e.preventDefault();
 
-      snapshot.forEach(docSnap => {
-        const d = docSnap.data();
-        const id = docSnap.id;
-        const isValid = d.validé === true;
-        const isOnline = d.publie === true;
+      const nom = document.getElementById('nom').value;
+      const adresse = document.getElementById('adresse').value;
+      const telephone = document.getElementById('telephone').value;
+      const site = document.getElementById('site').value;
+      const services = Array.from(document.querySelectorAll('input[name="services"]:checked')).map(cb => cb.value);
+      const files = document.getElementById('images').files;
 
-        adminHotelList.innerHTML += `
-          <div class="bg-white rounded shadow p-4 relative">
-            <img src="${d.imageUrl}" class="w-full h-48 object-cover rounded mb-2">
-            <h3 class="text-xl font-bold">${d.nom}</h3>
-            <p><strong>Ville :</strong> ${d.ville}</p>
-            <p><strong>Email :</strong> ${d.email}</p>
-            <p><strong>Status :</strong>
-              <span class="text-sm px-2 py-1 rounded ${isValid ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">
-                ${isValid ? 'Validé' : 'En attente'}
-              </span>
-              <span class="text-sm px-2 py-1 rounded ${isOnline ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'}">
-                ${isOnline ? 'Publié' : 'Hors ligne'}
-              </span>
-            </p>
-            <div class="mt-4 space-x-2">
-              <button onclick="validateHotel('${id}')" class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">✅ Valider</button>
-              <button onclick="togglePublish('${id}', ${isOnline})" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
-                ${isOnline ? '🚫 Dépublier' : '🌐 Publier'}
-              </button>
-              <button onclick="deleteHotel('${id}')" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">🗑 Supprimer</button>
-            </div>
-          </div>
-        `;
+      const cloudName = "TON_CLOUD_NAME";
+      const unsignedPreset = "TON_UNSIGNED_PRESET";
+      const imageUrls = [];
+
+      for (let file of files) {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", unsignedPreset);
+
+        const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/upload`, {
+          method: "POST",
+          body: formData
+        });
+        const data = await res.json();
+        imageUrls.push(data.secure_url);
+      }
+
+      await addDoc(collection(db, "hotels"), {
+        nom, adresse, telephone, site, services, images: imageUrls,
+        auteur: auth.currentUser.email,
+        date: new Date().toISOString()
       });
-    }
 
-    window.validateHotel = async function (id) {
-      await updateDoc(doc(db, "hotels", id), { validé: true });
-      alert("✅ Hôtel validé !");
-      loadHotels();
-    }
-
-    window.togglePublish = async function (id, isCurrentlyPublished) {
-      await updateDoc(doc(db, "hotels", id), { publie: !isCurrentlyPublished });
-      alert(`🌐 Hôtel ${!isCurrentlyPublished ? "publié" : "dépublié"} !`);
-      loadHotels();
-    }
-
-    window.deleteHotel = async function (id) {
-      if (confirm("⚠️ Supprimer cet hôtel ?")) {
-        await deleteDoc(doc(db, "hotels", id));
-        alert("🗑 Supprimé !");
-        loadHotels();
-      }
-    }
+      alert("Hôtel soumis avec succès !");
+      hotelForm.reset();
+    };
   </script>
 </body>
 </html>
