@@ -1,89 +1,74 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <title>Ajouter Hôtel</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta charset="UTF-8">
+  <title>Ajouter un Hôtel</title>
 </head>
 <body>
-  <h1>Formulaire d'ajout d'hôtel</h1>
-  <form id="form-hotel">
-    <input type="text" id="nom" placeholder="Nom de l'hôtel" required><br>
-    <input type="text" id="adresse" placeholder="Adresse complète" required><br>
-    <input type="text" id="ville" placeholder="Ville / Région" required><br>
-    <input type="tel" id="telephone" placeholder="Téléphone" required><br>
-    <input type="email" id="email" placeholder="E-mail de contact" required><br>
-    <input type="url" id="site" placeholder="Site Web (optionnel)"><br>
-    <input type="number" id="chambres" placeholder="Nombre de chambres" required><br>
-
-    <label>Services proposés :</label><br>
-    <input type="checkbox" value="Wi-Fi" class="service"> Wi-Fi
-    <input type="checkbox" value="Piscine" class="service"> Piscine
-    <input type="checkbox" value="Navette" class="service"> Navette
-    <input type="checkbox" value="Climatisation" class="service"> Climatisation<br><br>
-
-    <textarea id="description" rows="4" placeholder="Description de l'hôtel" required></textarea><br>
-
-    <label>Image principale :</label><br>
-    <input type="file" id="image" accept="image/*" required><br><br>
-
+  <h2>Formulaire d'ajout d'hôtel</h2>
+  <form id="hotelForm">
+    <input type="text" name="nom" placeholder="Nom de l'hôtel" required><br>
+    <input type="text" name="adresse" placeholder="Adresse" required><br>
+    <textarea name="description" placeholder="Description" required></textarea><br>
+    <input type="file" id="imageInput" accept="image/*" required><br>
     <button type="submit">Envoyer</button>
   </form>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-    import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-storage.js";
+  <p id="status"></p>
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyBo9JsPem6NqNWL1DHiPQFck5PLJvADRUI",
-      authDomain: "congo-reservation.firebaseapp.com",
-      projectId: "congo-reservation",
-      storageBucket: "congo-reservation.appspot.com",
-      messagingSenderId: "54528039217",
-      appId: "1:54528039217:web:8158927e3b22c8a24a3810",
-      measurementId: "G-E4MZGSVB4H"
-    };
+  <script>
+    const form = document.getElementById("hotelForm");
+    const status = document.getElementById("status");
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const storage = getStorage(app);
-
-    document.getElementById("form-hotel").addEventListener("submit", async function(e) {
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
-      console.log("Formulaire soumis");
+      status.innerText = "Téléchargement de l’image...";
+
+      const imageFile = document.getElementById("imageInput").files[0];
+      const cloudName = "TON_CLOUD_NAME";
+      const uploadPreset = "github_upload";
+
+      const formData = new FormData();
+      formData.append("file", imageFile);
+      formData.append("upload_preset", uploadPreset);
 
       try {
-        const nom = document.getElementById("nom").value;
-        const adresse = document.getElementById("adresse").value;
-        const ville = document.getElementById("ville").value;
-        const telephone = document.getElementById("telephone").value;
-        const email = document.getElementById("email").value;
-        const site = document.getElementById("site").value;
-        const chambres = document.getElementById("chambres").value;
-        const description = document.getElementById("description").value;
+        // 1. Upload image vers Cloudinary
+        const cloudinaryRes = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/upload`, {
+          method: "POST",
+          body: formData
+        });
+        const cloudinaryData = await cloudinaryRes.json();
+        const imageURL = cloudinaryData.secure_url;
 
-        const services = Array.from(document.querySelectorAll(".service:checked")).map(cb => cb.value);
+        status.innerText = "Envoi des données à Airtable...";
 
-        const imageFile = document.getElementById("image").files[0];
-        if (!imageFile) throw new Error("Veuillez sélectionner une image.");
+        // 2. Envoyer texte + imageURL à Airtable via NoCodeAPI
+        const nom = form.nom.value;
+        const adresse = form.adresse.value;
+        const description = form.description.value;
 
-        // Upload image
-        const imageRef = ref(storage, "hotels/" + imageFile.name);
-        await uploadBytes(imageRef, imageFile);
-        const imageUrl = await getDownloadURL(imageRef);
-
-        await addDoc(collection(db, "hotels"), {
-          nom, adresse, ville, telephone, email, site, chambres,
-          description, services, imageUrl, dateAjout: new Date()
+        const airtableRes = await fetch("https://v1.nocodeapi.com/TON_NOM_UTILISATEUR/airtable/TON_ENDPOINT_ID?tableName=Formulaire", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({
+            fields: {
+              "Nom": nom,
+              "Adresse": adresse,
+              "Description": description,
+              "ImageURL": imageURL
+            }
+          })
         });
 
-        alert("Hôtel ajouté avec succès !");
-        document.getElementById("form-hotel").reset();
-
-      } catch (error) {
-        console.error("Erreur:", error);
-        alert("Erreur : " + error.message);
+        const airtableData = await airtableRes.json();
+        status.innerText = "✅ Hôtel ajouté avec succès !";
+        form.reset();
+      } catch (err) {
+        console.error(err);
+        status.innerText = "❌ Une erreur s'est produite.";
       }
     });
   </script>
