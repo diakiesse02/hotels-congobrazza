@@ -1,139 +1,97 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Ajout Hôtel | Dashboard Congo</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <meta charset="UTF-8" />
+  <title>Ajouter un Hôtel</title>
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body>
+  <h2>Ajouter un Hôtel</h2>
+  
+  <div id="userInfo"></div>
+  <button id="login">Se connecter avec Google</button>
+  <button id="logout" style="display:none;">Se déconnecter</button>
 
-  <div class="max-w-6xl mx-auto py-10 px-4">
-    <h1 class="text-4xl font-bold mb-8 text-center text-blue-700">📋 Ajouter un Hôtel</h1>
+  <form id="hotelForm" style="display:none;">
+    <input type="text" id="nom" placeholder="Nom de l'hôtel" required><br>
+    <input type="text" id="adresse" placeholder="Adresse" required><br>
+    <input type="text" id="telephone" placeholder="Téléphone" required><br>
+    <input type="url" id="site" placeholder="Site Web (facultatif)"><br>
 
-    <form id="hotelForm" class="bg-white p-8 rounded-xl shadow space-y-6">
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-        <input name="nom" placeholder="Nom de l’hôtel" required class="border p-3 rounded-lg" />
-        <input name="adresse" placeholder="Adresse" required class="border p-3 rounded-lg" />
-        <input name="ville" placeholder="Ville" required class="border p-3 rounded-lg" />
-        <input name="telephone" placeholder="Téléphone" required class="border p-3 rounded-lg" />
-        <input name="email" placeholder="Email" required class="border p-3 rounded-lg" />
-        <input name="siteweb" placeholder="Site web (facultatif)" class="border p-3 rounded-lg" />
-        <input name="chambres" type="number" placeholder="Nombre de chambres" required class="border p-3 rounded-lg" />
-      </div>
+    <label>Services :</label><br>
+    <input type="checkbox" value="WiFi" name="services"> WiFi
+    <input type="checkbox" value="Piscine" name="services"> Piscine
+    <input type="checkbox" value="Parking" name="services"> Parking<br><br>
 
-      <div>
-        <label class="block font-semibold mb-2">Services disponibles :</label>
-        <div class="grid grid-cols-2 gap-2 text-sm">
-          <label><input type="checkbox" name="services" value="Wifi" class="mr-2"> Wifi</label>
-          <label><input type="checkbox" name="services" value="Piscine" class="mr-2"> Piscine</label>
-          <label><input type="checkbox" name="services" value="Restaurant" class="mr-2"> Restaurant</label>
-          <label><input type="checkbox" name="services" value="Parking" class="mr-2"> Parking</label>
-        </div>
-      </div>
+    <label>Images :</label>
+    <input type="file" id="images" multiple required><br><br>
 
-      <div>
-        <label class="block font-semibold mb-2">Images de l'hôtel :</label>
-        <input type="file" id="imageInput" accept="image/*" multiple class="p-3 border rounded-lg w-full bg-white" required />
-        <p class="text-sm text-gray-500 mt-1">Vous pouvez sélectionner plusieurs images</p>
-      </div>
+    <button type="submit">Envoyer</button>
+  </form>
 
-      <button type="submit" class="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg w-full font-bold text-lg">
-        ➕ Ajouter Hôtel
-      </button>
-    </form>
-
-    <div id="loading" class="hidden text-center text-blue-600 mt-4">⏳ Envoi en cours...</div>
-
-    <hr class="my-10">
-
-    <h2 class="text-2xl font-bold mb-6 text-center">🏨 Liste des hôtels enregistrés</h2>
-    <div id="hotelList" class="grid md:grid-cols-2 lg:grid-cols-3 gap-6"></div>
-  </div>
-
-  <!-- Firebase -->
   <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import {
+      db, auth, provider, signInWithPopup, onAuthStateChanged, signOut,
+      collection, addDoc
+    } from './firebase.js';
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyBo9JsPem6NqNWL1DHiPQFck5PLJvADRUI",
-      authDomain: "congo-reservation.firebaseapp.com",
-      projectId: "congo-reservation",
-      storageBucket: "congo-reservation.firebasestorage.app",
-      messagingSenderId: "54528039217",
-      appId: "1:54528039217:web:8158927e3b22c8a24a3810",
-      measurementId: "G-E4MZGSVB4H"
-    };
+    const loginBtn = document.getElementById('login');
+    const logoutBtn = document.getElementById('logout');
+    const userInfo = document.getElementById('userInfo');
+    const hotelForm = document.getElementById('hotelForm');
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+    loginBtn.onclick = () => signInWithPopup(auth, provider);
+    logoutBtn.onclick = () => signOut(auth);
 
-    const CLOUD_NAME = "dnemkgkyy";
-    const UPLOAD_PRESET = "unsigned_upload";
-
-    const form = document.getElementById("hotelForm");
-    const imageInput = document.getElementById("imageInput");
-    const hotelList = document.getElementById("hotelList");
-    const loading = document.getElementById("loading");
-
-    form.addEventListener("submit", async (e) => {
-      e.preventDefault();
-
-      const files = imageInput.files;
-      if (!files.length) return alert("Veuillez sélectionner au moins une image.");
-
-      loading.classList.remove("hidden");
-
-      // Upload multiple images
-      const urls = [];
-      for (const file of files) {
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("upload_preset", UPLOAD_PRESET);
-
-        const cloudRes = await axios.post(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/upload`, formData);
-        urls.push(cloudRes.data.secure_url);
+    onAuthStateChanged(auth, user => {
+      if (user) {
+        userInfo.innerText = `Connecté : ${user.email}`;
+        loginBtn.style.display = 'none';
+        logoutBtn.style.display = 'inline';
+        hotelForm.style.display = 'block';
+      } else {
+        userInfo.innerText = '';
+        loginBtn.style.display = 'inline';
+        logoutBtn.style.display = 'none';
+        hotelForm.style.display = 'none';
       }
-
-      // Données du formulaire
-      const data = Object.fromEntries(new FormData(form));
-      const services = [...form.querySelectorAll("input[name='services']:checked")].map(s => s.value);
-      data.services = services;
-      data.images = urls;
-
-      await addDoc(collection(db, "hotels"), data);
-      form.reset();
-      loading.classList.add("hidden");
-      alert("✅ Hôtel ajouté !");
-      loadHotels();
     });
 
-    // Charger les hôtels
-    async function loadHotels() {
-      hotelList.innerHTML = "";
-      const snapshot = await getDocs(collection(db, "hotels"));
-      snapshot.forEach(doc => {
-        const d = doc.data();
-        const imageGallery = d.images?.map(url => `<img src="${url}" class="w-full h-40 object-cover rounded mb-2">`).join("") || "";
+    hotelForm.onsubmit = async (e) => {
+      e.preventDefault();
 
-        hotelList.innerHTML += `
-          <div class="bg-white rounded-xl shadow p-4">
-            ${imageGallery}
-            <h3 class="text-xl font-bold text-blue-700">${d.nom}</h3>
-            <p><strong>Ville :</strong> ${d.ville}</p>
-            <p><strong>Adresse :</strong> ${d.adresse}</p>
-            <p><strong>Téléphone :</strong> ${d.telephone}</p>
-            <p><strong>Email :</strong> ${d.email}</p>
-            ${d.siteweb ? `<p><strong>Site Web :</strong> <a class="text-blue-600 underline" href="${d.siteweb}" target="_blank">${d.siteweb}</a></p>` : ""}
-            <p><strong>Services :</strong> ${d.services?.join(", ")}</p>
-            <p><strong>Chambres :</strong> ${d.chambres}</p>
-          </div>
-        `;
+      const nom = document.getElementById('nom').value;
+      const adresse = document.getElementById('adresse').value;
+      const telephone = document.getElementById('telephone').value;
+      const site = document.getElementById('site').value;
+      const services = Array.from(document.querySelectorAll('input[name="services"]:checked')).map(cb => cb.value);
+      const files = document.getElementById('images').files;
+
+      const cloudName = "TON_CLOUD_NAME";
+      const unsignedPreset = "TON_UNSIGNED_PRESET";
+      const imageUrls = [];
+
+      for (let file of files) {
+        const formData = new FormData();
+        formData.append("file", file);
+        formData.append("upload_preset", unsignedPreset);
+
+        const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/upload`, {
+          method: "POST",
+          body: formData
+        });
+        const data = await res.json();
+        imageUrls.push(data.secure_url);
+      }
+
+      await addDoc(collection(db, "hotels"), {
+        nom, adresse, telephone, site, services, images: imageUrls,
+        auteur: auth.currentUser.email,
+        date: new Date().toISOString()
       });
-    }
 
-    loadHotels();
+      alert("Hôtel soumis avec succès !");
+      hotelForm.reset();
+    };
   </script>
 </body>
 </html>
