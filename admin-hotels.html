@@ -2,96 +2,95 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8" />
-  <title>Ajouter un Hôtel</title>
+  <title>Admin - Liste des Hôtels</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 30px; }
+    h2 { color: #333; }
+    .hotel { border: 1px solid #ccc; padding: 15px; margin-bottom: 20px; }
+    .images img { width: 100px; margin-right: 5px; }
+    #logout { margin-bottom: 20px; }
+  </style>
 </head>
 <body>
-  <h2>Ajouter un Hôtel</h2>
-  
-  <div id="userInfo"></div>
-  <button id="login">Se connecter avec Google</button>
-  <button id="logout" style="display:none;">Se déconnecter</button>
 
-  <form id="hotelForm" style="display:none;">
-    <input type="text" id="nom" placeholder="Nom de l'hôtel" required><br>
-    <input type="text" id="adresse" placeholder="Adresse" required><br>
-    <input type="text" id="telephone" placeholder="Téléphone" required><br>
-    <input type="url" id="site" placeholder="Site Web (facultatif)"><br>
+  <h2>Liste des Hôtels (Admin)</h2>
 
-    <label>Services :</label><br>
-    <input type="checkbox" value="WiFi" name="services"> WiFi
-    <input type="checkbox" value="Piscine" name="services"> Piscine
-    <input type="checkbox" value="Parking" name="services"> Parking<br><br>
+  <div id="auth">
+    <button id="login">Se connecter avec Google</button>
+    <button id="logout" style="display:none;">Se déconnecter</button>
+    <p id="userEmail"></p>
+  </div>
 
-    <label>Images :</label>
-    <input type="file" id="images" multiple required><br><br>
-
-    <button type="submit">Envoyer</button>
-  </form>
+  <div id="hotelList"></div>
 
   <script type="module">
     import {
-      db, auth, provider, signInWithPopup, onAuthStateChanged, signOut,
-      collection, addDoc
-    } from './firebase.js';
+      initializeApp
+    } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-app.js";
+    import {
+      getFirestore, collection, getDocs
+    } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-firestore.js";
+    import {
+      getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged, signOut
+    } from "https://www.gstatic.com/firebasejs/9.21.0/firebase-auth.js";
 
-    const loginBtn = document.getElementById('login');
-    const logoutBtn = document.getElementById('logout');
-    const userInfo = document.getElementById('userInfo');
-    const hotelForm = document.getElementById('hotelForm');
+    // 🔐 Firebase config
+    const firebaseConfig = {
+      apiKey: "AIzaSyBo9JsPem6NqNWL1DHiPQFck5PLJvADRUI",
+      authDomain: "congo-reservation.firebaseapp.com",
+      projectId: "congo-reservation",
+      storageBucket: "congo-reservation.appspot.com",
+      messagingSenderId: "54528039217",
+      appId: "1:54528039217:web:8158927e3b22c8a24a3810",
+      measurementId: "G-E4MZGSVB4H"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
+
+    const loginBtn = document.getElementById("login");
+    const logoutBtn = document.getElementById("logout");
+    const hotelList = document.getElementById("hotelList");
+    const userEmail = document.getElementById("userEmail");
 
     loginBtn.onclick = () => signInWithPopup(auth, provider);
     logoutBtn.onclick = () => signOut(auth);
 
-    onAuthStateChanged(auth, user => {
+    onAuthStateChanged(auth, async (user) => {
       if (user) {
-        userInfo.innerText = `Connecté : ${user.email}`;
-        loginBtn.style.display = 'none';
-        logoutBtn.style.display = 'inline';
-        hotelForm.style.display = 'block';
+        userEmail.textContent = "Connecté : " + user.email;
+        loginBtn.style.display = "none";
+        logoutBtn.style.display = "inline";
+
+        const querySnapshot = await getDocs(collection(db, "hotels"));
+        querySnapshot.forEach((doc) => {
+          const data = doc.data();
+          const div = document.createElement("div");
+          div.className = "hotel";
+          div.innerHTML = `
+            <h3>${data.nom}</h3>
+            <p><strong>Adresse :</strong> ${data.adresse}</p>
+            <p><strong>Téléphone :</strong> ${data.telephone}</p>
+            ${data.site ? `<p><strong>Site Web :</strong> <a href="${data.site}" target="_blank">${data.site}</a></p>` : ''}
+            <p><strong>Services :</strong> ${data.services?.join(", ")}</p>
+            <p><strong>Auteur :</strong> ${data.auteur || 'Anonyme'}</p>
+            <div class="images">
+              ${(data.images || []).map(url => `<img src="${url}" alt="Image hôtel" />`).join("")}
+            </div>
+          `;
+          hotelList.appendChild(div);
+        });
+
       } else {
-        userInfo.innerText = '';
-        loginBtn.style.display = 'inline';
-        logoutBtn.style.display = 'none';
-        hotelForm.style.display = 'none';
+        hotelList.innerHTML = "<p>Vous devez être connecté pour voir les hôtels.</p>";
+        loginBtn.style.display = "inline";
+        logoutBtn.style.display = "none";
+        userEmail.textContent = "";
       }
     });
-
-    hotelForm.onsubmit = async (e) => {
-      e.preventDefault();
-
-      const nom = document.getElementById('nom').value;
-      const adresse = document.getElementById('adresse').value;
-      const telephone = document.getElementById('telephone').value;
-      const site = document.getElementById('site').value;
-      const services = Array.from(document.querySelectorAll('input[name="services"]:checked')).map(cb => cb.value);
-      const files = document.getElementById('images').files;
-
-      const cloudName = "TON_CLOUD_NAME";
-      const unsignedPreset = "TON_UNSIGNED_PRESET";
-      const imageUrls = [];
-
-      for (let file of files) {
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("upload_preset", unsignedPreset);
-
-        const res = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/upload`, {
-          method: "POST",
-          body: formData
-        });
-        const data = await res.json();
-        imageUrls.push(data.secure_url);
-      }
-
-      await addDoc(collection(db, "hotels"), {
-        nom, adresse, telephone, site, services, images: imageUrls,
-        auteur: auth.currentUser.email,
-        date: new Date().toISOString()
-      });
-
-      alert("Hôtel soumis avec succès !");
-      hotelForm.reset();
-    };
   </script>
+
 </body>
 </html>
