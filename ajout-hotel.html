@@ -2,74 +2,91 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Ajouter un Hôtel</title>
+  <title>Ajout Hôtel</title>
 </head>
 <body>
-  <h2>Formulaire d'ajout d'hôtel</h2>
+
+  <h2>Ajouter un Hôtel</h2>
   <form id="hotelForm">
     <input type="text" name="nom" placeholder="Nom de l'hôtel" required><br>
     <input type="text" name="adresse" placeholder="Adresse" required><br>
-    <textarea name="description" placeholder="Description" required></textarea><br>
-    <input type="file" id="imageInput" accept="image/*" required><br>
-    <button type="submit">Envoyer</button>
+    <input type="text" name="ville" placeholder="Ville" required><br>
+    <input type="email" name="email" placeholder="Email" required><br>
+    <input type="tel" name="telephone" placeholder="Téléphone" required><br>
+    <input type="number" name="chambres" placeholder="Nombre de chambres" required><br>
+
+    <label>Services :</label><br>
+    <label><input type="checkbox" name="services" value="Wifi"> Wifi</label>
+    <label><input type="checkbox" name="services" value="Parking"> Parking</label>
+    <label><input type="checkbox" name="services" value="Piscine"> Piscine</label>
+    <label><input type="checkbox" name="services" value="Restaurant"> Restaurant</label><br>
+
+    <input type="url" name="siteweb" placeholder="Site Web (facultatif)"><br>
+
+    <input type="file" name="image" accept="image/*" required><br><br>
+    <button type="submit">Ajouter l’hôtel</button>
   </form>
 
-  <p id="status"></p>
+  <script type="module">
+    // === Initialiser Firebase ===
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-  <script>
-    const form = document.getElementById("hotelForm");
-    const status = document.getElementById("status");
+    const firebaseConfig = {
+      apiKey: "AIzaSyBo9JsPem6NqNWL1DHiPQFck5PLJvADRUI",
+      authDomain: "congo-reservation.firebaseapp.com",
+      projectId: "congo-reservation",
+      storageBucket: "congo-reservation.firebasestorage.app",
+      messagingSenderId: "54528039217",
+      appId: "1:54528039217:web:8158927e3b22c8a24a3810",
+      measurementId: "G-E4MZGSVB4H"
+    };
 
-    form.addEventListener("submit", async (e) => {
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+
+    // === Cloudinary ===
+    const cloudName = "dnemkgkyy";
+    const uploadPreset = "unsigned_upload";
+
+    document.getElementById("hotelForm").addEventListener("submit", async (e) => {
       e.preventDefault();
-      status.innerText = "Téléchargement de l’image...";
+      const form = e.target;
+      const formData = new FormData(form);
 
-      const imageFile = document.getElementById("imageInput").files[0];
-      const cloudName = "TON_CLOUD_NAME";
-      const uploadPreset = "github_upload";
+      // Récupération des services cochés
+      const services = [...form.querySelectorAll("input[name='services']:checked")].map(cb => cb.value);
 
-      const formData = new FormData();
-      formData.append("file", imageFile);
-      formData.append("upload_preset", uploadPreset);
+      // Upload image sur Cloudinary
+      const file = formData.get("image");
+      const imageData = new FormData();
+      imageData.append("file", file);
+      imageData.append("upload_preset", uploadPreset);
 
-      try {
-        // 1. Upload image vers Cloudinary
-        const cloudinaryRes = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/upload`, {
-          method: "POST",
-          body: formData
-        });
-        const cloudinaryData = await cloudinaryRes.json();
-        const imageURL = cloudinaryData.secure_url;
+      const cloudinaryRes = await fetch(`https://api.cloudinary.com/v1_1/${cloudName}/image/upload`, {
+        method: "POST",
+        body: imageData
+      });
 
-        status.innerText = "Envoi des données à Airtable...";
+      const cloudinaryData = await cloudinaryRes.json();
+      const imageUrl = cloudinaryData.secure_url;
 
-        // 2. Envoyer texte + imageURL à Airtable via NoCodeAPI
-        const nom = form.nom.value;
-        const adresse = form.adresse.value;
-        const description = form.description.value;
+      // Envoi dans Firebase Firestore
+      await addDoc(collection(db, "hotels"), {
+        nom: formData.get("nom"),
+        adresse: formData.get("adresse"),
+        ville: formData.get("ville"),
+        email: formData.get("email"),
+        telephone: formData.get("telephone"),
+        chambres: parseInt(formData.get("chambres")),
+        services: services,
+        siteweb: formData.get("siteweb") || "",
+        imageUrl: imageUrl,
+        dateAjout: new Date()
+      });
 
-        const airtableRes = await fetch("https://v1.nocodeapi.com/TON_NOM_UTILISATEUR/airtable/TON_ENDPOINT_ID?tableName=Formulaire", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          body: JSON.stringify({
-            fields: {
-              "Nom": nom,
-              "Adresse": adresse,
-              "Description": description,
-              "ImageURL": imageURL
-            }
-          })
-        });
-
-        const airtableData = await airtableRes.json();
-        status.innerText = "✅ Hôtel ajouté avec succès !";
-        form.reset();
-      } catch (err) {
-        console.error(err);
-        status.innerText = "❌ Une erreur s'est produite.";
-      }
+      alert("✅ Hôtel ajouté avec succès !");
+      form.reset();
     });
   </script>
 </body>
