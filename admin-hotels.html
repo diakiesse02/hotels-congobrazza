@@ -28,7 +28,6 @@
     getFirestore, collection, getDocs, deleteDoc, doc, updateDoc
   } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-  // 🔧 Config Firebase
   const firebaseConfig = {
     apiKey: "AIzaSyBo9JsPem6NqNWL1DHiPQFck5PLJvADRUI",
     authDomain: "congo-reservation.firebaseapp.com",
@@ -38,17 +37,14 @@
     appId: "1:54528039217:web:8158927e3b22c8a24a3810"
   };
 
-  // 🔌 Initialisation
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
 
-  // 📧 Emails autorisés
   const authorizedEmails = ["label.diak@gmail.com", "nkoukasylvanie@gmail.com"];
   const debugInfo = document.getElementById("debugInfo");
 
-  // 🔐 Connexion via popup (pas de redirection)
   window.login = () => {
     signInWithPopup(auth, provider)
       .then((result) => {
@@ -70,7 +66,6 @@
       });
   };
 
-  // 📦 Chargement des hôtels
   async function loadHotels() {
     const list = document.getElementById("adminHotelList");
     list.innerHTML = "Chargement...";
@@ -82,6 +77,7 @@
       const id = docSnap.id;
       const isValid = data.validé === true;
       const isOnline = data.publie === true;
+      const nbImages = Array.isArray(data.images) ? data.images.length : 0;
 
       list.innerHTML += `
         <div class="bg-white shadow rounded p-4 relative">
@@ -90,6 +86,7 @@
           <p><strong>Ville:</strong> ${data.ville}</p>
           <p><strong>Email:</strong> ${data.email}</p>
           <p><strong>Description:</strong> ${data.description || 'Aucune'}</p>
+          <p><strong>Nombre d’images:</strong> ${nbImages}</p>
           <p><strong>Status:</strong>
             <span class="text-sm px-2 py-1 rounded ${isValid ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">
               ${isValid ? 'Validé' : 'En attente'}
@@ -110,18 +107,17 @@
     });
   }
 
-  // ✅ Fonctions de gestion
   window.validateHotel = async (id) => {
     await updateDoc(doc(db, "hotels", id), { validé: true });
     alert("✅ Hôtel validé !");
     loadHotels();
-  }
+  };
 
   window.togglePublish = async (id, current) => {
     await updateDoc(doc(db, "hotels", id), { publie: !current });
     alert(`🔁 Hôtel ${!current ? "publié" : "dépublié"} !`);
     loadHotels();
-  }
+  };
 
   window.deleteHotel = async (id) => {
     if (confirm("⚠️ Supprimer cet hôtel ?")) {
@@ -129,7 +125,7 @@
       alert("🗑 Supprimé !");
       loadHotels();
     }
-  }
+  };
 </script>
 </body>
 </html>
