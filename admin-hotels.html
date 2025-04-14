@@ -2,15 +2,16 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Admin | Gestion des Hôtels</title>
+  <title>Admin | Gestion des Hôtels (Debug)</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 min-h-screen">
 
-<div id="authSection" class="flex items-center justify-center h-screen">
+<div id="authSection" class="flex flex-col items-center justify-center h-screen space-y-4">
   <button onclick="login()" class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700">
     🔐 Se connecter avec Google
   </button>
+  <div id="debugInfo" class="text-sm text-gray-600"></div>
 </div>
 
 <div id="adminSection" class="hidden px-6 py-10 max-w-6xl mx-auto">
@@ -21,7 +22,7 @@
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import {
-    getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult
+    getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult, onAuthStateChanged
   } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
   import {
     getFirestore, collection, getDocs, deleteDoc, doc, updateDoc
@@ -42,19 +43,36 @@
   const provider = new GoogleAuthProvider();
 
   const authorizedEmails = ["label.diak@gmail.com", "nkoukasylvanie@gmail.com"];
+  const debugInfo = document.getElementById("debugInfo");
 
+  // Étape 1 : Vérifie si l'utilisateur est déjà connecté
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      debugInfo.innerText = "🟢 Connecté en tant que : " + user.email;
+    } else {
+      debugInfo.innerText = "🔴 Aucun utilisateur connecté";
+    }
+  });
+
+  // Étape 2 : Gère le résultat de redirection après connexion
   getRedirectResult(auth).then((result) => {
     if (result?.user) {
       const email = result.user.email;
+      console.log("🔍 Utilisateur connecté :", result.user);
+      debugInfo.innerText = "🔍 Connecté avec : " + email;
+
       if (authorizedEmails.includes(email)) {
+        debugInfo.innerText += "\n✅ Accès autorisé";
         document.getElementById("authSection").classList.add("hidden");
         document.getElementById("adminSection").classList.remove("hidden");
         loadHotels();
       } else {
+        debugInfo.innerText += "\n⛔ Accès refusé à : " + email;
         alert("⛔ Accès refusé à " + email);
       }
     }
   }).catch((error) => {
+    debugInfo.innerText = "❌ Erreur d'authentification : " + error.message;
     console.error("Erreur d'auth:", error);
   });
 
