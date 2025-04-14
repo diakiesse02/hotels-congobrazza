@@ -7,7 +7,15 @@
 </head>
 <body class="bg-gray-100">
 
-  <div class="max-w-lg mx-auto p-6 mt-10 bg-white rounded shadow" id="formContainer" style="display:none;">
+  <!-- Connexion Google -->
+  <div id="loginContainer" class="text-center mt-20">
+    <button id="loginBtn" class="bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700">
+      Se connecter avec Google
+    </button>
+  </div>
+
+  <!-- Formulaire -->
+  <div id="formContainer" class="max-w-lg mx-auto p-6 mt-10 bg-white rounded shadow hidden">
     <h1 class="text-2xl font-bold mb-4">📋 Ajouter un hôtel</h1>
 
     <form id="hotelForm" class="space-y-4">
@@ -16,6 +24,8 @@
       <input type="email" id="email" placeholder="Email" required class="w-full p-2 border rounded" />
       <input type="tel" id="telephone" placeholder="Téléphone" required class="w-full p-2 border rounded" />
       <input type="url" id="siteweb" placeholder="Site web (facultatif)" class="w-full p-2 border rounded" />
+
+      <textarea id="description" placeholder="Description de l'hôtel" required class="w-full p-2 border rounded h-24"></textarea>
 
       <label class="block font-semibold">Services :</label>
       <div class="grid grid-cols-2 gap-2">
@@ -32,14 +42,16 @@
     </form>
   </div>
 
-  <div class="text-center mt-20" id="loginContainer">
-    <button id="loginBtn" class="bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700">Se connecter avec Google</button>
-  </div>
-
   <!-- Firebase -->
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getAuth, signInWithRedirect, getRedirectResult, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import {
+      getAuth,
+      signInWithRedirect,
+      getRedirectResult,
+      GoogleAuthProvider,
+      onAuthStateChanged
+    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
     import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
@@ -56,19 +68,36 @@
     const db = getFirestore(app);
     const provider = new GoogleAuthProvider();
 
-    const loginBtn = document.getElementById("loginBtn");
     const loginContainer = document.getElementById("loginContainer");
+    const loginBtn = document.getElementById("loginBtn");
     const formContainer = document.getElementById("formContainer");
 
-    loginBtn.onclick = () => signInWithRedirect(auth, provider);
+    // Bouton connexion Google
+    loginBtn.addEventListener("click", () => {
+      signInWithRedirect(auth, provider);
+    });
 
+    // Si l'utilisateur revient de la connexion Google
+    getRedirectResult(auth)
+      .then(() => {
+        // On ne fait rien ici, le onAuthStateChanged s'en occupe
+      })
+      .catch(error => {
+        alert("Erreur de connexion : " + error.message);
+      });
+
+    // Affichage conditionnel après connexion
     onAuthStateChanged(auth, (user) => {
       if (user) {
         loginContainer.style.display = "none";
         formContainer.style.display = "block";
+      } else {
+        loginContainer.style.display = "block";
+        formContainer.style.display = "none";
       }
     });
 
+    // Envoi du formulaire
     document.getElementById("hotelForm").addEventListener("submit", async (e) => {
       e.preventDefault();
 
@@ -77,17 +106,15 @@
       const email = document.getElementById("email").value;
       const telephone = document.getElementById("telephone").value;
       const siteweb = document.getElementById("siteweb").value;
+      const description = document.getElementById("description").value;
       const imageFile = document.getElementById("imageInput").files[0];
-
       const services = Array.from(document.querySelectorAll("input[name='services']:checked")).map(cb => cb.value);
 
       // Upload image to Cloudinary
       const formData = new FormData();
       formData.append("file", imageFile);
       formData.append("upload_preset", "unsigned_upload");
-      const cloudinaryUrl = "https://api.cloudinary.com/v1_1/dnemkgkyy/image/upload";
-
-      const response = await fetch(cloudinaryUrl, {
+      const response = await fetch("https://api.cloudinary.com/v1_1/dnemkgkyy/image/upload", {
         method: "POST",
         body: formData
       });
@@ -102,6 +129,7 @@
         email,
         telephone,
         siteweb,
+        description,
         services,
         imageUrl,
         validé: false,
@@ -109,7 +137,7 @@
         timestamp: new Date()
       });
 
-      alert("✅ Hôtel envoyé avec succès !");
+      alert("✅ Hôtel ajouté !");
       document.getElementById("hotelForm").reset();
     });
   </script>
