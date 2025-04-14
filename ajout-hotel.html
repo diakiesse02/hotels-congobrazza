@@ -1,119 +1,116 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta charset="UTF-8">
   <title>Ajout Hôtel</title>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
-  <h2>Ajouter un hôtel</h2>
+<body class="bg-gray-100">
 
-  <button id="loginBtn">Connexion Google</button>
-  <form id="hotelForm" style="display:none;">
-    <input type="text" id="nom" placeholder="Nom de l'hôtel" required><br>
-    <input type="text" id="ville" placeholder="Ville" required><br>
-    <input type="text" id="adresse" placeholder="Adresse" required><br>
-    <input type="number" id="prix" placeholder="Prix" required><br>
-    <input type="text" id="contact" placeholder="Téléphone / WhatsApp" required><br>
-    <input type="url" id="siteweb" placeholder="Site web (facultatif)"><br>
-    
-    <label>Services :</label><br>
-    <input type="checkbox" name="services" value="WiFi"> WiFi<br>
-    <input type="checkbox" name="services" value="Piscine"> Piscine<br>
-    <input type="checkbox" name="services" value="Parking"> Parking<br>
-    
-    <label>Images de l'hôtel :</label>
-    <input type="file" id="images" multiple accept="image/*" required><br><br>
+  <div class="max-w-lg mx-auto p-6 mt-10 bg-white rounded shadow" id="formContainer" style="display:none;">
+    <h1 class="text-2xl font-bold mb-4">📋 Ajouter un hôtel</h1>
 
-    <button type="submit">Envoyer</button>
-  </form>
+    <form id="hotelForm" class="space-y-4">
+      <input type="text" id="nom" placeholder="Nom de l'hôtel" required class="w-full p-2 border rounded" />
+      <input type="text" id="ville" placeholder="Ville" required class="w-full p-2 border rounded" />
+      <input type="email" id="email" placeholder="Email" required class="w-full p-2 border rounded" />
+      <input type="tel" id="telephone" placeholder="Téléphone" required class="w-full p-2 border rounded" />
+      <input type="url" id="siteweb" placeholder="Site web (facultatif)" class="w-full p-2 border rounded" />
 
+      <label class="block font-semibold">Services :</label>
+      <div class="grid grid-cols-2 gap-2">
+        <label><input type="checkbox" name="services" value="WiFi"> WiFi</label>
+        <label><input type="checkbox" name="services" value="Parking"> Parking</label>
+        <label><input type="checkbox" name="services" value="Piscine"> Piscine</label>
+        <label><input type="checkbox" name="services" value="Climatisation"> Climatisation</label>
+      </div>
+
+      <label class="block mt-4">Image :</label>
+      <input type="file" id="imageInput" accept="image/*" required class="w-full" />
+
+      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full">Envoyer</button>
+    </form>
+  </div>
+
+  <div class="text-center mt-20" id="loginContainer">
+    <button id="loginBtn" class="bg-green-600 text-white px-6 py-3 rounded hover:bg-green-700">Se connecter avec Google</button>
+  </div>
+
+  <!-- Firebase -->
   <script type="module">
-    // === IMPORTS FIREBASE ===
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-app.js";
-    import { getAuth, signInWithRedirect, getRedirectResult, GoogleAuthProvider } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
-    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, signInWithRedirect, getRedirectResult, GoogleAuthProvider, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, collection, addDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    // === CONFIGURATION FIREBASE ===
     const firebaseConfig = {
       apiKey: "AIzaSyBo9JsPem6NqNWL1DHiPQFck5PLJvADRUI",
       authDomain: "congo-reservation.firebaseapp.com",
       projectId: "congo-reservation",
       storageBucket: "congo-reservation.appspot.com",
       messagingSenderId: "54528039217",
-      appId: "1:54528039217:web:8158927e3b22c8a24a3810",
-      measurementId: "G-E4MZGSVB4H"
+      appId: "1:54528039217:web:8158927e3b22c8a24a3810"
     };
 
     const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
     const db = getFirestore(app);
-    const auth = getAuth();
     const provider = new GoogleAuthProvider();
 
-    // === LOGIN GOOGLE ===
-    document.getElementById("loginBtn").addEventListener("click", () => {
-      signInWithRedirect(auth, provider);
+    const loginBtn = document.getElementById("loginBtn");
+    const loginContainer = document.getElementById("loginContainer");
+    const formContainer = document.getElementById("formContainer");
+
+    loginBtn.onclick = () => signInWithRedirect(auth, provider);
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        loginContainer.style.display = "none";
+        formContainer.style.display = "block";
+      }
     });
 
-    // === VERIFIER LE RETOUR DE LA REDIRECTION ===
-    getRedirectResult(auth)
-      .then((result) => {
-        if (result && result.user) {
-          document.getElementById("loginBtn").style.display = "none";
-          document.getElementById("hotelForm").style.display = "block";
-        }
-      })
-      .catch((error) => {
-        console.error("Erreur login redirect:", error);
-      });
-
-    // === UPLOAD IMAGES TO CLOUDINARY ===
-    async function uploadImagesToCloudinary(files) {
-      const uploadedUrls = [];
-      for (const file of files) {
-        const formData = new FormData();
-        formData.append("file", file);
-        formData.append("upload_preset", "unsigned_upload");
-
-        const res = await fetch("https://api.cloudinary.com/v1_1/dnemkgkyy/image/upload", {
-          method: "POST",
-          body: formData
-        });
-        const data = await res.json();
-        uploadedUrls.push(data.secure_url);
-      }
-      return uploadedUrls;
-    }
-
-    // === ENVOI DU FORMULAIRE ===
     document.getElementById("hotelForm").addEventListener("submit", async (e) => {
       e.preventDefault();
 
-      const services = Array.from(document.querySelectorAll("input[name='services']:checked"))
-                            .map(cb => cb.value);
+      const nom = document.getElementById("nom").value;
+      const ville = document.getElementById("ville").value;
+      const email = document.getElementById("email").value;
+      const telephone = document.getElementById("telephone").value;
+      const siteweb = document.getElementById("siteweb").value;
+      const imageFile = document.getElementById("imageInput").files[0];
 
-      const images = document.getElementById("images").files;
-      const imageUrls = await uploadImagesToCloudinary(images);
+      const services = Array.from(document.querySelectorAll("input[name='services']:checked")).map(cb => cb.value);
 
-      const docData = {
-        nom: document.getElementById("nom").value,
-        ville: document.getElementById("ville").value,
-        adresse: document.getElementById("adresse").value,
-        prix: parseFloat(document.getElementById("prix").value),
-        contact: document.getElementById("contact").value,
-        siteweb: document.getElementById("siteweb").value || "",
-        services: services,
-        images: imageUrls,
-        dateAjout: new Date()
-      };
+      // Upload image to Cloudinary
+      const formData = new FormData();
+      formData.append("file", imageFile);
+      formData.append("upload_preset", "unsigned_upload");
+      const cloudinaryUrl = "https://api.cloudinary.com/v1_1/dnemkgkyy/image/upload";
 
-      try {
-        await addDoc(collection(db, "hotels"), docData);
-        alert("Hôtel ajouté avec succès !");
-        document.getElementById("hotelForm").reset();
-      } catch (err) {
-        alert("Erreur d'envoi : " + err.message);
-      }
+      const response = await fetch(cloudinaryUrl, {
+        method: "POST",
+        body: formData
+      });
+
+      const data = await response.json();
+      const imageUrl = data.secure_url;
+
+      // Save to Firestore
+      await addDoc(collection(db, "hotels"), {
+        nom,
+        ville,
+        email,
+        telephone,
+        siteweb,
+        services,
+        imageUrl,
+        validé: false,
+        publie: false,
+        timestamp: new Date()
+      });
+
+      alert("✅ Hôtel envoyé avec succès !");
+      document.getElementById("hotelForm").reset();
     });
   </script>
 </body>
