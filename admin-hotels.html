@@ -2,7 +2,7 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Admin | Gestion des Hôtels (Debug)</title>
+  <title>Admin | Gestion des Hôtels</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 min-h-screen">
@@ -22,12 +22,13 @@
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import {
-    getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult, onAuthStateChanged
+    getAuth, GoogleAuthProvider, signInWithPopup
   } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
   import {
     getFirestore, collection, getDocs, deleteDoc, doc, updateDoc
   } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
+  // 🔧 Config Firebase
   const firebaseConfig = {
     apiKey: "AIzaSyBo9JsPem6NqNWL1DHiPQFck5PLJvADRUI",
     authDomain: "congo-reservation.firebaseapp.com",
@@ -37,49 +38,39 @@
     appId: "1:54528039217:web:8158927e3b22c8a24a3810"
   };
 
+  // 🔌 Initialisation
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
   const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
 
+  // 📧 Emails autorisés
   const authorizedEmails = ["label.diak@gmail.com", "nkoukasylvanie@gmail.com"];
   const debugInfo = document.getElementById("debugInfo");
 
-  // Étape 1 : Vérifie si l'utilisateur est déjà connecté
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      debugInfo.innerText = "🟢 Connecté en tant que : " + user.email;
-    } else {
-      debugInfo.innerText = "🔴 Aucun utilisateur connecté";
-    }
-  });
-
-  // Étape 2 : Gère le résultat de redirection après connexion
-  getRedirectResult(auth).then((result) => {
-    if (result?.user) {
-      const email = result.user.email;
-      console.log("🔍 Utilisateur connecté :", result.user);
-      debugInfo.innerText = "🔍 Connecté avec : " + email;
-
-      if (authorizedEmails.includes(email)) {
-        debugInfo.innerText += "\n✅ Accès autorisé";
-        document.getElementById("authSection").classList.add("hidden");
-        document.getElementById("adminSection").classList.remove("hidden");
-        loadHotels();
-      } else {
-        debugInfo.innerText += "\n⛔ Accès refusé à : " + email;
-        alert("⛔ Accès refusé à " + email);
-      }
-    }
-  }).catch((error) => {
-    debugInfo.innerText = "❌ Erreur d'authentification : " + error.message;
-    console.error("Erreur d'auth:", error);
-  });
-
+  // 🔐 Connexion via popup (pas de redirection)
   window.login = () => {
-    signInWithRedirect(auth, provider);
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const email = result.user.email;
+        debugInfo.innerText = "🔐 Connecté : " + email;
+
+        if (authorizedEmails.includes(email)) {
+          document.getElementById("authSection").classList.add("hidden");
+          document.getElementById("adminSection").classList.remove("hidden");
+          loadHotels();
+        } else {
+          alert("⛔ Accès refusé à : " + email);
+          debugInfo.innerText += "\n⛔ Non autorisé.";
+        }
+      })
+      .catch((error) => {
+        console.error("❌ Erreur d'authentification :", error);
+        debugInfo.innerText = "❌ Erreur : " + error.message;
+      });
   };
 
+  // 📦 Chargement des hôtels
   async function loadHotels() {
     const list = document.getElementById("adminHotelList");
     list.innerHTML = "Chargement...";
@@ -119,6 +110,7 @@
     });
   }
 
+  // ✅ Fonctions de gestion
   window.validateHotel = async (id) => {
     await updateDoc(doc(db, "hotels", id), { validé: true });
     alert("✅ Hôtel validé !");
