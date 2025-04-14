@@ -4,118 +4,122 @@
   <meta charset="UTF-8">
   <title>Admin | Gestion des Hôtels</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 </head>
-<body class="bg-gray-100 text-gray-800">
+<body class="bg-gray-100 min-h-screen">
 
-  <!-- Auth Section -->
-  <div id="authSection" class="min-h-screen flex items-center justify-center">
-    <div class="bg-white p-6 rounded shadow max-w-sm w-full">
-      <h1 class="text-2xl font-bold mb-4 text-center">🔐 Connexion Admin</h1>
-      <input type="password" id="adminPassword" placeholder="Mot de passe admin"
-             class="w-full border p-2 rounded mb-4 outline-none focus:ring-2 focus:ring-blue-400" />
-      <button onclick="login()" class="bg-blue-600 text-white px-4 py-2 rounded w-full hover:bg-blue-700">Se connecter</button>
-    </div>
-  </div>
+<div id="authSection" class="flex items-center justify-center h-screen">
+  <button onclick="login()" class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700">
+    🔐 Se connecter avec Google
+  </button>
+</div>
 
-  <!-- Admin Dashboard -->
-  <div id="adminSection" class="hidden max-w-6xl mx-auto py-10 px-4">
-    <h1 class="text-3xl font-bold mb-6 text-center">📊 Hôtels en attente / validés</h1>
-    <div id="adminHotelList" class="grid md:grid-cols-2 gap-6"></div>
-  </div>
+<div id="adminSection" class="hidden px-6 py-10 max-w-6xl mx-auto">
+  <h1 class="text-3xl font-bold mb-6 text-center">📊 Hôtels ajoutés</h1>
+  <div id="adminHotelList" class="grid md:grid-cols-2 gap-6"></div>
+</div>
 
-  <!-- Firebase -->
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import {
-      getFirestore, collection, getDocs, deleteDoc, doc, updateDoc
-    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import {
+    getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+  import {
+    getFirestore, collection, getDocs, deleteDoc, doc, updateDoc
+  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyBo9JsPem6NqNWL1DHiPQFck5PLJvADRUI",
-      authDomain: "congo-reservation.firebaseapp.com",
-      projectId: "congo-reservation",
-      storageBucket: "congo-reservation.appspot.com",
-      messagingSenderId: "54528039217",
-      appId: "1:54528039217:web:8158927e3b22c8a24a3810"
-    };
+  const firebaseConfig = {
+    apiKey: "AIzaSyBo9JsPem6NqNWL1DHiPQFck5PLJvADRUI",
+    authDomain: "congo-reservation.firebaseapp.com",
+    projectId: "congo-reservation",
+    storageBucket: "congo-reservation.appspot.com",
+    messagingSenderId: "54528039217",
+    appId: "1:54528039217:web:8158927e3b22c8a24a3810"
+  };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
+  const auth = getAuth(app);
+  const provider = new GoogleAuthProvider();
 
-    const adminPassword = "admin123"; // 🔒 À sécuriser plus tard
-    const authSection = document.getElementById("authSection");
-    const adminSection = document.getElementById("adminSection");
-    const adminHotelList = document.getElementById("adminHotelList");
+  const authorizedEmails = ["ton.email@gmail.com", "collaborateur@gmail.com"];
 
-    window.login = function () {
-      const pass = document.getElementById("adminPassword").value.trim();
-      if (pass === adminPassword) {
-        authSection.classList.add("hidden");
-        adminSection.classList.remove("hidden");
+  getRedirectResult(auth).then((result) => {
+    if (result?.user) {
+      const email = result.user.email;
+      if (authorizedEmails.includes(email)) {
+        document.getElementById("authSection").classList.add("hidden");
+        document.getElementById("adminSection").classList.remove("hidden");
         loadHotels();
       } else {
-        alert("⛔ Mot de passe incorrect !");
+        alert("⛔ Accès refusé à " + email);
       }
-    };
-
-    async function loadHotels() {
-      adminHotelList.innerHTML = "<p class='text-center'>Chargement en cours...</p>";
-      const snapshot = await getDocs(collection(db, "hotels"));
-      adminHotelList.innerHTML = "";
-
-      snapshot.forEach(docSnap => {
-        const d = docSnap.data();
-        const id = docSnap.id;
-        const isValid = d.validé === true;
-        const isOnline = d.publie === true;
-        const image = d.imageUrl || "https://via.placeholder.com/400x200?text=Aucune+image";
-
-        adminHotelList.innerHTML += `
-          <div class="bg-white rounded shadow p-4 relative">
-            <img src="${image}" alt="Image Hôtel" class="w-full h-48 object-cover rounded mb-2">
-            <h3 class="text-xl font-bold">${d.nom || "Nom inconnu"}</h3>
-            <p><strong>Ville :</strong> ${d.ville || "N/A"}</p>
-            <p><strong>Email :</strong> ${d.email || "N/A"}</p>
-            <p class="mt-2"><strong>Status :</strong>
-              <span class="text-sm px-2 py-1 rounded ${isValid ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">
-                ${isValid ? '✅ Validé' : '🕓 En attente'}
-              </span>
-              <span class="text-sm px-2 py-1 rounded ${isOnline ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'}">
-                ${isOnline ? '🌐 Publié' : '🚫 Hors ligne'}
-              </span>
-            </p>
-            <div class="mt-4 space-x-2">
-              <button onclick="validateHotel('${id}')" class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">Valider</button>
-              <button onclick="togglePublish('${id}', ${isOnline})" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
-                ${isOnline ? 'Dépublier' : 'Publier'}
-              </button>
-              <button onclick="deleteHotel('${id}')" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">Supprimer</button>
-            </div>
-          </div>
-        `;
-      });
     }
+  }).catch((error) => {
+    console.error("Erreur d'auth:", error);
+  });
 
-    window.validateHotel = async function (id) {
-      await updateDoc(doc(db, "hotels", id), { validé: true });
-      alert("✅ Hôtel validé !");
+  window.login = () => {
+    signInWithRedirect(auth, provider);
+  };
+
+  async function loadHotels() {
+    const list = document.getElementById("adminHotelList");
+    list.innerHTML = "Chargement...";
+    const snapshot = await getDocs(collection(db, "hotels"));
+    list.innerHTML = "";
+
+    snapshot.forEach(docSnap => {
+      const data = docSnap.data();
+      const id = docSnap.id;
+      const isValid = data.validé === true;
+      const isOnline = data.publie === true;
+
+      list.innerHTML += `
+        <div class="bg-white shadow rounded p-4 relative">
+          <img src="${data.imageUrl || ''}" class="w-full h-40 object-cover rounded mb-2">
+          <h3 class="text-xl font-semibold">${data.nom}</h3>
+          <p><strong>Ville:</strong> ${data.ville}</p>
+          <p><strong>Email:</strong> ${data.email}</p>
+          <p><strong>Description:</strong> ${data.description || 'Aucune'}</p>
+          <p><strong>Status:</strong>
+            <span class="text-sm px-2 py-1 rounded ${isValid ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">
+              ${isValid ? 'Validé' : 'En attente'}
+            </span>
+            <span class="text-sm px-2 py-1 rounded ${isOnline ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'}">
+              ${isOnline ? 'Publié' : 'Hors ligne'}
+            </span>
+          </p>
+          <div class="mt-4 space-x-2">
+            <button onclick="validateHotel('${id}')" class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">✅ Valider</button>
+            <button onclick="togglePublish('${id}', ${isOnline})" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
+              ${isOnline ? '🚫 Dépublier' : '🌐 Publier'}
+            </button>
+            <button onclick="deleteHotel('${id}')" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">🗑 Supprimer</button>
+          </div>
+        </div>
+      `;
+    });
+  }
+
+  window.validateHotel = async (id) => {
+    await updateDoc(doc(db, "hotels", id), { validé: true });
+    alert("✅ Hôtel validé !");
+    loadHotels();
+  }
+
+  window.togglePublish = async (id, current) => {
+    await updateDoc(doc(db, "hotels", id), { publie: !current });
+    alert(`🔁 Hôtel ${!current ? "publié" : "dépublié"} !`);
+    loadHotels();
+  }
+
+  window.deleteHotel = async (id) => {
+    if (confirm("⚠️ Supprimer cet hôtel ?")) {
+      await deleteDoc(doc(db, "hotels", id));
+      alert("🗑 Supprimé !");
       loadHotels();
-    };
-
-    window.togglePublish = async function (id, isCurrentlyPublished) {
-      await updateDoc(doc(db, "hotels", id), { publie: !isCurrentlyPublished });
-      alert(`🌐 Hôtel ${!isCurrentlyPublished ? "publié" : "dépublié"} !`);
-      loadHotels();
-    };
-
-    window.deleteHotel = async function (id) {
-      if (confirm("⚠️ Supprimer cet hôtel ?")) {
-        await deleteDoc(doc(db, "hotels", id));
-        alert("🗑 Supprimé !");
-        loadHotels();
-      }
-    };
-  </script>
+    }
+  }
+</script>
 </body>
 </html>
