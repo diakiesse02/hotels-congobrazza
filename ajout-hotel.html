@@ -32,8 +32,12 @@
         <label><input type="checkbox" name="services" value="Climatisation" /> Climatisation</label>
       </div>
 
-      <label class="block mt-4">Image de l'hôtel :</label>
-      <input type="file" name="image" accept="image/*" class="w-full p-2 border rounded" required />
+      <label class="block mt-4">Images de l'hôtel (max 5) :</label>
+      <input type="file" name="images" accept="image/*" multiple class="w-full p-2 border rounded" required />
+
+      <div class="w-full bg-gray-200 rounded h-4 mt-2">
+        <div id="progressBar" class="bg-blue-600 h-4 rounded w-0 transition-all duration-300"></div>
+      </div>
 
       <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 mt-4">Envoyer</button>
     </form>
@@ -61,6 +65,7 @@
     const loginContainer = document.getElementById("loginContainer");
     const formContainer = document.getElementById("formContainer");
     const loginBtn = document.getElementById("loginBtn");
+    const progressBar = document.getElementById("progressBar");
 
     loginBtn.addEventListener("click", () => {
       sessionStorage.setItem("authRedirect", "true");
@@ -85,20 +90,34 @@
 
       const formData = new FormData(hotelForm);
       const services = [...hotelForm.querySelectorAll("input[name='services']:checked")].map(cb => cb.value);
-      const imageFile = formData.get("image");
+      const imageFiles = formData.getAll("images");
 
-      // Upload image to Cloudinary
-      const cloudData = new FormData();
-      cloudData.append("file", imageFile);
-      cloudData.append("upload_preset", "unsigned_upload");
-      const cloudRes = await fetch("https://api.cloudinary.com/v1_1/dnemkgkyy/image/upload", {
-        method: "POST",
-        body: cloudData
-      });
-      const cloudResult = await cloudRes.json();
-      const imageUrl = cloudResult.secure_url;
+      if (imageFiles.length > 5) {
+        alert("⚠️ Vous ne pouvez uploader que 5 images maximum.");
+        return;
+      }
 
-      // Enregistrer les données sur Firestore
+      progressBar.style.width = "0%";
+
+      const imageUrls = [];
+
+      for (let i = 0; i < imageFiles.length; i++) {
+        const cloudData = new FormData();
+        cloudData.append("file", imageFiles[i]);
+        cloudData.append("upload_preset", "unsigned_upload");
+
+        const res = await fetch("https://api.cloudinary.com/v1_1/dnemkgkyy/image/upload", {
+          method: "POST",
+          body: cloudData
+        });
+        const result = await res.json();
+        imageUrls.push(result.secure_url);
+
+        // Progress bar update
+        const progress = ((i + 1) / imageFiles.length) * 100;
+        progressBar.style.width = `${progress}%`;
+      }
+
       await addDoc(collection(db, "hotels"), {
         nom: formData.get("nom"),
         ville: formData.get("ville"),
@@ -107,7 +126,7 @@
         siteWeb: formData.get("siteWeb") || "",
         description: formData.get("description"),
         services: services,
-        imageUrl: imageUrl,
+        imageUrls: imageUrls,
         validé: false,
         publie: false,
         dateAjout: serverTimestamp()
@@ -115,6 +134,7 @@
 
       alert("✅ Hôtel ajouté avec succès !");
       hotelForm.reset();
+      progressBar.style.width = "0%";
     });
   </script>
 </body>
