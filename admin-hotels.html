@@ -22,7 +22,7 @@
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import {
-    getAuth, GoogleAuthProvider, signInWithPopup
+    getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged
   } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
   import {
     getFirestore, collection, getDocs, deleteDoc, doc, updateDoc
@@ -44,6 +44,15 @@
 
   const authorizedEmails = ["label.diak@gmail.com", "nkoukasylvanie@gmail.com"];
   const debugInfo = document.getElementById("debugInfo");
+
+  // 🔁 Connexion automatique si déjà connecté
+  onAuthStateChanged(auth, (user) => {
+    if (user && authorizedEmails.includes(user.email)) {
+      document.getElementById("authSection").classList.add("hidden");
+      document.getElementById("adminSection").classList.remove("hidden");
+      loadHotels();
+    }
+  });
 
   window.login = () => {
     signInWithPopup(auth, provider)
@@ -78,10 +87,11 @@
       const isValid = data.validé === true;
       const isOnline = data.publie === true;
       const nbImages = Array.isArray(data.images) ? data.images.length : 0;
+      const firstImage = data.imageUrl || (Array.isArray(data.images) && data.images[0]) || '';
 
       list.innerHTML += `
         <div class="bg-white shadow rounded p-4 relative">
-          <img src="${data.imageUrl || ''}" class="w-full h-40 object-cover rounded mb-2">
+          <img src="${firstImage}" class="w-full h-40 object-cover rounded mb-2" onerror="this.style.display='none';">
           <h3 class="text-xl font-semibold">${data.nom}</h3>
           <p><strong>Ville:</strong> ${data.ville}</p>
           <p><strong>Email:</strong> ${data.email}</p>
