@@ -32,8 +32,12 @@
         <label><input type="checkbox" name="services" value="Climatisation" /> Climatisation</label>
       </div>
 
-      <label class="block mt-4">Image de l'hôtel :</label>
-      <input type="file" name="image" accept="image/*" class="w-full p-2 border rounded" required />
+      <label class="block mt-4">Images de l'hôtel :</label>
+      <input type="file" name="images" id="imagesInput" accept="image/*" multiple class="w-full p-2 border rounded" required />
+
+      <div id="progressContainer" class="w-full bg-gray-300 rounded h-2 mt-2 hidden">
+        <div id="progressBar" class="bg-green-500 h-2 rounded w-0"></div>
+      </div>
 
       <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 mt-4">Envoyer</button>
     </form>
@@ -79,26 +83,44 @@
       }
     });
 
+    async function uploadImageToCloudinary(file, index, total) {
+      const data = new FormData();
+      data.append("file", file);
+      data.append("upload_preset", "unsigned_upload");
+
+      const res = await fetch("https://api.cloudinary.com/v1_1/dnemkgkyy/image/upload", {
+        method: "POST",
+        body: data
+      });
+
+      const result = await res.json();
+      updateProgress(index + 1, total);
+      return result.secure_url;
+    }
+
+    function updateProgress(current, total) {
+      const percent = Math.floor((current / total) * 100);
+      document.getElementById("progressBar").style.width = percent + "%";
+    }
+
     const hotelForm = document.getElementById("hotelForm");
     hotelForm.addEventListener("submit", async (e) => {
       e.preventDefault();
 
       const formData = new FormData(hotelForm);
       const services = [...hotelForm.querySelectorAll("input[name='services']:checked")].map(cb => cb.value);
-      const imageFile = formData.get("image");
+      const files = document.getElementById("imagesInput").files;
+      if (files.length === 0) return alert("Ajoutez au moins une image.");
 
-      // Upload image to Cloudinary
-      const cloudData = new FormData();
-      cloudData.append("file", imageFile);
-      cloudData.append("upload_preset", "unsigned_upload");
-      const cloudRes = await fetch("https://api.cloudinary.com/v1_1/dnemkgkyy/image/upload", {
-        method: "POST",
-        body: cloudData
-      });
-      const cloudResult = await cloudRes.json();
-      const imageUrl = cloudResult.secure_url;
+      const progressContainer = document.getElementById("progressContainer");
+      progressContainer.classList.remove("hidden");
 
-      // Enregistrer les données sur Firestore
+      const urls = [];
+      for (let i = 0; i < files.length; i++) {
+        const url = await uploadImageToCloudinary(files[i], i, files.length);
+        urls.push(url);
+      }
+
       await addDoc(collection(db, "hotels"), {
         nom: formData.get("nom"),
         ville: formData.get("ville"),
@@ -107,7 +129,7 @@
         siteWeb: formData.get("siteWeb") || "",
         description: formData.get("description"),
         services: services,
-        imageUrl: imageUrl,
+        images: urls,
         validé: false,
         publie: false,
         dateAjout: serverTimestamp()
@@ -115,6 +137,8 @@
 
       alert("✅ Hôtel ajouté avec succès !");
       hotelForm.reset();
+      progressContainer.classList.add("hidden");
+      updateProgress(0, 1);
     });
   </script>
 </body>
