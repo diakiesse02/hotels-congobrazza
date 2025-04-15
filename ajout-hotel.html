@@ -3,33 +3,43 @@
 <head>
   <meta charset="UTF-8">
   <title>Ajouter un Hôtel</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 min-h-screen">
+<body class="bg-gray-100">
 
+<!-- Section Authentification -->
 <div id="authSection" class="flex items-center justify-center h-screen">
   <button onclick="login()" class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700">
     🔐 Se connecter avec Google
   </button>
 </div>
 
-<div id="formSection" class="hidden px-6 py-10 max-w-3xl mx-auto">
+<!-- Section Formulaire -->
+<div id="formSection" class="hidden px-4 py-8 max-w-2xl mx-auto">
   <h1 class="text-3xl font-bold mb-6 text-center">➕ Ajouter un Hôtel</h1>
-  <form id="hotelForm" class="grid gap-4 md:grid-cols-2">
-    <input type="text" placeholder="Nom de l'hôtel" id="hotelNom" required class="p-2 border rounded">
-    <input type="text" placeholder="Ville" id="hotelVille" required class="p-2 border rounded">
-    <input type="email" placeholder="Email" id="hotelEmail" required class="p-2 border rounded">
-    <textarea placeholder="Description" id="hotelDescription" class="p-2 border rounded md:col-span-2"></textarea>
-    <textarea placeholder="Services (ex: WiFi, Restaurant, Parking)" id="hotelServices" class="p-2 border rounded md:col-span-2"></textarea>
-    <input type="file" id="hotelImages" accept="image/*" multiple class="md:col-span-2" />
-    <button type="submit" class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700 md:col-span-2">📤 Enregistrer</button>
+  <form id="hotelForm" class="grid gap-4">
+    <input type="text" placeholder="Nom de l'hôtel" id="hotelNom" required class="p-3 border rounded">
+    <input type="text" placeholder="Ville" id="hotelVille" required class="p-3 border rounded">
+    <input type="email" placeholder="Email de contact" id="hotelEmail" required class="p-3 border rounded">
+    <textarea placeholder="Description" id="hotelDescription" required class="p-3 border rounded"></textarea>
+    <textarea placeholder="Services (ex: WiFi, Restaurant, Parking)" id="hotelServices" required class="p-3 border rounded"></textarea>
+    <input type="file" id="hotelImages" accept="image/*" multiple class="p-3 border rounded">
+
+    <div id="progressBarContainer" class="hidden w-full bg-gray-200 rounded overflow-hidden">
+      <div id="progressBar" class="h-2 bg-green-500 w-0"></div>
+    </div>
+
+    <button type="submit" class="bg-green-600 text-white px-4 py-3 rounded hover:bg-green-700">
+      📤 Enregistrer l'hôtel
+    </button>
   </form>
 </div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import {
-    getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult
+    getAuth, GoogleAuthProvider, onAuthStateChanged, setPersistence, browserLocalPersistence, signInWithRedirect
   } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
   import {
     getFirestore, collection, addDoc
@@ -45,35 +55,38 @@
   };
 
   const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
   const auth = getAuth(app);
+  const db = getFirestore(app);
   const provider = new GoogleAuthProvider();
-  const authorizedEmails = ["label.diak@gmail.com", "nkoukasylvanie@gmail.com"];
 
-  getRedirectResult(auth).then((result) => {
-    if (result?.user) {
-      const email = result.user.email;
-      if (authorizedEmails.includes(email)) {
+  setPersistence(auth, browserLocalPersistence).then(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
         document.getElementById("authSection").classList.add("hidden");
         document.getElementById("formSection").classList.remove("hidden");
-      } else {
-        alert("⛔ Accès refusé à " + email);
       }
-    }
-  }).catch((error) => console.error("Erreur d'auth:", error));
+    });
+  });
 
   window.login = () => signInWithRedirect(auth, provider);
 
-  async function uploadToCloudinary(file) {
+  async function uploadToCloudinary(file, index, total) {
     const formData = new FormData();
-    formData.append('file', file);
-    formData.append('upload_preset', 'unsigned_upload');
-    const response = await fetch('https://api.cloudinary.com/v1_1/dnemkgkyy/image/upload', {
-      method: 'POST',
+    formData.append("file", file);
+    formData.append("upload_preset", "unsigned_upload");
+    const res = await fetch("https://api.cloudinary.com/v1_1/dnemkgkyy/image/upload", {
+      method: "POST",
       body: formData
     });
-    const data = await response.json();
+    updateProgressBar(index + 1, total);
+    const data = await res.json();
     return data.secure_url;
+  }
+
+  function updateProgressBar(current, total) {
+    const percent = Math.floor((current / total) * 100);
+    const bar = document.getElementById("progressBar");
+    bar.style.width = `${percent}%`;
   }
 
   document.getElementById("hotelForm").addEventListener("submit", async (e) => {
@@ -84,10 +97,16 @@
     const description = document.getElementById("hotelDescription").value;
     const services = document.getElementById("hotelServices").value;
     const files = document.getElementById("hotelImages").files;
-    const imageUrls = [];
 
+    if (!files.length) return alert("Veuillez ajouter au moins une image.");
+
+    const progressBar = document.getElementById("progressBarContainer");
+    progressBar.classList.remove("hidden");
+    updateProgressBar(0, files.length);
+
+    const imageUrls = [];
     for (let i = 0; i < files.length; i++) {
-      const url = await uploadToCloudinary(files[i]);
+      const url = await uploadToCloudinary(files[i], i, files.length);
       imageUrls.push(url);
     }
 
@@ -102,9 +121,12 @@
       publie: false
     });
 
-    alert("✅ Hôtel ajouté !");
-    e.target.reset();
+    alert("✅ Hôtel ajouté avec succès !");
+    document.getElementById("hotelForm").reset();
+    document.getElementById("progressBarContainer").classList.add("hidden");
+    updateProgressBar(0, 1);
   });
 </script>
+
 </body>
 </html>
