@@ -23,7 +23,16 @@
     <input type="text" placeholder="Ville" id="hotelVille" required class="p-3 border rounded">
     <input type="email" placeholder="Email de contact" id="hotelEmail" required class="p-3 border rounded">
     <textarea placeholder="Description" id="hotelDescription" required class="p-3 border rounded"></textarea>
-    <textarea placeholder="Services (ex: WiFi, Restaurant, Parking)" id="hotelServices" required class="p-3 border rounded"></textarea>
+
+    <div class="border rounded p-4">
+      <p class="font-semibold mb-2">Services disponibles :</p>
+      <label class="block mb-1"><input type="checkbox" value="restaurant" class="mr-2 service"> Restaurant</label>
+      <label class="block mb-1"><input type="checkbox" value="parking" class="mr-2 service"> Parking</label>
+      <label class="block mb-1"><input type="checkbox" value="wifi" class="mr-2 service"> WiFi</label>
+      <label class="block mb-1"><input type="checkbox" value="climatisation" class="mr-2 service"> Climatisation</label>
+      <label class="block"><input type="checkbox" value="piscine" class="mr-2 service"> Piscine</label>
+    </div>
+
     <input type="file" id="hotelImages" accept="image/*" multiple class="p-3 border rounded">
 
     <div id="progressBarContainer" class="hidden w-full bg-gray-200 rounded overflow-hidden">
@@ -95,9 +104,11 @@
     const ville = document.getElementById("hotelVille").value;
     const email = document.getElementById("hotelEmail").value;
     const description = document.getElementById("hotelDescription").value;
-    const services = document.getElementById("hotelServices").value;
-    const files = document.getElementById("hotelImages").files;
 
+    const serviceCheckboxes = document.querySelectorAll(".service:checked");
+    const services = Array.from(serviceCheckboxes).map(cb => cb.value);
+
+    const files = document.getElementById("hotelImages").files;
     if (!files.length) return alert("Veuillez ajouter au moins une image.");
 
     const progressBar = document.getElementById("progressBarContainer");
