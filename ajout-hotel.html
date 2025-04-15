@@ -2,58 +2,33 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Ajouter un Hôtel</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin | Gestion des Hôtels</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100">
+<body class="bg-gray-100 min-h-screen">
 
-<!-- Section Authentification -->
-<div id="authSection" class="flex items-center justify-center h-screen">
+<div id="authSection" class="flex flex-col items-center justify-center h-screen space-y-4">
   <button onclick="login()" class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700">
     🔐 Se connecter avec Google
   </button>
+  <div id="debugInfo" class="text-sm text-gray-600"></div>
 </div>
 
-<!-- Section Formulaire -->
-<div id="formSection" class="hidden px-4 py-8 max-w-2xl mx-auto">
-  <h1 class="text-3xl font-bold mb-6 text-center">➕ Ajouter un Hôtel</h1>
-  <form id="hotelForm" class="grid gap-4">
-    <input type="text" placeholder="Nom de l'hôtel" id="hotelNom" required class="p-3 border rounded">
-    <input type="text" placeholder="Ville" id="hotelVille" required class="p-3 border rounded">
-    <input type="email" placeholder="Email de contact" id="hotelEmail" required class="p-3 border rounded">
-    <textarea placeholder="Description" id="hotelDescription" required class="p-3 border rounded"></textarea>
-
-    <div class="border rounded p-4">
-      <p class="font-semibold mb-2">Services disponibles :</p>
-      <label class="block mb-1"><input type="checkbox" value="restaurant" class="mr-2 service"> Restaurant</label>
-      <label class="block mb-1"><input type="checkbox" value="parking" class="mr-2 service"> Parking</label>
-      <label class="block mb-1"><input type="checkbox" value="wifi" class="mr-2 service"> WiFi</label>
-      <label class="block mb-1"><input type="checkbox" value="climatisation" class="mr-2 service"> Climatisation</label>
-      <label class="block"><input type="checkbox" value="piscine" class="mr-2 service"> Piscine</label>
-    </div>
-
-    <input type="file" id="hotelImages" accept="image/*" multiple class="p-3 border rounded">
-
-    <div id="progressBarContainer" class="hidden w-full bg-gray-200 rounded overflow-hidden">
-      <div id="progressBar" class="h-2 bg-green-500 w-0"></div>
-    </div>
-
-    <button type="submit" class="bg-green-600 text-white px-4 py-3 rounded hover:bg-green-700">
-      📤 Enregistrer l'hôtel
-    </button>
-  </form>
+<div id="adminSection" class="hidden px-6 py-10 max-w-6xl mx-auto">
+  <h1 class="text-3xl font-bold mb-6 text-center">📊 Hôtels ajoutés</h1>
+  <div id="adminHotelList" class="grid md:grid-cols-2 gap-6"></div>
 </div>
 
 <script type="module">
   import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
   import {
-    getAuth, GoogleAuthProvider, onAuthStateChanged, setPersistence, browserLocalPersistence, signInWithRedirect
+    getAuth, GoogleAuthProvider, signInWithPopup
   } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
   import {
-    getFirestore, collection, addDoc
+    getFirestore, collection, getDocs, deleteDoc, doc, updateDoc
   } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
+  // 🔧 Config Firebase
   const firebaseConfig = {
     apiKey: "AIzaSyBo9JsPem6NqNWL1DHiPQFck5PLJvADRUI",
     authDomain: "congo-reservation.firebaseapp.com",
@@ -63,81 +38,98 @@
     appId: "1:54528039217:web:8158927e3b22c8a24a3810"
   };
 
+  // 🔌 Initialisation
   const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
   const db = getFirestore(app);
+  const auth = getAuth(app);
   const provider = new GoogleAuthProvider();
 
-  setPersistence(auth, browserLocalPersistence).then(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        document.getElementById("authSection").classList.add("hidden");
-        document.getElementById("formSection").classList.remove("hidden");
-      }
-    });
-  });
+  // 📧 Emails autorisés
+  const authorizedEmails = ["label.diak@gmail.com", "nkoukasylvanie@gmail.com"];
+  const debugInfo = document.getElementById("debugInfo");
 
-  window.login = () => signInWithRedirect(auth, provider);
+  // 🔐 Connexion via popup (pas de redirection)
+  window.login = () => {
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        const email = result.user.email;
+        debugInfo.innerText = "🔐 Connecté : " + email;
 
-  async function uploadToCloudinary(file, index, total) {
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", "unsigned_upload");
-    const res = await fetch("https://api.cloudinary.com/v1_1/dnemkgkyy/image/upload", {
-      method: "POST",
-      body: formData
+        if (authorizedEmails.includes(email)) {
+          document.getElementById("authSection").classList.add("hidden");
+          document.getElementById("adminSection").classList.remove("hidden");
+          loadHotels();
+        } else {
+          alert("⛔ Accès refusé à : " + email);
+          debugInfo.innerText += "\n⛔ Non autorisé.";
+        }
+      })
+      .catch((error) => {
+        console.error("❌ Erreur d'authentification :", error);
+        debugInfo.innerText = "❌ Erreur : " + error.message;
+      });
+  };
+
+  // 📦 Chargement des hôtels
+  async function loadHotels() {
+    const list = document.getElementById("adminHotelList");
+    list.innerHTML = "Chargement...";
+    const snapshot = await getDocs(collection(db, "hotels"));
+    list.innerHTML = "";
+
+    snapshot.forEach(docSnap => {
+      const data = docSnap.data();
+      const id = docSnap.id;
+      const isValid = data.validé === true;
+      const isOnline = data.publie === true;
+
+      list.innerHTML += `
+        <div class="bg-white shadow rounded p-4 relative">
+          <img src="${data.imageUrl || ''}" class="w-full h-40 object-cover rounded mb-2">
+          <h3 class="text-xl font-semibold">${data.nom}</h3>
+          <p><strong>Ville:</strong> ${data.ville}</p>
+          <p><strong>Email:</strong> ${data.email}</p>
+          <p><strong>Description:</strong> ${data.description || 'Aucune'}</p>
+          <p><strong>Status:</strong>
+            <span class="text-sm px-2 py-1 rounded ${isValid ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">
+              ${isValid ? 'Validé' : 'En attente'}
+            </span>
+            <span class="text-sm px-2 py-1 rounded ${isOnline ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'}">
+              ${isOnline ? 'Publié' : 'Hors ligne'}
+            </span>
+          </p>
+          <div class="mt-4 space-x-2">
+            <button onclick="validateHotel('${id}')" class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">✅ Valider</button>
+            <button onclick="togglePublish('${id}', ${isOnline})" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
+              ${isOnline ? '🚫 Dépublier' : '🌐 Publier'}
+            </button>
+            <button onclick="deleteHotel('${id}')" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">🗑 Supprimer</button>
+          </div>
+        </div>
+      `;
     });
-    updateProgressBar(index + 1, total);
-    const data = await res.json();
-    return data.secure_url;
   }
 
-  function updateProgressBar(current, total) {
-    const percent = Math.floor((current / total) * 100);
-    const bar = document.getElementById("progressBar");
-    bar.style.width = `${percent}%`;
+  // ✅ Fonctions de gestion
+  window.validateHotel = async (id) => {
+    await updateDoc(doc(db, "hotels", id), { validé: true });
+    alert("✅ Hôtel validé !");
+    loadHotels();
   }
 
-  document.getElementById("hotelForm").addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const nom = document.getElementById("hotelNom").value;
-    const ville = document.getElementById("hotelVille").value;
-    const email = document.getElementById("hotelEmail").value;
-    const description = document.getElementById("hotelDescription").value;
+  window.togglePublish = async (id, current) => {
+    await updateDoc(doc(db, "hotels", id), { publie: !current });
+    alert(`🔁 Hôtel ${!current ? "publié" : "dépublié"} !`);
+    loadHotels();
+  }
 
-    const serviceCheckboxes = document.querySelectorAll(".service:checked");
-    const services = Array.from(serviceCheckboxes).map(cb => cb.value);
-
-    const files = document.getElementById("hotelImages").files;
-    if (!files.length) return alert("Veuillez ajouter au moins une image.");
-
-    const progressBar = document.getElementById("progressBarContainer");
-    progressBar.classList.remove("hidden");
-    updateProgressBar(0, files.length);
-
-    const imageUrls = [];
-    for (let i = 0; i < files.length; i++) {
-      const url = await uploadToCloudinary(files[i], i, files.length);
-      imageUrls.push(url);
+  window.deleteHotel = async (id) => {
+    if (confirm("⚠️ Supprimer cet hôtel ?")) {
+      await deleteDoc(doc(db, "hotels", id));
+      alert("🗑 Supprimé !");
+      loadHotels();
     }
-
-    await addDoc(collection(db, "hotels"), {
-      nom,
-      ville,
-      email,
-      description,
-      services,
-      images: imageUrls,
-      validé: false,
-      publie: false
-    });
-
-    alert("✅ Hôtel ajouté avec succès !");
-    document.getElementById("hotelForm").reset();
-    document.getElementById("progressBarContainer").classList.add("hidden");
-    updateProgressBar(0, 1);
-  });
+  }
 </script>
-
 </body>
 </html>
