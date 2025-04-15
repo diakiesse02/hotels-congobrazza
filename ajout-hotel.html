@@ -2,134 +2,120 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Admin | Gestion des Hôtels</title>
+  <title>Ajouter un Hôtel</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 min-h-screen">
+<body class="bg-gray-100 text-gray-800">
 
-<div id="authSection" class="flex flex-col items-center justify-center h-screen space-y-4">
-  <button onclick="login()" class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700">
-    🔐 Se connecter avec Google
-  </button>
-  <div id="debugInfo" class="text-sm text-gray-600"></div>
-</div>
+  <div id="loginContainer" class="min-h-screen flex items-center justify-center">
+    <div class="bg-white p-6 rounded shadow max-w-sm w-full text-center">
+      <h1 class="text-2xl font-bold mb-4">Connexion Google</h1>
+      <button id="loginBtn" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full">Se connecter</button>
+    </div>
+  </div>
 
-<div id="adminSection" class="hidden px-6 py-10 max-w-6xl mx-auto">
-  <h1 class="text-3xl font-bold mb-6 text-center">📊 Hôtels ajoutés</h1>
-  <div id="adminHotelList" class="grid md:grid-cols-2 gap-6"></div>
-</div>
+  <div id="formContainer" class="hidden max-w-3xl mx-auto py-10 px-4">
+    <h2 class="text-2xl font-bold mb-6 text-center">Formulaire d'ajout d'hôtel 🏨</h2>
+    <form id="hotelForm" class="space-y-4 bg-white p-6 rounded shadow">
+      <input type="text" name="nom" placeholder="Nom de l'hôtel" class="w-full p-2 border rounded" required />
+      <input type="text" name="ville" placeholder="Ville" class="w-full p-2 border rounded" required />
+      <input type="email" name="email" placeholder="Email" class="w-full p-2 border rounded" required />
+      <input type="text" name="telephone" placeholder="Téléphone" class="w-full p-2 border rounded" required />
+      <input type="url" name="siteWeb" placeholder="Site Web (facultatif)" class="w-full p-2 border rounded" />
+      <textarea name="description" placeholder="Description" class="w-full p-2 border rounded" rows="4" required></textarea>
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import {
-    getAuth, GoogleAuthProvider, signInWithPopup
-  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-  import {
-    getFirestore, collection, getDocs, deleteDoc, doc, updateDoc
-  } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+      <label class="block font-semibold">Services disponibles :</label>
+      <div class="grid grid-cols-2 gap-2">
+        <label><input type="checkbox" name="services" value="Wi-Fi" /> Wi-Fi</label>
+        <label><input type="checkbox" name="services" value="Parking" /> Parking</label>
+        <label><input type="checkbox" name="services" value="Piscine" /> Piscine</label>
+        <label><input type="checkbox" name="services" value="Climatisation" /> Climatisation</label>
+      </div>
 
-  // 🔧 Config Firebase
-  const firebaseConfig = {
-    apiKey: "AIzaSyBo9JsPem6NqNWL1DHiPQFck5PLJvADRUI",
-    authDomain: "congo-reservation.firebaseapp.com",
-    projectId: "congo-reservation",
-    storageBucket: "congo-reservation.appspot.com",
-    messagingSenderId: "54528039217",
-    appId: "1:54528039217:web:8158927e3b22c8a24a3810"
-  };
+      <label class="block mt-4">Image de l'hôtel :</label>
+      <input type="file" name="image" accept="image/*" class="w-full p-2 border rounded" required />
 
-  // 🔌 Initialisation
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-  const auth = getAuth(app);
-  const provider = new GoogleAuthProvider();
+      <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 mt-4">Envoyer</button>
+    </form>
+  </div>
 
-  // 📧 Emails autorisés
-  const authorizedEmails = ["label.diak@gmail.com", "nkoukasylvanie@gmail.com"];
-  const debugInfo = document.getElementById("debugInfo");
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAuth, GoogleAuthProvider, signInWithRedirect, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-  // 🔐 Connexion via popup (pas de redirection)
-  window.login = () => {
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        const email = result.user.email;
-        debugInfo.innerText = "🔐 Connecté : " + email;
+    const firebaseConfig = {
+      apiKey: "AIzaSyBo9JsPem6NqNWL1DHiPQFck5PLJvADRUI",
+      authDomain: "congo-reservation.firebaseapp.com",
+      projectId: "congo-reservation",
+      storageBucket: "congo-reservation.appspot.com",
+      messagingSenderId: "54528039217",
+      appId: "1:54528039217:web:8158927e3b22c8a24a3810"
+    };
 
-        if (authorizedEmails.includes(email)) {
-          document.getElementById("authSection").classList.add("hidden");
-          document.getElementById("adminSection").classList.remove("hidden");
-          loadHotels();
-        } else {
-          alert("⛔ Accès refusé à : " + email);
-          debugInfo.innerText += "\n⛔ Non autorisé.";
-        }
-      })
-      .catch((error) => {
-        console.error("❌ Erreur d'authentification :", error);
-        debugInfo.innerText = "❌ Erreur : " + error.message;
-      });
-  };
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+    const provider = new GoogleAuthProvider();
 
-  // 📦 Chargement des hôtels
-  async function loadHotels() {
-    const list = document.getElementById("adminHotelList");
-    list.innerHTML = "Chargement...";
-    const snapshot = await getDocs(collection(db, "hotels"));
-    list.innerHTML = "";
+    const loginContainer = document.getElementById("loginContainer");
+    const formContainer = document.getElementById("formContainer");
+    const loginBtn = document.getElementById("loginBtn");
 
-    snapshot.forEach(docSnap => {
-      const data = docSnap.data();
-      const id = docSnap.id;
-      const isValid = data.validé === true;
-      const isOnline = data.publie === true;
-
-      list.innerHTML += `
-        <div class="bg-white shadow rounded p-4 relative">
-          <img src="${data.imageUrl || ''}" class="w-full h-40 object-cover rounded mb-2">
-          <h3 class="text-xl font-semibold">${data.nom}</h3>
-          <p><strong>Ville:</strong> ${data.ville}</p>
-          <p><strong>Email:</strong> ${data.email}</p>
-          <p><strong>Description:</strong> ${data.description || 'Aucune'}</p>
-          <p><strong>Status:</strong>
-            <span class="text-sm px-2 py-1 rounded ${isValid ? 'bg-green-100 text-green-800' : 'bg-yellow-100 text-yellow-800'}">
-              ${isValid ? 'Validé' : 'En attente'}
-            </span>
-            <span class="text-sm px-2 py-1 rounded ${isOnline ? 'bg-blue-100 text-blue-800' : 'bg-gray-100 text-gray-800'}">
-              ${isOnline ? 'Publié' : 'Hors ligne'}
-            </span>
-          </p>
-          <div class="mt-4 space-x-2">
-            <button onclick="validateHotel('${id}')" class="bg-green-600 text-white px-3 py-1 rounded hover:bg-green-700">✅ Valider</button>
-            <button onclick="togglePublish('${id}', ${isOnline})" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
-              ${isOnline ? '🚫 Dépublier' : '🌐 Publier'}
-            </button>
-            <button onclick="deleteHotel('${id}')" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">🗑 Supprimer</button>
-          </div>
-        </div>
-      `;
+    loginBtn.addEventListener("click", () => {
+      sessionStorage.setItem("authRedirect", "true");
+      signInWithRedirect(auth, provider);
     });
-  }
 
-  // ✅ Fonctions de gestion
-  window.validateHotel = async (id) => {
-    await updateDoc(doc(db, "hotels", id), { validé: true });
-    alert("✅ Hôtel validé !");
-    loadHotels();
-  }
+    onAuthStateChanged(auth, (user) => {
+      const redirected = sessionStorage.getItem("authRedirect");
+      if (user && redirected === "true") {
+        sessionStorage.removeItem("authRedirect");
+        loginContainer.style.display = "none";
+        formContainer.style.display = "block";
+      } else if (!user) {
+        loginContainer.style.display = "block";
+        formContainer.style.display = "none";
+      }
+    });
 
-  window.togglePublish = async (id, current) => {
-    await updateDoc(doc(db, "hotels", id), { publie: !current });
-    alert(`🔁 Hôtel ${!current ? "publié" : "dépublié"} !`);
-    loadHotels();
-  }
+    const hotelForm = document.getElementById("hotelForm");
+    hotelForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
 
-  window.deleteHotel = async (id) => {
-    if (confirm("⚠️ Supprimer cet hôtel ?")) {
-      await deleteDoc(doc(db, "hotels", id));
-      alert("🗑 Supprimé !");
-      loadHotels();
-    }
-  }
-</script>
+      const formData = new FormData(hotelForm);
+      const services = [...hotelForm.querySelectorAll("input[name='services']:checked")].map(cb => cb.value);
+      const imageFile = formData.get("image");
+
+      // Upload image to Cloudinary
+      const cloudData = new FormData();
+      cloudData.append("file", imageFile);
+      cloudData.append("upload_preset", "unsigned_upload");
+      const cloudRes = await fetch("https://api.cloudinary.com/v1_1/dnemkgkyy/image/upload", {
+        method: "POST",
+        body: cloudData
+      });
+      const cloudResult = await cloudRes.json();
+      const imageUrl = cloudResult.secure_url;
+
+      // Enregistrer les données sur Firestore
+      await addDoc(collection(db, "hotels"), {
+        nom: formData.get("nom"),
+        ville: formData.get("ville"),
+        email: formData.get("email"),
+        telephone: formData.get("telephone"),
+        siteWeb: formData.get("siteWeb") || "",
+        description: formData.get("description"),
+        services: services,
+        imageUrl: imageUrl,
+        validé: false,
+        publie: false,
+        dateAjout: serverTimestamp()
+      });
+
+      alert("✅ Hôtel ajouté avec succès !");
+      hotelForm.reset();
+    });
+  </script>
 </body>
 </html>
