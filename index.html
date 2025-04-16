@@ -1,110 +1,274 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8">
-  <title>Admin | Hôtels</title>
-  <script src="https://cdn.tailwindcss.com"></script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Accueil - Congo Brazza Hôtels</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      background-color: #e6f0fa;
+    }
+
+    header {
+      background-color: #3498db;
+      color: white;
+      padding: 40px 20px;
+    }
+
+    .header-container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 40px;
+    }
+
+    .logo {
+      width: 120px;
+      height: auto;
+    }
+
+    .header-text h1 {
+      margin: 0;
+      font-size: 32px;
+      text-align: center;
+    }
+
+    .header-text p {
+      margin: 10px 0 0;
+      text-align: center;
+    }
+
+    /* MENU */
+    nav {
+      background-color: #2980b9;
+      text-align: center;
+      position: relative;
+    }
+
+    nav ul {
+      list-style: none;
+      margin: 0;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      flex-wrap: wrap;
+    }
+
+    nav ul li a {
+      color: white;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    .menu-toggle {
+      display: none;
+      font-size: 28px;
+      color: white;
+      background: none;
+      border: none;
+      position: absolute;
+      top: 10px;
+      right: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .menu-toggle {
+        display: block;
+      }
+
+      nav ul {
+        display: none;
+        flex-direction: column;
+        background-color: #2980b9;
+        width: 100%;
+      }
+
+      nav ul.show {
+        display: flex;
+      }
+
+      nav ul li {
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      }
+
+      nav ul li a {
+        padding: 10px;
+        display: block;
+      }
+    }
+
+    .search-section {
+      padding: 30px 20px;
+      text-align: center;
+    }
+
+    .search-section input,
+    .search-section select,
+    .search-section button {
+      padding: 10px;
+      margin: 5px;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+
+    .search-section button {
+      background-color: #3498db;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+
+    .search-section button:hover {
+      background-color: #2471a3;
+    }
+
+    .hero-images {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px;
+      padding: 30px 20px;
+    }
+
+    .image-container {
+      overflow: hidden;
+      border-radius: 10px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .image-container img {
+      display: block;
+      width: 600px;
+      height: auto;
+      transition: transform 0.4s ease;
+    }
+
+    .image-container:hover img {
+      transform: scale(1.05);
+    }
+
+    .voir-plus-btn {
+      display: block;
+      margin: 20px auto;
+      background-color: #3498db;
+      color: white;
+      padding: 12px 24px;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      text-decoration: none;
+      text-align: center;
+    }
+
+    footer {
+      background-color: #2c3e50;
+      color: white;
+      text-align: center;
+      padding: 30px 10px;
+    }
+
+    .social-icons {
+      margin-top: 15px;
+    }
+
+    .social-icons a {
+      display: inline-block;
+      margin: 0 8px;
+      color: white;
+      font-size: 20px;
+      text-decoration: none;
+      transition: color 0.3s;
+    }
+
+    .social-icons a:hover {
+      color: #3498db;
+    }
+  </style>
 </head>
-<body class="bg-gray-100 min-h-screen">
+<body>
 
-  <!-- Section Authentification -->
-  <div id="loginSection" class="flex items-center justify-center h-screen">
-    <button onclick="login()" class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700">
-      🔐 Se connecter avec Google
-    </button>
-  </div>
+  <header>
+    <div class="header-container">
+      <img src="logo.png" alt="Logo Hôtel Congo" class="logo">
+      <div class="header-text">
+        <h1>Bienvenue sur Congo Brazza Hôtels</h1>
+        <p>Découvrez les meilleurs hôtels au Congo sur toutes les villes et faites votre réservation</p>
+      </div>
+      <button class="menu-toggle" onclick="toggleMenu()">☰</button>
+    </div>
+  </header>
 
-  <!-- Section Admin -->
-  <div id="adminSection" class="hidden max-w-6xl mx-auto py-10 px-4">
-    <h1 class="text-3xl font-bold text-center mb-6">📋 Liste des Hôtels</h1>
-    <div id="hotelList" class="grid md:grid-cols-2 gap-6"></div>
-  </div>
+  <nav>
+    <ul id="main-menu">
+      <li><a href="index.html">Accueil</a></li>
+      <li><a href="hotels.html">Liste des hôtels</a></li>
+      <li><a href="meubles.html">Maisons meublées</a></li>
+      <li><a href="services.html">Services</a></li>
+      <li><a href="reservation.html">Réservation</a></li>
+      <li><a href="ajout-hotel.html">Ajouter votre hôtel</a></li>
+      <li><a href="galerie.html">Galerie</a></li>
+      <li><a href="temoignages.html">Témoignages</a></li>
+      <li><a href="publicite.html">Publicité</a></li>
+      <li><a href="about.html">À propos</a></li>
+      <li><a href="contact.html">Contact</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="faq.html">FAQ</a></li>
+    </ul>
+  </nav>
 
-  <script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { getFirestore, collection, getDocs, deleteDoc, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+ <form action="resultats.html" method="get" class="search-form" style="text-align: center; margin: 30px 0;">
+  <input type="text" name="ville" placeholder="Ville (ex: Brazzaville)" style="padding:10px; border-radius:5px; border:1px solid #ccc; margin:5px;">
+  <select name="prix" style="padding:10px; border-radius:5px; border:1px solid #ccc; margin:5px;">
+    <option value="">Prix</option>
+    <option value="1">Moins de 30 000 FCFA</option>
+    <option value="2">30 000 à 70 000 FCFA</option>
+    <option value="3">Plus de 70 000 FCFA</option>
+  </select>
+  <button type="submit" style="padding:10px 20px; background:#3498db; color:white; border:none; border-radius:5px; cursor:pointer;">Rechercher</button>
+</form>
 
-    const firebaseConfig = {
-      apiKey: "AIzaSyBo9JsPem6NqNWL1DHiPQFck5PLJvADRUI",
-      authDomain: "congo-reservation.firebaseapp.com",
-      projectId: "congo-reservation",
-      storageBucket: "congo-reservation.appspot.com",
-      messagingSenderId: "54528039217",
-      appId: "1:54528039217:web:8158927e3b22c8a24a3810"
-    };
 
-    const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
-    const auth = getAuth(app);
-    const provider = new GoogleAuthProvider();
+  <section class="hero-images">
+    <div class="image-container"><img src="im1.png" alt="Hôtel Résidence Brazza"></div>
+    <div class="image-container"><img src="im2.png" alt="Hôtel Émeraude Palace"></div>
+  </section>
 
-    const authorizedEmails = ["label.diak@gmail.com", "nkoukasylvanie@gmail.com"];
+  <a href="hotels.html" class="voir-plus-btn">Voir plus d'hôtels</a>
 
-    window.login = () => {
-      signInWithRedirect(auth, provider);
-    };
+  <footer>
+    <p>© 2025 Congo Brazza Hôtels. Tous droits réservés.</p>
+    <div class="social-icons">
+      <a href="https://facebook.com" target="_blank" title="Facebook">🌐</a>
+      <a href="https://instagram.com" target="_blank" title="Instagram">📸</a>
+      <a href="https://twitter.com" target="_blank" title="Twitter">🐦</a>
+      <a href="https://youtube.com" target="_blank" title="YouTube">▶️</a>
+      <a href="https://linkedin.com" target="_blank" title="LinkedIn">💼</a>
+    </div>
+  </footer>
 
-    onAuthStateChanged(auth, async (user) => {
-      if (user && authorizedEmails.includes(user.email)) {
-        document.getElementById("loginSection").classList.add("hidden");
-        document.getElementById("adminSection").classList.remove("hidden");
-        await loadHotels();
-      } else {
-        document.getElementById("loginSection").classList.remove("hidden");
-        document.getElementById("adminSection").classList.add("hidden");
+  <script>
+    function toggleMenu() {
+      const menu = document.getElementById("main-menu");
+      menu.classList.toggle("show");
+    }
+
+    document.getElementById("recherche-btn").addEventListener("click", function () {
+      const ville = document.getElementById("ville").value.trim();
+      const categorie = document.getElementById("categorie").value;
+      const prix = document.getElementById("prix").value;
+
+      if (!ville && !categorie && !prix) {
+        alert("Veuillez entrer un critère de recherche.");
+        return;
       }
+
+      const query = `resultats.html?ville=${encodeURIComponent(ville)}&categorie=${categorie}&prix=${prix}`;
+      window.location.href = query;
     });
-
-    async function loadHotels() {
-      const hotelList = document.getElementById("hotelList");
-      hotelList.innerHTML = "<p class='text-center'>Chargement...</p>";
-
-      const snapshot = await getDocs(collection(db, "hotels"));
-      hotelList.innerHTML = "";
-
-      snapshot.forEach((docSnap) => {
-        const data = docSnap.data();
-        const id = docSnap.id;
-
-        const imageCount = Array.isArray(data.images) ? data.images.length : (data.imageUrl ? 1 : 0);
-        const imageUrls = data.images || (data.imageUrl ? [data.imageUrl] : []);
-
-        hotelList.innerHTML += `
-          <div class="bg-white rounded shadow p-4">
-            <h3 class="text-xl font-bold mb-2">🏨 ${data.nom}</h3>
-            <p><strong>Ville:</strong> ${data.ville}</p>
-            <p><strong>Email:</strong> ${data.email}</p>
-            <p><strong>Téléphone:</strong> ${data.telephone}</p>
-            <p><strong>Services:</strong> ${(data.services || []).join(', ')}</p>
-            <p><strong>Description:</strong> ${data.description}</p>
-            <p><strong>Nombre d'images:</strong> ${imageCount}</p>
-            <div class="grid grid-cols-2 gap-2 mt-2">
-              ${imageUrls.map(url => `<img src="${url}" class="w-full h-32 object-cover rounded" />`).join('')}
-            </div>
-            <div class="mt-4 flex gap-2">
-              <button onclick="deleteHotel('${id}')" class="bg-red-600 text-white px-3 py-1 rounded">🗑 Supprimer</button>
-              <button onclick="togglePublish('${id}', ${data.publie})" class="bg-blue-600 text-white px-3 py-1 rounded">
-                ${data.publie ? "🚫 Dépublier" : "✅ Publier"}
-              </button>
-            </div>
-          </div>
-        `;
-      });
-    }
-
-    window.deleteHotel = async (id) => {
-      if (confirm("Voulez-vous vraiment supprimer cet hôtel ?")) {
-        await deleteDoc(doc(db, "hotels", id));
-        alert("Supprimé avec succès");
-        loadHotels();
-      }
-    }
-
-    window.togglePublish = async (id, current) => {
-      await updateDoc(doc(db, "hotels", id), { publie: !current });
-      loadHotels();
-    }
   </script>
 
 </body>
