@@ -41,11 +41,9 @@
       text-align: center;
     }
 
-    /* MENU */
     nav {
       background-color: #2980b9;
       text-align: center;
-      position: relative;
     }
 
     nav ul {
@@ -64,73 +62,30 @@
       font-weight: bold;
     }
 
-    .menu-toggle {
-      display: none;
-      font-size: 28px;
-      color: white;
-      background: none;
-      border: none;
-      position: absolute;
-      top: 10px;
-      right: 20px;
-    }
-
-    @media (max-width: 768px) {
-      .menu-toggle {
-        display: block;
-      }
-
-      nav ul {
-        display: none;
-        flex-direction: column;
-        background-color: #2980b9;
-        width: 100%;
-      }
-
-      nav ul.show {
-        display: flex;
-      }
-
-      nav ul li {
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-      }
-
-      nav ul li a {
-        padding: 10px;
-        display: block;
-      }
-    }
-
-    .search-section {
-      padding: 30px 20px;
+    .search-form {
       text-align: center;
+      margin: 30px 0;
     }
 
-    .search-section input,
-    .search-section select,
-    .search-section button {
+    .search-form input,
+    .search-form select,
+    .search-form button {
       padding: 10px;
       margin: 5px;
       border-radius: 5px;
       border: 1px solid #ccc;
     }
 
-    .search-section button {
+    .search-form button {
       background-color: #3498db;
       color: white;
       border: none;
       cursor: pointer;
     }
 
-    .search-section button:hover {
-      background-color: #2471a3;
-    }
-
     .hero-images {
       display: flex;
       justify-content: center;
-      flex-wrap: wrap;
-      gap: 20px;
       padding: 30px 20px;
     }
 
@@ -138,11 +93,12 @@
       overflow: hidden;
       border-radius: 10px;
       box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      max-width: 600px;
     }
 
     .image-container img {
       display: block;
-      width: 600px;
+      width: 100%;
       height: auto;
       transition: transform 0.4s ease;
     }
@@ -161,7 +117,6 @@
       border-radius: 8px;
       font-size: 16px;
       text-decoration: none;
-      text-align: center;
     }
 
     footer {
@@ -171,17 +126,11 @@
       padding: 30px 10px;
     }
 
-    .social-icons {
-      margin-top: 15px;
-    }
-
     .social-icons a {
-      display: inline-block;
       margin: 0 8px;
       color: white;
       font-size: 20px;
       text-decoration: none;
-      transition: color 0.3s;
     }
 
     .social-icons a:hover {
@@ -198,43 +147,32 @@
         <h1>Bienvenue sur Congo Brazza Hôtels</h1>
         <p>Découvrez les meilleurs hôtels au Congo sur toutes les villes et faites votre réservation</p>
       </div>
-      <button class="menu-toggle" onclick="toggleMenu()">☰</button>
     </div>
   </header>
 
   <nav>
-    <ul id="main-menu">
+    <ul>
       <li><a href="index.html">Accueil</a></li>
       <li><a href="hotels.html">Liste des hôtels</a></li>
       <li><a href="meubles.html">Maisons meublées</a></li>
-      <li><a href="services.html">Services</a></li>
       <li><a href="reservation.html">Réservation</a></li>
-      <li><a href="ajout-hotel.html">Ajouter votre hôtel</a></li>
-      <li><a href="galerie.html">Galerie</a></li>
-      <li><a href="temoignages.html">Témoignages</a></li>
-      <li><a href="publicite.html">Publicité</a></li>
-      <li><a href="about.html">À propos</a></li>
       <li><a href="contact.html">Contact</a></li>
-      <li><a href="blog.html">Blog</a></li>
-      <li><a href="faq.html">FAQ</a></li>
     </ul>
   </nav>
 
- <form action="resultats.html" method="get" class="search-form" style="text-align: center; margin: 30px 0;">
-  <input type="text" name="ville" placeholder="Ville (ex: Brazzaville)" style="padding:10px; border-radius:5px; border:1px solid #ccc; margin:5px;">
-  <select name="prix" style="padding:10px; border-radius:5px; border:1px solid #ccc; margin:5px;">
-    <option value="">Prix</option>
-    <option value="1">Moins de 30 000 FCFA</option>
-    <option value="2">30 000 à 70 000 FCFA</option>
-    <option value="3">Plus de 70 000 FCFA</option>
-  </select>
-  <button type="submit" style="padding:10px 20px; background:#3498db; color:white; border:none; border-radius:5px; cursor:pointer;">Rechercher</button>
-</form>
+  <form action="resultats.html" method="get" class="search-form">
+    <input type="text" name="ville" placeholder="Ville (ex: Brazzaville)">
+    <select name="prix">
+      <option value="">Prix</option>
+      <option value="1">Moins de 30 000 FCFA</option>
+      <option value="2">30 000 à 70 000 FCFA</option>
+      <option value="3">Plus de 70 000 FCFA</option>
+    </select>
+    <button type="submit">Rechercher</button>
+  </form>
 
-
-  <section class="hero-images">
-    <div class="image-container"><img src="im1.png" alt="Hôtel Résidence Brazza"></div>
-    <div class="image-container"><img src="im2.png" alt="Hôtel Émeraude Palace"></div>
+  <section class="hero-images" id="hero-images">
+    <!-- L’image dynamique viendra ici -->
   </section>
 
   <a href="hotels.html" class="voir-plus-btn">Voir plus d'hôtels</a>
@@ -242,33 +180,53 @@
   <footer>
     <p>© 2025 Congo Brazza Hôtels. Tous droits réservés.</p>
     <div class="social-icons">
-      <a href="https://facebook.com" target="_blank" title="Facebook">🌐</a>
-      <a href="https://instagram.com" target="_blank" title="Instagram">📸</a>
-      <a href="https://twitter.com" target="_blank" title="Twitter">🐦</a>
-      <a href="https://youtube.com" target="_blank" title="YouTube">▶️</a>
-      <a href="https://linkedin.com" target="_blank" title="LinkedIn">💼</a>
+      <a href="#">🌐</a>
+      <a href="#">📸</a>
+      <a href="#">🐦</a>
+      <a href="#">▶️</a>
     </div>
   </footer>
 
+  <!-- Firebase + Firestore -->
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.6.1/firebase-firestore-compat.js"></script>
+
+  <!-- Cloudinary Widget (si besoin de futur upload) -->
+  <script src="https://widget.cloudinary.com/v2.0/global/all.js" type="text/javascript"></script>
+
   <script>
-    function toggleMenu() {
-      const menu = document.getElementById("main-menu");
-      menu.classList.toggle("show");
-    }
+    const firebaseConfig = {
+      apiKey: "TA_CLE_API",
+      authDomain: "TON_DOMAINE.firebaseapp.com",
+      projectId: "TON_PROJECT_ID",
+      storageBucket: "TON_PROJECT_ID.appspot.com",
+      messagingSenderId: "TON_ID",
+      appId: "TON_APP_ID"
+    };
 
-    document.getElementById("recherche-btn").addEventListener("click", function () {
-      const ville = document.getElementById("ville").value.trim();
-      const categorie = document.getElementById("categorie").value;
-      const prix = document.getElementById("prix").value;
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.firestore();
 
-      if (!ville && !categorie && !prix) {
-        alert("Veuillez entrer un critère de recherche.");
-        return;
-      }
+    const container = document.getElementById('hero-images');
 
-      const query = `resultats.html?ville=${encodeURIComponent(ville)}&categorie=${categorie}&prix=${prix}`;
-      window.location.href = query;
-    });
+    db.collection("hotels")
+      .orderBy("dateAjout", "desc")
+      .limit(1)
+      .get()
+      .then((snapshot) => {
+        snapshot.forEach((doc) => {
+          const data = doc.data();
+          const imageUrl = data.imageUrl; // doit être un lien Cloudinary
+
+          const div = document.createElement("div");
+          div.className = "image-container";
+          div.innerHTML = `<img src="${imageUrl}" alt="${data.nom || 'Hôtel'}" />`;
+          container.appendChild(div);
+        });
+      })
+      .catch((error) => {
+        console.error("Erreur lors du chargement de l'image :", error);
+      });
   </script>
 
 </body>
