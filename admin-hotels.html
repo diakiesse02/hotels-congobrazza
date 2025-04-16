@@ -2,28 +2,27 @@
 <html lang="fr">
 <head>
   <meta charset="UTF-8">
-  <title>Admin | Hôtels</title>
+  <title>Admin Hôtels</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 min-h-screen">
+<body class="bg-gray-100">
 
-  <!-- Section Authentification -->
-  <div id="loginSection" class="flex items-center justify-center h-screen">
-    <button onclick="login()" class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700">
-      🔐 Se connecter avec Google
-    </button>
+  <div id="loginContainer" class="min-h-screen flex items-center justify-center">
+    <div class="bg-white p-6 rounded shadow text-center">
+      <h1 class="text-2xl font-bold mb-4">Connexion Admin</h1>
+      <button id="loginBtn" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Connexion Google</button>
+    </div>
   </div>
 
-  <!-- Section Admin -->
-  <div id="adminSection" class="hidden max-w-6xl mx-auto py-10 px-4">
-    <h1 class="text-3xl font-bold text-center mb-6">📋 Liste des Hôtels</h1>
+  <div id="adminContainer" class="hidden max-w-6xl mx-auto py-10 px-4">
+    <h2 class="text-3xl font-bold text-center mb-8">📊 Liste des Hôtels</h2>
     <div id="hotelList" class="grid md:grid-cols-2 gap-6"></div>
   </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { getFirestore, collection, getDocs, deleteDoc, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getAuth, GoogleAuthProvider, signInWithRedirect, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, collection, getDocs, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBo9JsPem6NqNWL1DHiPQFck5PLJvADRUI",
@@ -35,77 +34,83 @@
     };
 
     const app = initializeApp(firebaseConfig);
-    const db = getFirestore(app);
     const auth = getAuth(app);
+    const db = getFirestore(app);
     const provider = new GoogleAuthProvider();
+    provider.setPrompt("select_account"); // ➕ Oblige à choisir un compte
 
     const authorizedEmails = ["label.diak@gmail.com", "nkoukasylvanie@gmail.com"];
 
-    window.login = () => {
+    const loginContainer = document.getElementById("loginContainer");
+    const adminContainer = document.getElementById("adminContainer");
+    const loginBtn = document.getElementById("loginBtn");
+    const hotelList = document.getElementById("hotelList");
+
+    loginBtn.addEventListener("click", () => {
       signInWithRedirect(auth, provider);
-    };
+    });
 
     onAuthStateChanged(auth, async (user) => {
       if (user && authorizedEmails.includes(user.email)) {
-        document.getElementById("loginSection").classList.add("hidden");
-        document.getElementById("adminSection").classList.remove("hidden");
+        loginContainer.style.display = "none";
+        adminContainer.classList.remove("hidden");
         await loadHotels();
-      } else {
-        document.getElementById("loginSection").classList.remove("hidden");
-        document.getElementById("adminSection").classList.add("hidden");
+      } else if (user) {
+        alert("⛔ Accès refusé à " + user.email);
       }
     });
 
     async function loadHotels() {
-      const hotelList = document.getElementById("hotelList");
-      hotelList.innerHTML = "<p class='text-center'>Chargement...</p>";
-
+      hotelList.innerHTML = "Chargement...";
       const snapshot = await getDocs(collection(db, "hotels"));
       hotelList.innerHTML = "";
 
-      snapshot.forEach((docSnap) => {
+      snapshot.forEach(docSnap => {
         const data = docSnap.data();
         const id = docSnap.id;
 
-        const imageCount = Array.isArray(data.images) ? data.images.length : (data.imageUrl ? 1 : 0);
-        const imageUrls = data.images || (data.imageUrl ? [data.imageUrl] : []);
+        const images = data.imageUrl instanceof Array ? data.imageUrl : [data.imageUrl];
+        const imageCount = images.length;
+        const isOnline = data.publie === true;
 
         hotelList.innerHTML += `
           <div class="bg-white rounded shadow p-4">
-            <h3 class="text-xl font-bold mb-2">🏨 ${data.nom}</h3>
-            <p><strong>Ville:</strong> ${data.ville}</p>
-            <p><strong>Email:</strong> ${data.email}</p>
-            <p><strong>Téléphone:</strong> ${data.telephone}</p>
-            <p><strong>Services:</strong> ${(data.services || []).join(', ')}</p>
-            <p><strong>Description:</strong> ${data.description}</p>
-            <p><strong>Nombre d'images:</strong> ${imageCount}</p>
-            <div class="grid grid-cols-2 gap-2 mt-2">
-              ${imageUrls.map(url => `<img src="${url}" class="w-full h-32 object-cover rounded" />`).join('')}
+            <div class="grid grid-cols-2 gap-2 mb-2">
+              ${images.map(url => `<img src="${url}" class="h-32 w-full object-cover rounded" />`).join("")}
             </div>
-            <div class="mt-4 flex gap-2">
-              <button onclick="deleteHotel('${id}')" class="bg-red-600 text-white px-3 py-1 rounded">🗑 Supprimer</button>
-              <button onclick="togglePublish('${id}', ${data.publie})" class="bg-blue-600 text-white px-3 py-1 rounded">
-                ${data.publie ? "🚫 Dépublier" : "✅ Publier"}
+            <p class="text-sm text-gray-500 mb-1">🖼️ ${imageCount} image(s)</p>
+            <h3 class="text-xl font-bold">${data.nom}</h3>
+            <p><strong>📍 Ville:</strong> ${data.ville}</p>
+            <p><strong>📧 Email:</strong> ${data.email}</p>
+            <p><strong>📞 Téléphone:</strong> ${data.telephone}</p>
+            <p><strong>🌐 Site:</strong> <a href="${data.siteWeb}" target="_blank" class="text-blue-600 underline">${data.siteWeb}</a></p>
+            <p><strong>📝 Description:</strong> ${data.description}</p>
+            <p><strong>🛎 Services:</strong> ${data.services?.join(", ") || "Aucun"}</p>
+
+            <div class="mt-3 flex gap-2">
+              <button onclick="togglePublish('${id}', ${isOnline})" class="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700">
+                ${isOnline ? '🚫 Dépublier' : '🌐 Publier'}
               </button>
+              <button onclick="deleteHotel('${id}')" class="bg-red-600 text-white px-3 py-1 rounded hover:bg-red-700">🗑 Supprimer</button>
             </div>
           </div>
         `;
       });
     }
 
-    window.deleteHotel = async (id) => {
-      if (confirm("Voulez-vous vraiment supprimer cet hôtel ?")) {
-        await deleteDoc(doc(db, "hotels", id));
-        alert("Supprimé avec succès");
-        loadHotels();
-      }
-    }
-
     window.togglePublish = async (id, current) => {
       await updateDoc(doc(db, "hotels", id), { publie: !current });
-      loadHotels();
-    }
-  </script>
+      alert(`🔁 Hôtel ${!current ? "publié" : "dépublié"} !`);
+      await loadHotels();
+    };
 
+    window.deleteHotel = async (id) => {
+      if (confirm("⚠️ Supprimer cet hôtel ?")) {
+        await deleteDoc(doc(db, "hotels", id));
+        alert("🗑 Supprimé !");
+        await loadHotels();
+      }
+    };
+  </script>
 </body>
 </html>
