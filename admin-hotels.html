@@ -5,24 +5,25 @@
   <title>Admin | Hôtels</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 text-gray-900">
+<body class="bg-gray-100 min-h-screen">
 
-  <div id="loginContainer" class="min-h-screen flex items-center justify-center">
-    <div class="bg-white p-6 rounded shadow text-center max-w-md w-full">
-      <h2 class="text-2xl font-bold mb-4">Connexion Administrateur</h2>
-      <button id="loginBtn" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded">Se connecter avec Google</button>
-    </div>
+  <!-- Section Authentification -->
+  <div id="loginSection" class="flex items-center justify-center h-screen">
+    <button onclick="login()" class="bg-blue-600 text-white px-6 py-3 rounded hover:bg-blue-700">
+      🔐 Se connecter avec Google
+    </button>
   </div>
 
-  <div id="mainContent" class="hidden max-w-6xl mx-auto py-10 px-4">
-    <h1 class="text-3xl font-bold mb-6 text-center">📋 Liste des Hôtels</h1>
+  <!-- Section Admin -->
+  <div id="adminSection" class="hidden max-w-6xl mx-auto py-10 px-4">
+    <h1 class="text-3xl font-bold text-center mb-6">📋 Liste des Hôtels</h1>
     <div id="hotelList" class="grid md:grid-cols-2 gap-6"></div>
   </div>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import { getAuth, GoogleAuthProvider, signInWithRedirect, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import { getFirestore, collection, getDocs, deleteDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getAuth, GoogleAuthProvider, signInWithRedirect, getRedirectResult, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, collection, getDocs, deleteDoc, updateDoc, doc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBo9JsPem6NqNWL1DHiPQFck5PLJvADRUI",
@@ -40,50 +41,52 @@
 
     const authorizedEmails = ["label.diak@gmail.com", "nkoukasylvanie@gmail.com"];
 
-    document.getElementById("loginBtn").addEventListener("click", () => {
+    window.login = () => {
       signInWithRedirect(auth, provider);
-    });
+    };
 
     onAuthStateChanged(auth, async (user) => {
       if (user && authorizedEmails.includes(user.email)) {
-        document.getElementById("loginContainer").classList.add("hidden");
-        document.getElementById("mainContent").classList.remove("hidden");
-        loadHotels();
-      } else if (user && !authorizedEmails.includes(user.email)) {
-        alert("⛔ Accès refusé à : " + user.email);
+        document.getElementById("loginSection").classList.add("hidden");
+        document.getElementById("adminSection").classList.remove("hidden");
+        await loadHotels();
+      } else {
+        document.getElementById("loginSection").classList.remove("hidden");
+        document.getElementById("adminSection").classList.add("hidden");
       }
     });
 
     async function loadHotels() {
-      const list = document.getElementById("hotelList");
-      list.innerHTML = "Chargement...";
-      const snapshot = await getDocs(collection(db, "hotels"));
-      list.innerHTML = "";
+      const hotelList = document.getElementById("hotelList");
+      hotelList.innerHTML = "<p class='text-center'>Chargement...</p>";
 
-      snapshot.forEach(docSnap => {
+      const snapshot = await getDocs(collection(db, "hotels"));
+      hotelList.innerHTML = "";
+
+      snapshot.forEach((docSnap) => {
         const data = docSnap.data();
         const id = docSnap.id;
-        const images = Array.isArray(data.imageUrls) ? data.imageUrls : [data.imageUrl];
-        const count = images.length;
 
-        list.innerHTML += `
-          <div class="bg-white p-4 rounded shadow">
-            <h2 class="text-xl font-semibold">${data.nom}</h2>
-            <p class="text-sm text-gray-500 mb-2">${data.ville}</p>
-            <div class="grid grid-cols-3 gap-2 mb-2">
-              ${images.map(url => `<img src="${url}" class="w-full h-24 object-cover rounded">`).join('')}
+        const imageCount = Array.isArray(data.images) ? data.images.length : (data.imageUrl ? 1 : 0);
+        const imageUrls = data.images || (data.imageUrl ? [data.imageUrl] : []);
+
+        hotelList.innerHTML += `
+          <div class="bg-white rounded shadow p-4">
+            <h3 class="text-xl font-bold mb-2">🏨 ${data.nom}</h3>
+            <p><strong>Ville:</strong> ${data.ville}</p>
+            <p><strong>Email:</strong> ${data.email}</p>
+            <p><strong>Téléphone:</strong> ${data.telephone}</p>
+            <p><strong>Services:</strong> ${(data.services || []).join(', ')}</p>
+            <p><strong>Description:</strong> ${data.description}</p>
+            <p><strong>Nombre d'images:</strong> ${imageCount}</p>
+            <div class="grid grid-cols-2 gap-2 mt-2">
+              ${imageUrls.map(url => `<img src="${url}" class="w-full h-32 object-cover rounded" />`).join('')}
             </div>
-            <p><strong>📧 Email:</strong> ${data.email}</p>
-            <p><strong>📞 Tél:</strong> ${data.telephone}</p>
-            <p><strong>🌐 Site:</strong> ${data.siteWeb || 'N/A'}</p>
-            <p><strong>📝 Description:</strong> ${data.description}</p>
-            <p><strong>🔧 Services:</strong> ${data.services?.join(', ') || 'Aucun'}</p>
-            <p><strong>🖼 Nombre d'images:</strong> ${count}</p>
             <div class="mt-4 flex gap-2">
-              <button onclick="togglePublish('${id}', ${data.publie})" class="bg-blue-500 hover:bg-blue-600 text-white px-3 py-1 rounded">
-                ${data.publie ? 'Dépublier' : 'Publier'}
+              <button onclick="deleteHotel('${id}')" class="bg-red-600 text-white px-3 py-1 rounded">🗑 Supprimer</button>
+              <button onclick="togglePublish('${id}', ${data.publie})" class="bg-blue-600 text-white px-3 py-1 rounded">
+                ${data.publie ? "🚫 Dépublier" : "✅ Publier"}
               </button>
-              <button onclick="deleteHotel('${id}')" class="bg-red-500 hover:bg-red-600 text-white px-3 py-1 rounded">Supprimer</button>
             </div>
           </div>
         `;
@@ -91,18 +94,18 @@
     }
 
     window.deleteHotel = async (id) => {
-      if (confirm("Supprimer cet hôtel ?")) {
+      if (confirm("Voulez-vous vraiment supprimer cet hôtel ?")) {
         await deleteDoc(doc(db, "hotels", id));
-        alert("Supprimé");
+        alert("Supprimé avec succès");
         loadHotels();
       }
-    };
+    }
 
     window.togglePublish = async (id, current) => {
       await updateDoc(doc(db, "hotels", id), { publie: !current });
-      alert("Statut mis à jour !");
       loadHotels();
-    };
+    }
   </script>
+
 </body>
 </html>
