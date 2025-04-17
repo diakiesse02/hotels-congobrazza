@@ -110,11 +110,10 @@
       const formData = new FormData(hotelForm);
       const services = [...hotelForm.querySelectorAll("input[name='services']:checked")].map(cb => cb.value);
       const files = document.getElementById("imagesInput").files;
-      if (files.length === 0) return alert("Ajoutez au moins une image.");
-
       const progressContainer = document.getElementById("progressContainer");
       const progressBar = document.getElementById("progressBar");
 
+      if (files.length === 0) return alert("Ajoutez au moins une image.");
       progressContainer.classList.remove("hidden");
 
       const urls = [];
@@ -139,8 +138,12 @@
 
       alert("✅ Hôtel ajouté avec succès !");
       hotelForm.reset();
-      progressBar.style.width = "0%";
-      progressContainer.classList.add("hidden");
+
+      // Attendre 1 seconde avant de réinitialiser la barre
+      setTimeout(() => {
+        progressBar.style.width = "0%";
+        progressContainer.classList.add("hidden");
+      }, 1000);
     });
   </script>
 </body>
