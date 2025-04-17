@@ -213,6 +213,10 @@
     </ul>
   </nav>
 
+  <!-- Section dynamique : Hôtels ajoutés récemment -->
+  <h2>Hôtels ajoutés récemment</h2>
+  <div class="container" id="dynamic-hotels"></div>
+
   <!-- Section Brazzaville -->
   <h2>Brazzaville</h2>
   <div class="container">
@@ -340,6 +344,26 @@
       const menu = document.getElementById("main-menu");
       menu.classList.toggle("show");
     }
+
+    // Récupération dynamique des hôtels depuis localStorage
+    const hotelsAjoutes = JSON.parse(localStorage.getItem("hotelsAjoutes")) || [];
+    const container = document.getElementById("dynamic-hotels");
+
+    hotelsAjoutes.forEach(hotel => {
+      const card = document.createElement("div");
+      card.className = "hotel-card";
+
+      card.innerHTML = `
+        <img src="${hotel.image}" alt="${hotel.nom}" />
+        <div class="hotel-card-content">
+          <h3>${hotel.nom} <span style="background:#f1c40f;color:black;font-size:12px;border-radius:10px;padding:2px 8px;margin-left:6px;">PRO HOTEL</span></h3>
+          <p>${hotel.ville} – ${hotel.description}</p>
+          <a href="#" class="btn">Voir plus</a>
+        </div>
+      `;
+
+      container.appendChild(card);
+    });
   </script>
 
 </body>
