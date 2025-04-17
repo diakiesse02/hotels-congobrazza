@@ -36,7 +36,7 @@
       <input type="file" name="images" id="imagesInput" accept="image/*" multiple class="w-full p-2 border rounded" required />
 
       <div id="progressContainer" class="w-full bg-gray-300 rounded h-2 mt-2 hidden">
-        <div id="progressBar" class="bg-green-500 h-2 rounded w-0"></div>
+        <div id="progressBar" class="bg-green-500 h-2 rounded w-0 transition-all duration-500"></div>
       </div>
 
       <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 mt-4">Envoyer</button>
@@ -45,19 +45,8 @@
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-    import {
-      getAuth,
-      GoogleAuthProvider,
-      signInWithRedirect,
-      onAuthStateChanged,
-      getRedirectResult
-    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
-    import {
-      getFirestore,
-      collection,
-      addDoc,
-      serverTimestamp
-    } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+    import { getAuth, GoogleAuthProvider, signInWithRedirect, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+    import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyBo9JsPem6NqNWL1DHiPQFck5PLJvADRUI",
@@ -69,9 +58,9 @@
     };
 
     const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
     const auth = getAuth(app);
     const provider = new GoogleAuthProvider();
-    const db = getFirestore(app);
 
     const loginContainer = document.getElementById("loginContainer");
     const formContainer = document.getElementById("formContainer");
@@ -81,19 +70,6 @@
       sessionStorage.setItem("authRedirect", "true");
       signInWithRedirect(auth, provider);
     });
-
-    // Gère la redirection après authentification
-    getRedirectResult(auth)
-      .then((result) => {
-        if (result?.user) {
-          sessionStorage.removeItem("authRedirect");
-          loginContainer.style.display = "none";
-          formContainer.style.display = "block";
-        }
-      })
-      .catch((error) => {
-        console.error("Erreur de redirection :", error);
-      });
 
     onAuthStateChanged(auth, (user) => {
       const redirected = sessionStorage.getItem("authRedirect");
@@ -137,6 +113,8 @@
       if (files.length === 0) return alert("Ajoutez au moins une image.");
 
       const progressContainer = document.getElementById("progressContainer");
+      const progressBar = document.getElementById("progressBar");
+
       progressContainer.classList.remove("hidden");
 
       const urls = [];
@@ -161,8 +139,8 @@
 
       alert("✅ Hôtel ajouté avec succès !");
       hotelForm.reset();
+      progressBar.style.width = "0%";
       progressContainer.classList.add("hidden");
-      updateProgress(0, 1);
     });
   </script>
 </body>
