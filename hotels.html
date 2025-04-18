@@ -1,367 +1,123 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Liste des Hôtels - Congo Brazza Hôtels</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hôtels au Congo</title>
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
+      font-family: Arial, sans-serif;
+      background-color: #f9f9f9;
       margin: 0;
-      background-color: #e6f0fa;
+      padding: 0;
     }
-
-    header {
-      background-color: #3498db;
-      color: white;
-      padding: 40px 20px;
-    }
-
-    .header-container {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 40px;
-    }
-
-    .logo {
-      width: 120px;
-      height: auto;
-    }
-
-    .header-text h1 {
-      margin: 0;
-      font-size: 32px;
-      text-align: center;
-    }
-
-    .header-text p {
-      margin: 10px 0 0;
-      text-align: center;
-    }
-
-    nav {
-      background-color: #2980b9;
-      text-align: center;
-      position: relative;
-    }
-
-    nav ul {
-      list-style: none;
-      margin: 0;
-      padding: 10px;
-      display: flex;
-      justify-content: center;
-      gap: 15px;
-      flex-wrap: wrap;
-    }
-
-    nav ul li a {
-      color: white;
-      text-decoration: none;
-      font-weight: bold;
-    }
-
-    .menu-toggle {
-      display: none;
-      font-size: 28px;
-      color: white;
-      background: none;
-      border: none;
-      position: absolute;
-      top: 10px;
-      right: 20px;
-    }
-
-    @media (max-width: 768px) {
-      .menu-toggle {
-        display: block;
-      }
-
-      nav ul {
-        display: none;
-        flex-direction: column;
-        background-color: #2980b9;
-        width: 100%;
-      }
-
-      nav ul.show {
-        display: flex;
-      }
-
-      nav ul li {
-        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-      }
-
-      nav ul li a {
-        padding: 10px;
-        display: block;
-      }
-    }
-
     h2 {
-      text-align: center;
-      color: #2c3e50;
-      margin-top: 30px;
+      color: #333;
+      margin: 30px 20px 10px;
     }
-
     .container {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      display: flex;
+      flex-wrap: wrap;
       gap: 20px;
       padding: 20px;
     }
-
     .hotel-card {
-      background-color: #ffffff;
+      background-color: #fff;
       border-radius: 10px;
-      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
       overflow: hidden;
-      display: flex;
-      flex-direction: column;
+      width: 300px;
     }
-
     .hotel-card img {
       width: 100%;
-      height: 180px;
+      height: 200px;
       object-fit: cover;
     }
-
     .hotel-card-content {
       padding: 15px;
-      flex-grow: 1;
     }
-
-    .hotel-card-content h3 {
-      margin: 0 0 10px;
-      font-size: 18px;
+    .hotel-card h3 {
+      margin-top: 0;
     }
-
-    .hotel-card-content p {
-      margin: 0 0 15px;
-      color: #555;
-    }
-
     .btn {
       display: inline-block;
-      background-color: #3498db;
+      margin-top: 10px;
+      background-color: #007BFF;
       color: white;
-      padding: 10px 20px;
-      border-radius: 6px;
+      padding: 8px 15px;
+      border-radius: 5px;
       text-decoration: none;
-      font-size: 14px;
     }
-
     .btn:hover {
-      background-color: #2471a3;
-    }
-
-    footer {
-      background-color: #2c3e50;
-      color: white;
-      text-align: center;
-      padding: 30px 10px;
-    }
-
-    .social-icons {
-      margin-top: 15px;
-    }
-
-    .social-icons a {
-      display: inline-block;
-      margin: 0 8px;
-      color: white;
-      font-size: 20px;
-      text-decoration: none;
-      transition: color 0.3s;
-    }
-
-    .social-icons a:hover {
-      color: #3498db;
+      background-color: #0056b3;
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <div class="header-container">
-      <img src="logo.png" alt="Logo Hôtel Congo" class="logo">
-      <div class="header-text">
-        <h1>Bienvenue sur Congo Brazza Hôtels</h1>
-        <p>Découvrez les meilleurs hôtels au Congo sur toutes les villes et faites votre réservation</p>
-      </div>
-      <button class="menu-toggle" onclick="toggleMenu()">☰</button>
-    </div>
-  </header>
-
-  <nav>
-    <ul id="main-menu">
-      <li><a href="index.html">Accueil</a></li>
-      <li><a href="hotels.html">Liste des hôtels</a></li>
-      <li><a href="meubles.html">Maisons meublées</a></li>
-      <li><a href="services.html">Services</a></li>
-      <li><a href="reservation.html">Réservation</a></li>
-      <li><a href="ajout-hotel.html">Ajouter votre hôtel</a></li>
-      <li><a href="galerie.html">Galerie</a></li>
-      <li><a href="temoignages.html">Témoignages</a></li>
-      <li><a href="publicite.html">Publicité</a></li>
-      <li><a href="about.html">À propos</a></li>
-      <li><a href="contact.html">Contact</a></li>
-      <li><a href="blog.html">Blog</a></li>
-      <li><a href="faq.html">FAQ</a></li>
-    </ul>
-  </nav>
-
-  <!-- Section dynamique : Hôtels ajoutés récemment -->
-  <h2>Hôtels ajoutés récemment</h2>
-  <div class="container" id="dynamic-hotels"></div>
-
-  <!-- Section Brazzaville -->
   <h2>Brazzaville</h2>
-  <div class="container">
-    <div class="hotel-card">
-      <img src="https://source.unsplash.com/400x300/?hotel,brazzaville1" alt="Hotel">
-      <div class="hotel-card-content">
-        <h3>Hôtel Résidence Marina</h3>
-        <p>Centre-ville, Wi-Fi, piscine</p>
-        <a href="hotel1.html" class="btn">Voir plus</a>
-      </div>
-    </div>
-    <div class="hotel-card">
-      <img src="https://source.unsplash.com/400x300/?hotel,brazzaville2" alt="Hotel">
-      <div class="hotel-card-content">
-        <h3>Grand Hôtel de Kintele</h3>
-        <p>5 étoiles, parking sécurisé</p>
-        <a href="#" class="btn">Voir plus</a>
-      </div>
-    </div>
-    <div class="hotel-card">
-      <img src="https://source.unsplash.com/400x300/?hotel,brazzaville3" alt="Hotel">
-      <div class="hotel-card-content">
-        <h3>Olympic Palace</h3>
-        <p>Restaurant, salle de sport</p>
-        <a href="#" class="btn">Voir plus</a>
-      </div>
-    </div>
-    <div class="hotel-card">
-      <img src="https://source.unsplash.com/400x300/?hotel,brazzaville4" alt="Hotel">
-      <div class="hotel-card-content">
-        <h3>Ledger Plaza</h3>
-        <p>Proche aéroport, luxueux</p>
-        <a href="#" class="btn">Voir plus</a>
-      </div>
-    </div>
+  <div class="container" id="hotels-brazzaville">
+    <!-- Les hôtels de Brazzaville s'afficheront ici -->
   </div>
 
-  <!-- Section Pointe-Noire -->
   <h2>Pointe-Noire</h2>
-  <div class="container">
-    <div class="hotel-card">
-      <img src="https://source.unsplash.com/400x300/?hotel,pointe-noire1" alt="Hotel">
-      <div class="hotel-card-content">
-        <h3>Hôtel Océan Palace</h3>
-        <p>Vue sur mer, piscine</p>
-        <a href="#" class="btn">Voir plus</a>
-      </div>
-    </div>
-    <div class="hotel-card">
-      <img src="https://source.unsplash.com/400x300/?hotel,pointe-noire2" alt="Hotel">
-      <div class="hotel-card-content">
-        <h3>Hôtel Elais</h3>
-        <p>Moderne, centre-ville</p>
-        <a href="#" class="btn">Voir plus</a>
-      </div>
-    </div>
-    <div class="hotel-card">
-      <img src="https://source.unsplash.com/400x300/?hotel,pointe-noire3" alt="Hotel">
-      <div class="hotel-card-content">
-        <h3>Résidence Tropicana</h3>
-        <p>Ambiance relax</p>
-        <a href="#" class="btn">Voir plus</a>
-      </div>
-    </div>
-    <div class="hotel-card">
-      <img src="https://source.unsplash.com/400x300/?hotel,pointe-noire4" alt="Hotel">
-      <div class="hotel-card-content">
-        <h3>Hotel Palm Beach</h3>
-        <p>Restaurant, plage privée</p>
-        <a href="#" class="btn">Voir plus</a>
-      </div>
-    </div>
+  <div class="container" id="hotels-pointe-noire">
+    <!-- Les hôtels de Pointe-Noire -->
   </div>
 
-  <!-- Section Dolisie -->
   <h2>Dolisie</h2>
-  <div class="container">
-    <div class="hotel-card">
-      <img src="https://source.unsplash.com/400x300/?hotel,dolisie1" alt="Hotel">
-      <div class="hotel-card-content">
-        <h3>Hotel La Paix</h3>
-        <p>Centre-ville, économique</p>
-        <a href="#" class="btn">Voir plus</a>
-      </div>
-    </div>
-    <div class="hotel-card">
-      <img src="https://source.unsplash.com/400x300/?hotel,dolisie2" alt="Hotel">
-      <div class="hotel-card-content">
-        <h3>Hôtel de la Gare</h3>
-        <p>Proche transport</p>
-        <a href="#" class="btn">Voir plus</a>
-      </div>
-    </div>
-    <div class="hotel-card">
-      <img src="https://source.unsplash.com/400x300/?hotel,dolisie3" alt="Hotel">
-      <div class="hotel-card-content">
-        <h3>Résidence Les Pins</h3>
-        <p>Confort et calme</p>
-        <a href="#" class="btn">Voir plus</a>
-      </div>
-    </div>
-    <div class="hotel-card">
-      <img src="https://source.unsplash.com/400x300/?hotel,dolisie4" alt="Hotel">
-      <div class="hotel-card-content">
-        <h3>Hotel du Marché</h3>
-        <p>Proche commerces</p>
-        <a href="#" class="btn">Voir plus</a>
-      </div>
-    </div>
+  <div class="container" id="hotels-dolisie">
+    <!-- Hôtels de Dolisie -->
   </div>
 
-  <footer>
-    <p>© 2025 Congo Brazza Hôtels. Tous droits réservés.</p>
-    <div class="social-icons">
-      <a href="https://facebook.com" target="_blank" title="Facebook">🌐</a>
-      <a href="https://instagram.com" target="_blank" title="Instagram">📸</a>
-      <a href="https://twitter.com" target="_blank" title="Twitter">🐦</a>
-      <a href="https://youtube.com" target="_blank" title="YouTube">▶️</a>
-      <a href="https://tiktok.com" target="_blank" title="TikTok">🎵</a>
-    </div>
-  </footer>
+  <h2>Oyo</h2>
+  <div class="container" id="hotels-oyo">
+    <!-- Hôtels de Oyo -->
+  </div>
+
+  <h2>Ouesso</h2>
+  <div class="container" id="hotels-ouesso">
+    <!-- Hôtels de Ouesso -->
+  </div>
 
   <script>
-    function toggleMenu() {
-      const menu = document.getElementById("main-menu");
-      menu.classList.toggle("show");
-    }
+    // Exemple d'enregistrement automatique d'un hôtel
+    const hotels = [
+      {
+        ville: 'dolisie',
+        nom: 'Hôtel Horizon',
+        description: 'Proche gare, salle de conférence, Wi-Fi gratuit',
+        image: 'https://source.unsplash.com/400x300/?hotel,dolisie4',
+        lien: '#'
+      },
+      {
+        ville: 'oyo',
+        nom: 'Résidence Elikya',
+        description: 'Vue sur la rivière, climatisation, bon prix',
+        image: 'https://source.unsplash.com/400x300/?hotel,oyo1',
+        lien: '#'
+      },
+      {
+        ville: 'brazzaville',
+        nom: 'Hotel Relax',
+        description: 'Au cœur de la ville, petit déjeuner inclus',
+        image: 'https://source.unsplash.com/400x300/?hotel,brazzaville1',
+        lien: '#'
+      }
+    ];
 
-    // Récupération dynamique des hôtels depuis localStorage
-    const hotelsAjoutes = JSON.parse(localStorage.getItem("hotelsAjoutes")) || [];
-    const container = document.getElementById("dynamic-hotels");
-
-    hotelsAjoutes.forEach(hotel => {
-      const card = document.createElement("div");
-      card.className = "hotel-card";
-
+    hotels.forEach(hotel => {
+      const container = document.getElementById(`hotels-${hotel.ville}`);
+      const card = document.createElement('div');
+      card.className = 'hotel-card';
       card.innerHTML = `
-        <img src="${hotel.image}" alt="${hotel.nom}" />
+        <img src="${hotel.image}" alt="${hotel.nom}">
         <div class="hotel-card-content">
-          <h3>${hotel.nom} <span style="background:#f1c40f;color:black;font-size:12px;border-radius:10px;padding:2px 8px;margin-left:6px;">PRO HOTEL</span></h3>
-          <p>${hotel.ville} – ${hotel.description}</p>
-          <a href="#" class="btn">Voir plus</a>
+          <h3>${hotel.nom}</h3>
+          <p>${hotel.description}</p>
+          <a href="${hotel.lien}" class="btn">Voir plus</a>
         </div>
       `;
-
       container.appendChild(card);
     });
   </script>
