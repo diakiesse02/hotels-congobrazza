@@ -7,6 +7,7 @@
 </head>
 <body class="bg-gray-100 text-gray-800">
 
+  <!-- Connexion Google -->
   <div id="loginContainer" class="min-h-screen flex items-center justify-center">
     <div class="bg-white p-6 rounded shadow max-w-sm w-full text-center">
       <h1 class="text-2xl font-bold mb-4">Connexion Google</h1>
@@ -14,6 +15,7 @@
     </div>
   </div>
 
+  <!-- Formulaire -->
   <div id="formContainer" class="hidden max-w-3xl mx-auto py-10 px-4">
     <h2 class="text-2xl font-bold mb-6 text-center">Formulaire d'ajout d'hôtel 🏨</h2>
     <form id="hotelForm" class="space-y-4 bg-white p-6 rounded shadow">
@@ -35,17 +37,18 @@
       <label class="block mt-4">Image de l'hôtel :</label>
       <input type="file" name="image" accept="image/*" class="w-full p-2 border rounded" required />
 
-      <div id="statusMessage" class="text-center text-sm mt-4 text-blue-600 hidden">⏳ Envoi en cours...</div>
-
-      <div class="flex justify-center mt-4">
-        <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700">Envoyer</button>
+      <!-- Progression -->
+      <div id="progress" class="hidden mt-4 text-center">
+        <p class="text-sm text-gray-600">⏳ Envoi en cours...</p>
+        <div class="w-full bg-gray-200 rounded-full h-2.5 mt-2">
+          <div id="progressBar" class="bg-blue-600 h-2.5 rounded-full w-0 transition-all duration-700 ease-in-out"></div>
+        </div>
       </div>
 
-      <div id="successMessage" class="hidden text-center text-green-600 font-bold mt-4">
-        ✅ Hôtel ajouté avec succès !
-        <br>
-        <a href="hotels.html" class="text-blue-600 underline block mt-2">➡️ Voir la liste des hôtels</a>
-      </div>
+      <!-- Message -->
+      <div id="message" class="hidden text-center mt-4 text-green-600 font-semibold"></div>
+
+      <button type="submit" class="bg-green-600 text-white px-6 py-2 rounded hover:bg-green-700 mt-4 w-full">Envoyer</button>
     </form>
   </div>
 
@@ -71,9 +74,6 @@
     const loginContainer = document.getElementById("loginContainer");
     const formContainer = document.getElementById("formContainer");
     const loginBtn = document.getElementById("loginBtn");
-    const hotelForm = document.getElementById("hotelForm");
-    const statusMessage = document.getElementById("statusMessage");
-    const successMessage = document.getElementById("successMessage");
 
     loginBtn.addEventListener("click", () => {
       sessionStorage.setItem("authRedirect", "true");
@@ -92,50 +92,65 @@
       }
     });
 
+    const hotelForm = document.getElementById("hotelForm");
+    const progress = document.getElementById("progress");
+    const progressBar = document.getElementById("progressBar");
+    const message = document.getElementById("message");
+
     hotelForm.addEventListener("submit", async (e) => {
       e.preventDefault();
-
-      statusMessage.classList.remove("hidden");
-      successMessage.classList.add("hidden");
+      message.classList.add("hidden");
+      progress.classList.remove("hidden");
+      progressBar.style.width = "10%";
 
       const formData = new FormData(hotelForm);
       const services = [...hotelForm.querySelectorAll("input[name='services']:checked")].map(cb => cb.value);
       const imageFile = formData.get("image");
 
-      try {
-        const cloudData = new FormData();
-        cloudData.append("file", imageFile);
-        cloudData.append("upload_preset", "unsigned_upload");
-        const cloudRes = await fetch("https://api.cloudinary.com/v1_1/dnemkgkyy/image/upload", {
-          method: "POST",
-          body: cloudData
-        });
-        const cloudResult = await cloudRes.json();
-        const imageUrl = cloudResult.secure_url;
+      // Upload image to Cloudinary
+      const cloudData = new FormData();
+      cloudData.append("file", imageFile);
+      cloudData.append("upload_preset", "unsigned_upload");
 
-        await addDoc(collection(db, "hotels"), {
-          nom: formData.get("nom"),
-          ville: formData.get("ville"),
-          email: formData.get("email"),
-          telephone: formData.get("telephone"),
-          siteWeb: formData.get("siteWeb") || "",
-          description: formData.get("description"),
-          services: services,
-          imageUrl: imageUrl,
-          validé: false,
-          publie: false,
-          dateAjout: serverTimestamp()
-        });
+      progressBar.style.width = "50%";
 
-        statusMessage.classList.add("hidden");
-        successMessage.classList.remove("hidden");
-        hotelForm.reset();
+      const cloudRes = await fetch("https://api.cloudinary.com/v1_1/dnemkgkyy/image/upload", {
+        method: "POST",
+        body: cloudData
+      });
+      const cloudResult = await cloudRes.json();
+      const imageUrl = cloudResult.secure_url;
 
-      } catch (err) {
-        statusMessage.textContent = "❌ Une erreur s’est produite lors de l’envoi.";
-        statusMessage.classList.remove("text-blue-600");
-        statusMessage.classList.add("text-red-600");
-      }
+      progressBar.style.width = "80%";
+
+      // Enregistrement Firestore
+      await addDoc(collection(db, "hotels"), {
+        nom: formData.get("nom"),
+        ville: formData.get("ville"),
+        email: formData.get("email"),
+        telephone: formData.get("telephone"),
+        siteWeb: formData.get("siteWeb") || "",
+        description: formData.get("description"),
+        services: services,
+        imageUrl: imageUrl,
+        validé: false,
+        publie: false,
+        dateAjout: serverTimestamp()
+      });
+
+      progressBar.style.width = "100%";
+
+      // Affichage du message
+      progress.classList.add("hidden");
+      message.textContent = "✅ Hôtel ajouté avec succès !";
+      message.classList.remove("hidden");
+
+      hotelForm.reset();
+
+      // Redirection vers la liste après 3 secondes
+      setTimeout(() => {
+        window.location.href = "liste-hotels.html"; // change si ta page a un autre nom
+      }, 3000);
     });
   </script>
 </body>
